@@ -15,7 +15,7 @@ struct DiaryView: View {
     @State private var failed = false
     @FocusState private var focused: Bool
 
-    private var day: FeedDay? { store.days[Store.today] }
+    private var day: FeedDay? { store.days[store.landingDate] }
 
     var body: some View {
         NavigationStack {
@@ -52,7 +52,7 @@ struct DiaryView: View {
                     }
                 }
 
-                Section("今天已记的 · \(day?.notes ?? 0)") {
+                Section {
                     if let d = day, d.notes > 0 {
                         // 随手记在时间线里是一个伪 app（notifhub 的 `Recap.noteApp`），
                         // 所以从当天的 items 里按它筛出来，不另开一个端点。
@@ -65,21 +65,39 @@ struct DiaryView: View {
                                 }
                             }.padding(.vertical, 2)
                         }
+                    } else if let e = store.dayError[store.landingDate], day == nil {
+                        // **失败不能长得像加载中**。2026-08-31 实测踩到：站上那天的 JSON
+                        // 被删掉了（另一处 bug），这里一直显示「取数中…」，看不出是 404。
+                        ErrorBlock(error: e, stale: nil)
                     } else {
-                        Text(day == nil ? "取数中…" : "今天还没记。").font(.caption).foregroundStyle(.secondary)
+                        // 不说「今天还没记」—— 那是断言。站上这份是 Mac 上一次 publish
+                        // 生成的，刚提交的那条还没进去；说成「没记」会让人以为写丢了。
+                        Text(day == nil ? "取数中…" : "站上这一份里还没有今天的随手记。")
+                            .font(.caption).foregroundStyle(.secondary)
                     }
+                } header: {
+                    Text("今天已记的 · \(day?.notes ?? 0)")
+                } footer: {
+                    Text("这一节读的是 day 站上那份日报，Mac 每次 `notifhub publish` 才更新。刚提交的条目会在下一次发布后出现。")
+                        .font(.caption2)
                 }
 
                 Section("这是怎么落进去的") {
-                    Text("手机只提交一张单到 day 站（同一道密码闸），Mac 上的 notifhub 领单后跑 "
-                         + "`notifhub note`，写进本机的 notif.db。**通知库本身不出本机。**")
+                    // ⚠ 必须是**单个字面量** —— `Text("a" + "b")` 的实参类型是 String，
+                    // 走 Text(_: StringProtocol) 那个重载，markdown 不渲染，
+                    // `**` 会带着星号原样印在屏幕上（2026-08-31 截图实见，
+                    // 与 options-desk CLAUDE.md 记的坑 ⑥ 同一条）。
+                    Text("手机只提交一张单到 day 站（同一道密码闸），Mac 上的 notifhub 领单后跑 `notifhub note`，写进本机的 notif.db。**通知库本身不出本机。**")
                         .font(.caption).foregroundStyle(.secondary)
                 }
             }
             .navigationTitle("日记")
             .navigationBarTitleDisplayMode(.inline)
-            .task { await store.day(Store.today) }
-            .refreshable { await store.day(Store.today, force: true) }
+            // id 必须是 latestDate:index 还没到手时它退化成本地算的今天,
+            // 拿 `.task {}`(只在出现时跑一次)会永远停在「取数中…」——
+            // 截图实见(2026-08-31),而界面上完全看不出是在等 index。
+            .task(id: store.landingDate) { await store.day(store.landingDate) }
+            .refreshable { await store.day(store.landingDate, force: true) }
             .toolbar {
                 ToolbarItem(placement: .keyboard) {
                     Button("收起键盘") { focused = false }
@@ -100,7 +118,7 @@ struct DiaryView: View {
             text = ""
             focused = false
             // 立刻拉一次当天 —— 多半还没落库（领单要一分钟），但下拉刷新就能看到它出现。
-            await store.day(Store.today, force: true)
+            await store.day(store.landingDate, force: true)
         case .failure(let e):
             failed = true
             // 失败时**不清空输入框**：清了就等于把用户刚写的东西弄丢了。

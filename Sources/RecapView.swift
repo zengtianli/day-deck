@@ -6,7 +6,9 @@ import SwiftUI
 /// 所以日期切换放在顶部工具栏，不是埋在设置里。
 struct RecapView: View {
     @Environment(Store.self) private var store
-    @State private var date = Store.today
+    // 初值留空，等 index 到手后落到**站上最新那天**（数据派生，不自己算今天）。
+    // 自己算的话，设备时区和 notifhub 的划天规则一旦不一致就会去要一个不存在的日期。
+    @State private var date = ""
     @State private var showPicker = false
 
     private var day: FeedDay? { store.days[date] }
@@ -63,7 +65,7 @@ struct RecapView: View {
                     Section { Text("取数中…").font(.callout).foregroundStyle(.secondary) }
                 }
             }
-            .navigationTitle(date)
+            .navigationTitle(date.isEmpty ? "复盘" : date)
             .navigationBarTitleDisplayMode(.inline)
             .navigationDestination(for: Agenda.self) { AgendaDetailView(item: $0) }
             .toolbar {
@@ -80,8 +82,9 @@ struct RecapView: View {
                 }
             }
             .sheet(isPresented: $showPicker) { DayPicker(date: $date) }
-            .task(id: date) { await store.day(date) }
-            .refreshable { await store.day(date, force: true) }
+            .task(id: date) { if !date.isEmpty { await store.day(date) } }
+            .task(id: store.index.count) { if date.isEmpty { date = store.landingDate } }
+            .refreshable { if !date.isEmpty { await store.day(date, force: true) } }
         }
     }
 
