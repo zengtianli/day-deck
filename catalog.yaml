@@ -1,0 +1,26 @@
+name: day-deck
+origin: own
+lifecycle: active
+form: ios
+
+one_liner: 复盘 —— 早上看今天要做什么，晚上看今天发生了什么，随手写日记；数据来自 day.tianli.cyou（authgate 闸内）
+
+stack: swift-ui
+notes: |
+  **不是新账本,是 notifhub 的手机端。** 事实与逻辑全在 ~/Apps/cli/notifhub:
+  四源采集 → 合并去噪 → LLM 复盘 + 时间节点抽取 → agenda 表。这边一条业务规则都没有。
+
+  读:notifhub publish 顺带写的 JSON(index/<date>/open.json,SSOT 是那边的 JSONFeed.swift),
+  随 HTML 同一趟 rsync 上 day 站,同一道 authgate。**禁解析 HTML** —— 排版一改客户端就静默显示错的东西。
+  离线:每次成功取数落盘到 Application Support(不是 Caches,系统会清空 Caches),
+  网络失败回落上一次那份并在界面上一直显示数据是什么时候的。
+
+  写:复用站上「⏰ 存进提醒事项」那个下单口(web_to_local_job_queue 模式,
+  ~/Dev/stations/website/app/api/admin/agenda-queue),三种单 push/note/status。
+  手机只下单,真正执行在 Mac 上(提醒事项授权、notif.db、notifhub 二进制都在那边)。
+  **不新开 nginx location** —— 那要动 vhost + nginx_ship 下发,而这个端点的认证/同源/代理已经对了。
+
+  ⛔ 红线继承 notifhub:**这是复盘工具不是提醒工具**(2026-08-13 用户钦定
+  「我主要是为了复盘,不用提醒我」)。app 里没有推送、没有本地通知、没有任何主动打扰。
+
+  内容高度私密(微信原文/诉讼/贷款/联系人)。**任何数据都不打进 bundle** —— 打进去等于交给 Apple。
