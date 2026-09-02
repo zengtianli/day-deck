@@ -1,7 +1,9 @@
 name: day-deck
+bundle_id: cyou.tianli.daydeck   # 派生自 project.yml（SSOT）；fleet_audit a/g 项与 app_registry gate-mac 按它对装机
 origin: own
 lifecycle: active
 form: ios
+platforms: [iphone, ipad, mac]   # 跑在哪（正交于 form=源码住哪）；multiplatform.py audit 与 project.yml 对账
 
 one_liner: 复盘 —— 早上看今天要做什么，晚上看今天发生了什么，随手写日记；数据来自 day.tianli.cyou（authgate 闸内）
 
