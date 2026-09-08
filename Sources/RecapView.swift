@@ -16,8 +16,14 @@ struct RecapView: View {
     var body: some View {
         NavigationStack {
             List {
-                if let e = store.dayError[date], day == nil {
-                    Section { ErrorBlock(error: e, stale: nil) }
+                if let e = store.dayError[date] {
+                    Section { ErrorBlock(error: e, stale: store.dayAt[date]) }
+                }
+                if let at = store.dayAt[date] {
+                    Section {
+                        LabeledContent("缓存更新") { StaleBadge(at: at) }
+                        if let sync = store.lastSync { LabeledContent("最后同步") { StaleBadge(at: sync) } }
+                    }
                 }
 
                 if let d = day {
@@ -31,7 +37,7 @@ struct RecapView: View {
                     } else {
                         Section {
                             // 没总结不是「没内容」，得说清楚是哪种情况
-                            Text("这天还没总结。Mac 上跑 `notifhub summarize \(date)`。")
+                            Text("这天还没有生成总结，下面仍可查看通知与随手记。")
                                 .font(.callout).foregroundStyle(.secondary)
                         }
                     }
@@ -52,19 +58,25 @@ struct RecapView: View {
                         LabeledContent("通知", value: "\(d.total) 条")
                         LabeledContent("合并后", value: "\(d.items.count) 件事")
                         if d.muted > 0 { LabeledContent("折叠的噪音", value: "\(d.muted) 条") }
-                        if d.notes > 0 { LabeledContent("随手记", value: "\(d.notes) 条") }
+                        LabeledContent("随手记", value: "\(d.notes + d.cloudNotes.count) 条")
                         if let who = d.whos.first, who.count == 2 {
                             LabeledContent("聊得最多", value: "\(who[0])（\(who[1]) 条）")
                         }
                     }
 
-                    Section("时间线 · \(d.items.count)") {
-                        ForEach(d.items) { TimelineRow(item: $0) }
+                    Section("时间线 · \(d.items.count + d.cloudNotes.count)") {
+                        ForEach(entries(d)) { entry in
+                            switch entry {
+                            case .notification(let item): TimelineRow(item: item)
+                            case .note(let note): CloudNoteRow(note: note)
+                            }
+                        }
                     }
                 } else if store.dayError[date] == nil {
                     Section { Text("取数中…").font(.callout).foregroundStyle(.secondary) }
                 }
             }
+            .id(date)
             .navigationTitle(date.isEmpty ? "复盘" : date)
             .navigationBarTitleDisplayMode(.inline)
             .navigationDestination(for: Agenda.self) { AgendaDetailView(item: $0) }
@@ -84,6 +96,9 @@ struct RecapView: View {
             .sheet(isPresented: $showPicker) { DayPicker(date: $date) }
             .task(id: date) { if !date.isEmpty { await store.day(date) } }
             .task(id: store.index.count) { if date.isEmpty { date = store.landingDate } }
+            .onChange(of: store.indexAt) { _, _ in
+                if !date.isEmpty { Task { await store.day(date, force: true) } }
+            }
             .refreshable { if !date.isEmpty { await store.day(date, force: true) } }
         }
     }
@@ -101,6 +116,9 @@ struct RecapView: View {
     }
     private func step(_ n: Int) {
         if let d = n < 0 ? prevDate : nextDate { date = d }
+    }
+    private func entries(_ day: FeedDay) -> [RecapEntry] {
+        (day.items.map(RecapEntry.notification) + day.cloudNotes.map(RecapEntry.note)).sorted { $0.timestamp < $1.timestamp }
     }
 }
 
@@ -139,6 +157,7 @@ struct DayPicker: View {
 }
 
 struct TimelineRow: View {
+    @Environment(Store.self) private var store
     let item: FeedItem
 
     var body: some View {
@@ -154,9 +173,7 @@ struct TimelineRow: View {
                     Text("未读").font(.caption2).foregroundStyle(Color.orange)
                 }
             }
-            ForEach(Array(item.lines.enumerated()), id: \.offset) { _, l in
-                Text(l).font(.callout).textSelection(.enabled)
-            }
+            CollapsibleBody(text: item.lines.joined(separator: "\n"))
             if item.redacted {
                 // 正文过了保留窗口被抹掉 —— 说出来，别显示成「这条本来就没内容」
                 Text("正文已按保留期抹除").font(.caption2).foregroundStyle(.secondary)
@@ -165,9 +182,66 @@ struct TimelineRow: View {
     }
 
     private var timeText: String {
-        let f = DateFormatter(); f.dateFormat = "HH:mm"
+        let f = DateFormatter(); f.dateFormat = "HH:mm"; f.timeZone = store.cloudTimezone
         let a = f.string(from: item.start)
         let b = f.string(from: item.end)
         return a == b ? a : "\(a)–\(b)"
+    }
+}
+
+
+private enum RecapEntry: Identifiable {
+    case notification(FeedItem)
+    case note(CloudNote)
+    var id: String {
+        switch self {
+        case .notification(let item): return "notification:\(item.id)"
+        case .note(let note): return "cloud:\(note.id)"
+        }
+    }
+    var timestamp: Double {
+        switch self {
+        case .notification(let item): return item.start.timeIntervalSince1970
+        case .note(let note): return note.ts
+        }
+    }
+}
+
+struct CloudNoteRow: View {
+    @Environment(Store.self) private var store
+    let note: CloudNote
+    var body: some View {
+        VStack(alignment: .leading, spacing: 4) {
+            HStack(spacing: 6) {
+                Text(time).font(.caption.monospacedDigit()).foregroundStyle(.secondary)
+                Text("随手记").font(.caption2).foregroundStyle(.secondary)
+            }
+            CollapsibleBody(text: note.text)
+        }.padding(.vertical, 3)
+    }
+    private var time: String {
+        let formatter = DateFormatter()
+        formatter.timeZone = store.cloudTimezone
+        formatter.dateFormat = "HH:mm"
+        return formatter.string(from: Date(timeIntervalSince1970: note.ts))
+    }
+}
+
+/// 展开只切换本地显示，不取数；先截短字符串，避免折叠时布局整封邮件。
+struct CollapsibleBody: View {
+    let text: String
+    @State private var expanded = false
+    private var isLong: Bool { text.count > 500 || text.split(separator: "\n", omittingEmptySubsequences: false).count > 8 }
+    private var preview: String {
+        String(text.prefix(500).split(separator: "\n", omittingEmptySubsequences: false).prefix(8).joined(separator: "\n"))
+    }
+    var body: some View {
+        VStack(alignment: .leading, spacing: 5) {
+            Text(expanded || !isLong ? text : preview + "…").font(.callout).textSelection(.enabled)
+            if isLong {
+                Button(expanded ? "收起正文" : "展开正文") { expanded.toggle() }
+                    .font(.caption).buttonStyle(.borderless)
+            }
+        }
     }
 }

@@ -39,15 +39,15 @@ enum FeedError: Error, Equatable {
     var whatToDo: String {
         switch self {
         case .network:
-            return "先确认手机联网；再确认 VPS 上 day 站还在（它是纯静态件，挂了多半是 nginx 或磁盘）。"
+            return "请检查网络后重试；离线时仍可阅读上次缓存的记录。"
         case .http(_, let s, _):
             return s == 404
-                ? "这一天的 JSON 不在站上 —— Mac 那边 `notifhub publish` 可能还没跑到这天。"
-                : "看 VPS 上 day 站的 nginx 日志。"
+                ? "云端还没有这一天的记录，请选择其他日期或稍后刷新。"
+                : "云端暂时无法处理请求，请稍后重试。"
         case .decoding(_, let field, _):
-            return "notifhub 的 JSONFeed.swift 契约变了。对齐 `\(field)`，别在客户端猜着容错。"
+            return "请更新应用后重试；不兼容的字段是 \(field)，上次可读记录仍保留。"
         case .gate:
-            return "在 Mac 上跑一次 `bash seed-gate.sh` 把闸密码喂进来（只需一次，之后存 iOS 钥匙串）。"
+            return "请在应用的连接设置中重新登录。"
         }
     }
 }
@@ -59,25 +59,36 @@ final class API: @unchecked Sendable {
     /// 留一个可配置项就多一处「配错了但看起来正常」的可能。
     let base = "https://day.tianli.cyou"
     let session: URLSession
+    let cache: Cache
 
-    init() {
+    init(session: URLSession? = nil, cacheDirectory: URL? = nil) {
+        cache = Cache(directory: cacheDirectory)
+        if let session { self.session = session; return }
         let c = URLSessionConfiguration.default
         c.httpCookieStorage = .shared          // 域 .tianli.cyou，跨启动保留，也跨子站共用
         c.httpShouldSetCookies = true
         c.timeoutIntervalForRequest = 20
         // 站上是静态件，nginx 会给 ETag。但我们自己也缓存（见 Cache），
         // URLCache 只是省流量，**离线可读不能靠它**。
-        c.requestCachePolicy = .reloadRevalidatingCacheData
+        c.requestCachePolicy = .reloadIgnoringLocalCacheData
         self.session = URLSession(configuration: c)
     }
 
     /// 取原始字节。撞闸就换一次会话再重试**一次**（只一次：密码错的话无限重试
     /// 等于拿错密码反复撞限流，而界面上什么都看不出来）。
     func fetch(_ url: URL) async -> Result<Data, FeedError> {
+        await request(URLRequest(url: url))
+    }
+
+    /// All cloud reads and writes share authentication and response validation.
+    func request(_ request: URLRequest) async -> Result<Data, FeedError> {
+        guard let url = request.url, url.scheme == "https", url.host == "day.tianli.cyou" else {
+            return .failure(.network(url: base, underlying: "请求域名无效"))
+        }
         let shown = url.absoluteString
         await Gate.seedFromLaunchArg(session: session)
         do {
-            var (data, resp) = try await session.data(from: url)
+            var (data, resp) = try await session.data(for: request)
             if Gate.blocked(resp) {
                 guard let pw = Gate.password else {
                     return .failure(.gate(url: shown, reason: "这台设备还没有闸凭证（iOS 钥匙串里没有密码）"))
@@ -87,7 +98,7 @@ final class API: @unchecked Sendable {
                     return .failure(.gate(url: shown,
                         reason: (error as? Gate.Failure)?.message ?? "登录失败"))
                 }
-                (data, resp) = try await session.data(from: url)
+                (data, resp) = try await session.data(for: request)
                 if Gate.blocked(resp) {
                     return .failure(.gate(url: shown, reason: "拿密码换了会话之后仍被拦 —— 密码可能已经改了"))
                 }
@@ -135,14 +146,15 @@ final class API: @unchecked Sendable {
         case .success(let data):
             switch decode(data, as: T.self, from: url.absoluteString) {
             case .success(let v):
-                Cache.write(data, for: path)
+                guard !Task.isCancelled else { return (nil, nil, nil) }
+                cache.write(data, for: path)
                 return (v, nil, Date())
             case .failure(let e):
                 // 解码失败**不覆盖缓存** —— 拿一份坏数据换掉能用的旧数据是净损失。
-                return (Cache.load(path, as: T.self, api: self)?.0, e, Cache.stamp(path))
+                return (cache.load(path, as: T.self, api: self)?.0, e, cache.stamp(path))
             }
         case .failure(let e):
-            if let (v, at) = Cache.load(path, as: T.self, api: self) { return (v, e, at) }
+            if let (v, at) = cache.load(path, as: T.self, api: self) { return (v, e, at) }
             return (nil, e, nil)
         }
     }
@@ -150,31 +162,37 @@ final class API: @unchecked Sendable {
 
 /// 落盘缓存。放 Application Support（不是 Caches）—— 系统可以随时清空 Caches，
 /// 而「地铁里打开还能看昨天」正是这个 app 的用途，被清空就等于功能没了。
-enum Cache {
-    static var dir: URL {
-        let d = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask)[0]
-            .appendingPathComponent("feed", isDirectory: true)
-        try? FileManager.default.createDirectory(at: d, withIntermediateDirectories: true)
-        return d
+struct Cache {
+    let dir: URL
+    init(directory: URL? = nil) {
+        dir = directory ?? FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask)[0]
+            .appendingPathComponent("feed-vps", isDirectory: true)
+        try? FileManager.default.createDirectory(at: dir, withIntermediateDirectories: true)
     }
 
-    private static func file(_ path: String) -> URL {
+    private func file(_ path: String) -> URL {
         // path 形如 "/2026-08-30.json"，去掉前导斜杠即可当文件名（站上是平铺的）
         dir.appendingPathComponent(path.replacingOccurrences(of: "/", with: "_"))
     }
 
-    static func write(_ data: Data, for path: String) {
+    func write(_ data: Data, for path: String) {
         try? data.write(to: file(path), options: .atomic)
     }
 
-    static func stamp(_ path: String) -> Date? {
+    func stamp(_ path: String) -> Date? {
         try? FileManager.default.attributesOfItem(atPath: file(path).path)[.modificationDate] as? Date
     }
 
-    static func load<T: Decodable>(_ path: String, as type: T.Type, api: API) -> (T, Date)? {
+    func load<T: Decodable>(_ path: String, as type: T.Type, api: API) -> (T, Date)? {
         guard let d = try? Data(contentsOf: file(path)),
               case .success(let v) = api.decode(d, as: T.self, from: "cache:" + path),
               let at = stamp(path) else { return nil }
         return (v, at)
+    }
+
+    /// Keep the last readable copy; mark it stale so writes are followed by a real fetch.
+    func invalidate(_ path: String) {
+        guard FileManager.default.fileExists(atPath: file(path).path) else { return }
+        try? FileManager.default.setAttributes([.modificationDate: Date.distantPast], ofItemAtPath: file(path).path)
     }
 }

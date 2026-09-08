@@ -57,7 +57,8 @@ enum Gate {
         return String(data: d, encoding: .utf8)
     }
 
-    static func savePassword(_ pw: String) {
+    @discardableResult
+    static func savePassword(_ pw: String) -> Bool {
         let q: [String: Any] = [kSecClass as String: kSecClassGenericPassword,
                                 kSecAttrService as String: service,
                                 kSecAttrAccount as String: account]
@@ -66,11 +67,13 @@ enum Gate {
             // AfterFirstUnlock：开机后第一次解锁起就可读，让后台刷新也能自动续会话。
             kSecAttrAccessible as String: kSecAttrAccessibleAfterFirstUnlock,
         ]
-        if SecItemUpdate(q as CFDictionary, attrs as CFDictionary) == errSecItemNotFound {
+        let status = SecItemUpdate(q as CFDictionary, attrs as CFDictionary)
+        if status == errSecItemNotFound {
             var add = q
             add.merge(attrs) { a, _ in a }
-            SecItemAdd(add as CFDictionary, nil)
+            return SecItemAdd(add as CFDictionary, nil) == errSecSuccess
         }
+        return status == errSecSuccess
     }
 
     static func forgetPassword() {

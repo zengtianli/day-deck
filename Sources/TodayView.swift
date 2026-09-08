@@ -51,6 +51,7 @@ struct TodayView: View {
 }
 
 struct AgendaRow: View {
+    @Environment(Store.self) private var store
     let item: Agenda
     let tint: Color
 
@@ -77,6 +78,7 @@ struct AgendaRow: View {
     private var whenText: String? {
         guard let d = item.due else { return nil }
         let f = DateFormatter()
+        f.timeZone = store.cloudTimezone
         f.dateFormat = item.allDay ? "M月d日" : "M月d日 HH:mm"
         return f.string(from: d)
     }
@@ -88,21 +90,22 @@ struct AgendaDetailView: View {
     @State private var busy = false
     @State private var note: String?
     @State private var failed = false
+    @State private var savedStatus: String?
 
     var body: some View {
         List {
             Section { Text(item.title).font(.headline) }
 
             Section("动作") {
-                // 三个动作都只是**下单**，真正执行在 Mac 上（提醒事项/日历的授权、
-                // notif.db、notifhub 二进制全在那边，VPS 和手机都碰不到）。
-                // 所以提示语一律说「已排队」，不说「已完成」—— 两者之间隔着 Mac 醒没醒。
                 Button { act("done") } label: { Label("标为完成", systemImage: "checkmark.circle") }
+                    .disabled(busy || (savedStatus ?? item.status) == "done")
                 Button { act("dropped") } label: { Label("不做了", systemImage: "xmark.circle") }
+                    .disabled(busy || (savedStatus ?? item.status) == "dropped")
                 Button { act("push") } label: {
                     Label(item.pushed ? "再推一次提醒事项/日历" : "存进提醒事项/日历",
                           systemImage: "bell.badge")
                 }
+                .disabled(busy)
                 if busy { ProgressView() }
                 if let n = note {
                     Text(n).font(.caption)
@@ -112,8 +115,7 @@ struct AgendaDetailView: View {
             if let w = item.who, !w.isEmpty { Section("跟谁") { Text(w).font(.callout) } }
             if let d = item.due {
                 Section(item.isEvent ? "什么时候" : "什么时候之前") {
-                    Text(d.formatted(date: .complete,
-                                     time: item.allDay ? .omitted : .shortened)).font(.callout)
+                    Text(dueText(d)).font(.callout)
                 }
             }
             if let n = item.note, !n.isEmpty { Section("备注") { Text(n).font(.callout) } }
@@ -134,34 +136,57 @@ struct AgendaDetailView: View {
     }
 
     private func act(_ what: String) {
+        guard !busy else { return }
         busy = true; note = nil
         Task {
+            defer { busy = false }
             let r = what == "push"
                 ? await Writer.push(item.id, title: item.title)
                 : await Writer.mark(item.id, to: what, title: item.title)
-            busy = false
             switch r {
             case .success:
                 failed = false
-                note = "已排队。Mac 上的 notifhub 每分钟领一次单；落库后下拉刷新就会看到。"
+                if what == "push" {
+                    note = "已排队，等待 Mac 添加到提醒事项/日历。"
+                } else {
+                    savedStatus = what
+                    note = what == "done" ? "已标为完成，已保存到云端。" : "已标为不做了，已保存到云端。"
+                    store.invalidateDays()
+                }
                 await store.refresh()
+                if what != "push", let date = item.srcDate { await store.day(date, force: true) }
             case .failure(let e):
                 failed = true
                 note = "\(e.headline) —— \(e.whatToDo)"
             }
         }
     }
+
+    private func dueText(_ date: Date) -> String {
+        let formatter = DateFormatter()
+        formatter.timeZone = store.cloudTimezone
+        formatter.dateStyle = .full
+        formatter.timeStyle = item.allDay ? .none : .short
+        return formatter.string(from: date)
+    }
 }
 
 /// 数据是什么时候的。**离线可读的代价是可能看到旧数据**，所以必须一直显示时间戳 ——
 /// 不显示的话，飞行模式下看到的昨天会被当成今天。
 struct StaleBadge: View {
+    @Environment(Store.self) private var store
     let at: Date
     var body: some View {
         let mins = Int(Date().timeIntervalSince(at) / 60)
-        Text(mins < 2 ? "刚刚" : mins < 60 ? "\(mins) 分钟前" : at.formatted(date: .omitted, time: .shortened))
+        Text(mins < 2 ? "刚刚" : mins < 60 ? "\(mins) 分钟前" : timestamp)
             .font(.caption2)
             .foregroundStyle(mins > 180 ? Color.orange : Color.secondary)
+    }
+    private var timestamp: String {
+        let formatter = DateFormatter()
+        formatter.timeZone = store.cloudTimezone
+        formatter.dateFormat = "M月d日 HH:mm"
+        return formatter.string(from: at)
     }
 }
 

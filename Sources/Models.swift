@@ -22,6 +22,8 @@ struct IndexDay: Codable, Identifiable, Hashable {
 struct FeedIndex: Codable {
     let generatedAt: Double
     let days: [IndexDay]
+    let lastSync: Double
+    let timezone: String
 }
 
 struct Agenda: Codable, Identifiable, Hashable {
@@ -85,4 +87,12 @@ struct FeedDay: Codable {
     let summary: FeedSummary?
     let agenda: [Agenda]
     let items: [FeedItem]
+    let cloudNotes: [CloudNote]
+}
+
+struct CloudNote: Codable, Identifiable, Hashable {
+    let id: Int64
+    let text: String
+    let ts: Double
+    let date: String
 }

@@ -1,6 +1,8 @@
 # Xcode 派生数据(可重生,别进仓)
 .dd*/
 DerivedData/
+.build/
+.swiftpm/
 build/
 *.xcuserstate
 xcuserdata/
