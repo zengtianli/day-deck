@@ -1,3 +1,5 @@
+**中文** | [English](README_EN.md)
+
 <p align="center"><img src="Resources/Assets.xcassets/AppIcon.appiconset/icon-1024.png" width="96" alt="每日复盘"></p>
 
 # 每日复盘 · day-deck
