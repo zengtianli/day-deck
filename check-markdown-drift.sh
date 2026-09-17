@@ -26,7 +26,7 @@ parser.add_argument("--sync", action="store_true", help="Copy source implementat
 args = parser.parse_args(__import__("sys").argv[2:])
 source = args.source.expanduser().resolve()
 # root = <apps>/notifhub/ios/01-源程序 → root.parents[2] = <apps>
-CONSUMERS = ("hydro-assistant/ios", "investment/ios/desk")  # hydro-deck, options-desk
+CONSUMERS = ("hydro-assistant/ios",)  # hydro-deck（options-desk 已于 2026-09-17 退役）
 SOURCE_MARK = "day-deck"  # 消费者前言里声明出处的标记；--app 靠它识别未登记的消费者
 defaults = [root.parents[2] / name / "01-源程序/Sources/MarkdownView.swift" for name in CONSUMERS]
 targets = defaults if args.targets is None else args.targets
