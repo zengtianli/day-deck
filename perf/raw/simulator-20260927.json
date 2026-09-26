@@ -1,0 +1,121 @@
+{
+  "schema_version": 1,
+  "app_id": "day-deck",
+  "environment": "simulator",
+  "measured_at": "2026-09-27T00:07:01.570095+08:00",
+  "version": "0.1 (1)",
+  "configuration": "Release",
+  "bundle_id": "cyou.tianli.daydeck",
+  "binary_sha256": "2c236891ad3dbc27613840c039771558b962c640769586ccb7fe6ba2c6716e6e",
+  "source": {
+    "input_globs": [
+      "Sources/**",
+      "Shared/**",
+      "Resources/**",
+      "Widget/**",
+      "ShareExtension/**",
+      "project.yml",
+      "*.entitlements"
+    ],
+    "sha256": "4e3bee98c06868531ee98d5e0925ee319776055f4c7e8527c6d3e2c75bc5a16d",
+    "file_count": 28,
+    "commit": "ad27d931b72d9fe6c88a858867f9402b36d0096c",
+    "dirty_scope": "组件当前 Git 工作树；跨仓/软链输入的实际内容由 sha256 核验",
+    "dirty": false
+  },
+  "app_path": "~/Apps/notifhub/ios/01-源程序/.dd-sim/Build/Products/Release-iphonesimulator/DayDeck.app",
+  "simulator_udid": "C6F5D655-20E3-4CEE-89FF-3C8C20AB6D3B",
+  "simulator_device": "iPhone 17 Pro",
+  "simulator_os": "iOS 27.0",
+  "host": "Mac16,12 / Apple M4 / macOS 27.2",
+  "load_average_at_start": [
+    4.72216796875,
+    9.04833984375,
+    21.23583984375
+  ],
+  "host_memory_pressure_level": "2",
+  "host_swap_usage": "total = 10240.00M  used = 8990.25M  free = 1249.75M  (encrypted)",
+  "measurement_tool_sha256": "0393a632f3e0a2d2551ecb173704f195c3f9da743d0a49bad0492c1e0b669698",
+  "scope": "Simulator App process only; excludes CoreSimulator, Simulator GUI, system services and inactive extensions",
+  "data": "Fresh app container on isolated simulator; default first-run data; no production user data imported",
+  "build_receipt": {
+    "exit": 0,
+    "configuration": "Release",
+    "command": [
+      "xcrun",
+      "xcodebuild",
+      "-project",
+      "DayDeck.xcodeproj",
+      "-scheme",
+      "DayDeck",
+      "-configuration",
+      "Release",
+      "-sdk",
+      "iphonesimulator",
+      "-destination",
+      "id=C6F5D655-20E3-4CEE-89FF-3C8C20AB6D3B",
+      "-derivedDataPath",
+      "~/Apps/notifhub/ios/01-源程序/.dd-sim",
+      "CODE_SIGNING_ALLOWED=NO",
+      "build"
+    ],
+    "seconds": 12.65,
+    "source_before_sha256": "4e3bee98c06868531ee98d5e0925ee319776055f4c7e8527c6d3e2c75bc5a16d",
+    "source_after_sha256": "4e3bee98c06868531ee98d5e0925ee319776055f4c7e8527c6d3e2c75bc5a16d",
+    "source_unchanged": true,
+    "load_average_after_build": [
+      4.72216796875,
+      9.04833984375,
+      21.23583984375
+    ]
+  },
+  "size": {
+    "download_bytes": 2875077,
+    "installed_bytes": 5234688,
+    "kind": "Local simulator .app ZIP; not an App Store IPA or device slice"
+  },
+  "installed_binary_sha256": "2c236891ad3dbc27613840c039771558b962c640769586ccb7fe6ba2c6716e6e",
+  "launch": {
+    "samples": [
+      {
+        "ms": 2621.4717919974646,
+        "pid": 72344
+      },
+      {
+        "ms": 169.41599999699974,
+        "pid": 72374
+      },
+      {
+        "ms": 426.6457090016047,
+        "pid": 72404
+      }
+    ],
+    "median_ms": 426.6457090016047,
+    "runs": 3,
+    "command": [
+      "xcrun",
+      "simctl",
+      "launch",
+      "C6F5D655-20E3-4CEE-89FF-3C8C20AB6D3B",
+      "cyou.tianli.daydeck"
+    ],
+    "foreground_request": "simctl default; --background not supplied",
+    "method": "simctl launch wall time through process PID acknowledgement after terminate; includes CLI overhead and warm filesystem cache; not first-frame or interactive-ready time",
+    "limitations": "Process acknowledgement only, not first-frame/interactive readiness; host load is included in raw evidence."
+  },
+  "process_before_cpu": "72404 43585 Sun Sep 27 00:07:09 2026     Ss   ~/Library/Developer/CoreSimulator/Devices/C6F5D655-20E3-4CEE-89FF-3C8C20AB6D3B/data/Containers/Bundle/Application/54084A2A-5B89-4908-A060-D4F9E5E7E199/DayDeck.app/DayDeck",
+  "idle": {
+    "process": "72404",
+    "footprint_mb": 26.0,
+    "cpu_pct": 0.0,
+    "window_s": 60,
+    "settle_s": 45,
+    "method": "Shared measure.py: CPU time delta / 60s wall; 3 phys_footprint samples after CPU window, maximum reported",
+    "scope": "Simulator App process only; excludes CoreSimulator, Simulator GUI, system services and inactive extensions",
+    "limitations": "Post-launch simulator process sampling; simctl requested foreground by default; UIApplication/RunningBoard activation state was not observed and this is not a complete foreground business test."
+  },
+  "process_after_cpu": "72404 43585 Sun Sep 27 00:07:09 2026     Ss   ~/Library/Developer/CoreSimulator/Devices/C6F5D655-20E3-4CEE-89FF-3C8C20AB6D3B/data/Containers/Bundle/Application/54084A2A-5B89-4908-A060-D4F9E5E7E199/DayDeck.app/DayDeck",
+  "source_unchanged_during_measurement": true,
+  "binary_unchanged_during_measurement": true,
+  "completed_at": "2026-09-27T00:08:59.651083+08:00"
+}
