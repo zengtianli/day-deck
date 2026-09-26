@@ -1,8 +1,10 @@
 [中文](README.md) | **English**
 
-<p align="center"><img src="Resources/Assets.xcassets/AppIcon.appiconset/icon-1024.png" width="96" alt="Daily Review"></p>
+<p align="center"><img src="Resources/Assets.xcassets/AppIcon.appiconset/icon-1024.png" width="96" alt="Notihub"></p>
 
-# Daily Review · day-deck
+# Notihub · iPhone / iPad
+
+> Since 2026-09-27 the former Daily Review / DayDeck app is part of Notihub: same name and icon as Notihub for Mac, reading and writing the same cloud records. On the Mac only Notihub remains.
 
 
 

@@ -7,6 +7,8 @@ import SwiftUI
 /// 排到最底下就等于永远看不见，而它们照样是要做的事。
 struct TodayView: View {
     @Environment(Store.self) private var store
+    // 验证通道：`-search 关键词` 启动即带入搜索（生产路径上恒为空，同 `-tab`）。
+    @State private var search = UserDefaults.standard.string(forKey: "search") ?? ""
 
     var body: some View {
         NavigationStack {
@@ -28,6 +30,7 @@ struct TodayView: View {
                 }
             }
             .navigationTitle("今天 · \(store.dueToday.count + store.overdue.count)")
+            .searchable(text: $search, prompt: "搜索待办")
             .refreshable { await store.refresh() }
             .navigationDestination(for: Agenda.self) { AgendaDetailView(item: $0) }
             .toolbar {
@@ -39,7 +42,10 @@ struct TodayView: View {
     }
 
     @ViewBuilder
-    private func group(_ title: String, _ items: [Agenda], tint: Color) -> some View {
+    private func group(_ title: String, _ all: [Agenda], tint: Color) -> some View {
+        let items = search.isEmpty ? all : all.filter {
+            [$0.title, $0.note ?? "", $0.who ?? ""].joined(separator: " ").localizedCaseInsensitiveContains(search)
+        }
         if !items.isEmpty {
             Section("\(title) · \(items.count)") {
                 ForEach(items) { a in

@@ -10,6 +10,8 @@ struct RecapView: View {
     // 自己算的话，设备时区和 notifhub 的划天规则一旦不一致就会去要一个不存在的日期。
     @State private var date = ""
     @State private var showPicker = false
+    // 验证通道：`-search 关键词` 启动即带入搜索（生产路径上恒为空，同 `-tab`）。
+    @State private var search = UserDefaults.standard.string(forKey: "search") ?? ""
 
     private var day: FeedDay? { store.days[date] }
 
@@ -19,7 +21,7 @@ struct RecapView: View {
                 if let e = store.dayError[date] {
                     Section { ErrorBlock(error: e, stale: store.dayAt[date]) }
                 }
-                if let at = store.dayAt[date] {
+                if let at = store.dayAt[date], search.isEmpty {
                     Section {
                         LabeledContent("缓存更新") { StaleBadge(at: at) }
                         if let sync = store.lastSync { LabeledContent("最后同步") { StaleBadge(at: sync) } }
@@ -27,6 +29,8 @@ struct RecapView: View {
                 }
 
                 if let d = day {
+                    // 搜索时只留匹配的时间线，总结/抽出的事/统计先收起，结果不被挤到屏幕外。
+                    if search.isEmpty {
                     if let s = d.summary {
                         Section("这一天") {
                             Text(s.headline).font(.headline)
@@ -64,8 +68,13 @@ struct RecapView: View {
                         }
                     }
 
-                    Section("时间线 · \(d.items.count + d.cloudNotes.count)") {
-                        ForEach(entries(d)) { entry in
+                    }
+                    let shown = entries(d).filter(matches)
+                    Section(search.isEmpty ? "时间线 · \(d.items.count + d.cloudNotes.count)" : "匹配 · \(shown.count)") {
+                        if shown.isEmpty && !search.isEmpty {
+                            Text("当天没有匹配的通知或笔记，试试其他关键词。").font(.callout).foregroundStyle(.secondary)
+                        }
+                        ForEach(shown) { entry in
                             switch entry {
                             case .notification(let item): TimelineRow(item: item)
                             case .note(let note): CloudNoteRow(note: note)
@@ -77,7 +86,7 @@ struct RecapView: View {
                 }
             }
             .id(date)
-            .navigationTitle(date.isEmpty ? "复盘" : date)
+            .navigationTitle(date.isEmpty ? "通知" : date)
             .navigationBarTitleDisplayMode(.inline)
             .navigationDestination(for: Agenda.self) { AgendaDetailView(item: $0) }
             .toolbar {
@@ -93,6 +102,7 @@ struct RecapView: View {
                     Button { showPicker = true } label: { Image(systemName: "calendar") }
                 }
             }
+            .searchable(text: $search, placement: .navigationBarDrawer(displayMode: .automatic), prompt: "搜索当天通知与笔记")
             .sheet(isPresented: $showPicker) { DayPicker(date: $date) }
             .task(id: date) { if !date.isEmpty { await store.day(date) } }
             .task(id: store.index.count) { if date.isEmpty { date = store.landingDate } }
@@ -116,6 +126,16 @@ struct RecapView: View {
     }
     private func step(_ n: Int) {
         if let d = n < 0 ? prevDate : nextDate { date = d }
+    }
+    /// 与 Mac 端同一口径：按 app、联系人与正文逐行匹配，不区分大小写。
+    private func matches(_ entry: RecapEntry) -> Bool {
+        guard !search.isEmpty else { return true }
+        switch entry {
+        case .notification(let item):
+            return ([item.app, item.who] + item.lines).joined(separator: " ").localizedCaseInsensitiveContains(search)
+        case .note(let note):
+            return note.text.localizedCaseInsensitiveContains(search)
+        }
     }
     private func entries(_ day: FeedDay) -> [RecapEntry] {
         (day.items.map(RecapEntry.notification) + day.cloudNotes.map(RecapEntry.note)).sorted { $0.timestamp < $1.timestamp }

@@ -27,7 +27,7 @@ targets:
         INFOPLIST_KEY_LSApplicationCategoryType: public.app-category.productivity
         ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
         INFOPLIST_KEY_UILaunchScreen_Generation: YES
-        INFOPLIST_KEY_CFBundleDisplayName: 复盘
+        INFOPLIST_KEY_CFBundleDisplayName: Notihub   # 2026-09-27 DayDeck 并入 Notihub，与 Mac 端同名同图标
         # 四方向全给:universal(iPhone+iPad)app 上 TestFlight 时 ASC 强制要求
         # iPad 分屏四方向不能缺,只给 Portrait 会在上传阶段被拒。
         INFOPLIST_KEY_UISupportedInterfaceOrientations: "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight"

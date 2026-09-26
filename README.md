@@ -1,8 +1,10 @@
 **中文** | [English](README_EN.md)
 
-<p align="center"><img src="Resources/Assets.xcassets/AppIcon.appiconset/icon-1024.png" width="96" alt="每日复盘"></p>
+<p align="center"><img src="Resources/Assets.xcassets/AppIcon.appiconset/icon-1024.png" width="96" alt="Notihub"></p>
 
-# 每日复盘 · day-deck
+# Notihub · iPhone / iPad
+
+> 2026-09-27 起，原「复盘 / DayDeck」并入 Notihub：与 Notihub Mac 同名同图标、读写同一份云端记录；Mac 端只保留 Notihub。
 
 **早看待办，晚看复盘；在想看的时候打开。**
 

@@ -1,7 +1,7 @@
 import SwiftUI
 
 @main
-struct DayDeckApp: App {
+struct NotihubApp: App {
     @State private var store = Store()
     var body: some Scene {
         WindowGroup {
@@ -22,8 +22,8 @@ struct RootView: View {
         TabView(selection: $tab) {
             TodayView()
                 .tabItem { Label("今天", systemImage: "checklist") }.tag(0)
-            RecapView().tabItem { Label("复盘", systemImage: "book.pages") }.tag(1)
-            DiaryView().tabItem { Label("日记", systemImage: "square.and.pencil") }.tag(2)
+            RecapView().tabItem { Label("通知", systemImage: "bell") }.tag(1)
+            DiaryView().tabItem { Label("随手记", systemImage: "square.and.pencil") }.tag(2)
             ConnectionView().tabItem { Label("连接", systemImage: "gearshape") }.tag(3)
         }
         .task {
@@ -51,7 +51,7 @@ private struct ConnectionView: View {
             Form {
                 Section("云端") {
                     Link("day.tianli.cyou", destination: URL(string: API.shared.base)!)
-                    Text("通知、总结、日记和待办在设备间共用同一份云端记录。")
+                    Text("通知、总结、随手记和待办与 Notihub Mac 共用同一份云端记录。")
                         .font(.callout).foregroundStyle(.secondary)
                     if let synced = store.lastSync {
                         LabeledContent("最近同步") { Text(synced, style: .relative) }

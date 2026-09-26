@@ -81,7 +81,7 @@ struct DiaryView: View {
                     Section { LabeledContent("缓存更新") { StaleBadge(at: at) } }
                 }
             }
-            .navigationTitle("日记")
+            .navigationTitle("随手记")
             .navigationBarTitleDisplayMode(.inline)
             .task(id: date) { await store.day(date) }
             .onChange(of: store.indexAt) { _, _ in Task { await store.day(date, force: true) } }

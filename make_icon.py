@@ -1,29 +1,22 @@
 #!/usr/bin/env python3
-"""重生图标：从 Resources/icon-src.png（Seedream 定稿原图，2026-09-01 用户逐版挑选）
-按定稿裁切参数派生 icon-1024.png。改图标 = 换 icon-src.png 或调 CROP，再跑本脚本。
-旧版逐像素绘制脚本已被本派生版取代（原图标风格 2026-09-01 用户判「不达意」整批换掉）。"""
-import subprocess, sys, pathlib, shutil
+"""重生图标：iOS 端与 Notihub Mac 共用同一张 Seedream 原图（2026-09-27 DayDeck 并入 Notihub）。
+Resources/icon-src.png = ../../mac/icon/SeedreamSource.png 的副本；裁切参数与
+../../mac/icon/provenance.json 的 crop_xy_side 一致（取铃铛瓷砖内侧、满幅方形、无透明），
+圆角由 iOS 自己加。改图标 = 换 Mac 端原图后同步 icon-src.png 再跑本脚本。"""
+import hashlib, json, pathlib, subprocess, sys
 
-CROP = 0.7  # 保留中心比例（定稿参数，别顺手调）
 HERE = pathlib.Path(__file__).parent
 SRC = HERE / "Resources/icon-src.png"
+MAC = HERE / "../../mac/icon"
 if not SRC.exists():
     sys.exit("icon-src.png 不存在，拒绝生成（fail-closed）")
-
+prov = json.loads((MAC / "provenance.json").read_text())
+if hashlib.sha256(SRC.read_bytes()).hexdigest() != prov["source_sha256"]:
+    sys.exit("icon-src.png 与 Mac 端原图不一致，先同步再生成（fail-closed）")
+x, y, side = prov["packaging"]["crop_xy_side"]
 out = HERE / "Resources/Assets.xcassets/AppIcon.appiconset/icon-1024.png"
-w = int(subprocess.check_output(["sips","-g","pixelWidth",str(SRC)]).split()[-1])
-h = int(subprocess.check_output(["sips","-g","pixelHeight",str(SRC)]).split()[-1])
-side = int(min(w, h) * CROP)
-tmp = HERE / ".icon_tmp.png"
-shutil.copy(SRC, tmp)
-# sips 的 -c 与 -z 同传时按内部固定顺序执行（先缩后裁 → 出 655px，实测踩过），必须分两步
-subprocess.check_call(["sips","-c",str(side),str(side),str(tmp)], stdout=subprocess.DEVNULL)
-subprocess.check_call(["sips","-z","1024","1024","-s","format","png",
-                       str(tmp),"--out",str(out)], stdout=subprocess.DEVNULL)
-w2 = int(subprocess.check_output(["sips","-g","pixelWidth",str(out)]).split()[-1])
-assert w2 == 1024, f"派生出 {w2}px，拒绝（fail-closed）"
-tmp.unlink()
-plain = HERE / "Resources/icon-1024.png"
-if plain.exists():
-    shutil.copy(out, plain)   # 两处副本保持一致，防漂移
-print(f"icon-1024.png 已从 icon-src.png 派生 (crop {CROP})")
+subprocess.check_call(["magick", str(SRC), "-crop", f"{side}x{side}+{x}+{y}", "+repage",
+                       "-resize", "1024x1024", "-alpha", "off", "-strip", f"PNG24:{out}"])
+info = subprocess.check_output(["sips", "-g", "pixelWidth", "-g", "hasAlpha", str(out)], text=True)
+assert "pixelWidth: 1024" in info and "hasAlpha: no" in info, info
+print("icon-1024.png 已从 Notihub 原图派生")
