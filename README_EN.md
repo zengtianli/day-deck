@@ -41,6 +41,8 @@ xcodebuild -scheme DayDeck -destination 'generic/platform=iOS Simulator' build
 
 See [DEVELOPING.md](DEVELOPING.md) for development details, including regression checks, validation channels, and constraints.
 
+See the [usage and recovery guide (Chinese)](docs/usage-guide.md) for everyday use, login, and offline recovery.
+
 ## Related
 
 - Product page: <https://apps.tianli.cyou/p/day-deck-ios.html>
@@ -53,6 +55,8 @@ MIT © 2026 Tianli Zeng
 
 <!-- lightweight:start -->
 ## Resource use
+
+The simulator figures below are historical measurements of the 2026-09-27 build. Current source performance still needs measurement. Package sizes remain tied to the listed ASC build.
 
 Download size is App Store data; memory, CPU and launch time are iOS Simulator measurements, not physical-device figures.
 

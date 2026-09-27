@@ -39,6 +39,8 @@ xcodebuild -scheme DayDeck -destination 'generic/platform=iOS Simulator' build
 
 开发细节（回归、验证通道、约束）见 [DEVELOPING.md](DEVELOPING.md)。
 
+日常使用与登录、离线恢复步骤见 [使用教程](docs/usage-guide.md)。
+
 ## 相关
 
 - 产品页：<https://apps.tianli.cyou/p/day-deck-ios.html>
@@ -51,6 +53,8 @@ MIT © 2026 曾田力 (Tianli Zeng)
 
 <!-- lightweight:start -->
 ## 资源占用
+
+以下模拟器数字是 2026-09-27 构建的历史测量；当前源码的有效性能证据待补测。安装包大小仍为所列 ASC 构建的数据。
 
 安装包为 App Store 数据；内存、CPU 与启动时间为 iOS 模拟器实测，不是真机数值。
 

@@ -118,6 +118,9 @@ enum Gate {
     /// 客户端（小程序）用的，把它取出来自己存等于把凭证从 HttpOnly 壳里搬出来，
     /// 白白扩大失窃半径。
     static func login(password pw: String, session: URLSession) async throws {
+        #if DEBUG
+        guard !DemoData.enabled else { throw Failure(message: "演示模式不会连接云端。") }
+        #endif
         var req = URLRequest(url: loginURL)
         req.httpMethod = "POST"
         req.timeoutInterval = 20

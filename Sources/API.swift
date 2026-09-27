@@ -11,6 +11,9 @@ import Foundation
 
 /// 取数失败。**每个 case 都要能指出下一步动作** —— 没有 `whatToDo` 的错误提示等于没提示。
 enum FeedError: Error, Equatable {
+    #if DEBUG
+    case demo
+    #endif
     case network(url: String, underlying: String)
     case http(url: String, status: Int, body: String)
     case decoding(url: String, field: String, detail: String)
@@ -20,6 +23,9 @@ enum FeedError: Error, Equatable {
 
     var headline: String {
         switch self {
+        #if DEBUG
+        case .demo: return "演示模式只读"
+        #endif
         case .network:            return "连不上 day 站"
         case .http(_, let s, _):  return "站点返回 HTTP \(s)"
         case .decoding:           return "拿到的数据对不上契约"
@@ -29,6 +35,9 @@ enum FeedError: Error, Equatable {
 
     var detail: String {
         switch self {
+        #if DEBUG
+        case .demo: return "演示内容不会发送到云端，也不会导出提醒事项。"
+        #endif
         case .network(let url, let e):        return "\(url)\n\(e)"
         case .http(let url, let s, let body): return "\(url)\n状态 \(s)\n\(body.prefix(300))"
         case .decoding(let url, let f, let d): return "\(url)\n字段 `\(f)`\n\(d)"
@@ -38,6 +47,9 @@ enum FeedError: Error, Equatable {
 
     var whatToDo: String {
         switch self {
+        #if DEBUG
+        case .demo: return "请退出演示模式后再保存；当前草稿仍保留在此设备。"
+        #endif
         case .network:
             return "请检查网络后重试；离线时仍可阅读上次缓存的记录。"
         case .http(_, let s, _):
@@ -82,6 +94,10 @@ final class API: @unchecked Sendable {
 
     /// All cloud reads and writes share authentication and response validation.
     func request(_ request: URLRequest) async -> Result<Data, FeedError> {
+        #if DEBUG
+        // Protect every caller, including Writer, before credentials or networking.
+        guard !DemoData.enabled else { return .failure(.demo) }
+        #endif
         guard let url = request.url, url.scheme == "https", url.host == "day.tianli.cyou" else {
             return .failure(.network(url: base, underlying: "请求域名无效"))
         }
