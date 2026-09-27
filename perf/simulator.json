@@ -4,34 +4,47 @@
   "platform": "ios",
   "version": "0.1 (1)",
   "configuration": "Release",
-  "measured_at": "2026-09-27T00:07:01.570095+08:00",
+  "measured_at": "2026-09-27T14:10:15.343149+08:00",
   "device": "iPhone 17 Pro / iOS 27.0 Simulator / Mac16,12 / Apple M4 / macOS 27.2",
-  "input_sha256": "4e3bee98c06868531ee98d5e0925ee319776055f4c7e8527c6d3e2c75bc5a16d",
+  "input_sha256": "f077f9154798bd1c0cfc80b66df97003fbc8d1f633c475a103ffac9886cab953",
+  "git_head": "c1c06ea01594bf3c86cdedf466896ffbdcad9a41",
   "data": "Fresh app container on isolated simulator; default first-run data; no production user data imported",
   "size": {
-    "download_bytes": 2875077,
-    "installed_bytes": 5234688,
+    "download_bytes": 1542670,
+    "installed_bytes": 3952640,
     "kind": "Local simulator .app ZIP; not an App Store IPA or device slice"
   },
   "idle": {
-    "process": "72404",
-    "footprint_mb": 26.0,
+    "process": "90849",
+    "footprint_mb": 27.0,
     "cpu_pct": 0.0,
     "window_s": 60,
     "settle_s": 45,
     "method": "Shared measure.py: CPU time delta / 60s wall; 3 phys_footprint samples after CPU window, maximum reported",
-    "scope": "Simulator App process only; excludes CoreSimulator, Simulator GUI, system services and inactive extensions",
-    "limitations": "Post-launch simulator process sampling; simctl requested foreground by default; UIApplication/RunningBoard activation state was not observed and this is not a complete foreground business test."
+    "scope": "Simulator App process only; excludes CoreSimulator, Simulator GUI, system services and inactive extensions"
   },
   "speed_gui": [
     {
-      "key": "process_launch_ms",
-      "label": "simctl launch 返回 PID（非首屏可交互）",
-      "label_en": "simctl launch PID acknowledgement (not interactive readiness)",
-      "median_ms": 426.65,
-      "runs": 3,
-      "method": "simctl launch wall time through process PID acknowledgement after terminate; includes CLI overhead and warm filesystem cache; not first-frame or interactive-ready time",
-      "limitations": "Process acknowledgement only, not first-frame/interactive readiness; host load is included in raw evidence."
+      "key": "first_screen_ready",
+      "label": "模拟器冷启动到首屏就绪",
+      "label_en": "Simulator cold launch to first screen ready",
+      "median_ms": 458.2,
+      "runs": 5,
+      "headline": true,
+      "method": "Simulator unified log: CoreSimulator \"Requesting launch of <bundle>\" -> SpringBoard scene content state \"ready\" (app committed its first scene content) / FrontBoard \"Dropping launch assertion\" (launch finished). App process terminated 3 s before each run; system caches warm; first run after install discarded. Median of 5 runs. Reference on the same simulator: system Settings app 2517.9 ms to ready.",
+      "evidence": "perf/raw/simulator-full-20260927.json",
+      "evidence_sha256": "de5a07a8080f40509e25fbc1f09f4cbb7d047ff629871bb6197ec85ec2f5f262"
+    },
+    {
+      "key": "launch_complete",
+      "label": "模拟器冷启动到系统判定启动完成",
+      "label_en": "Simulator cold launch to launch completed",
+      "median_ms": 1301.3,
+      "runs": 5,
+      "headline": false,
+      "method": "Simulator unified log: CoreSimulator \"Requesting launch of <bundle>\" -> SpringBoard scene content state \"ready\" (app committed its first scene content) / FrontBoard \"Dropping launch assertion\" (launch finished). App process terminated 3 s before each run; system caches warm; first run after install discarded. Median of 5 runs. Reference on the same simulator: system Settings app 2517.9 ms to ready.",
+      "evidence": "perf/raw/simulator-full-20260927.json",
+      "evidence_sha256": "de5a07a8080f40509e25fbc1f09f4cbb7d047ff629871bb6197ec85ec2f5f262"
     }
   ],
   "runtime_measurement": {
@@ -39,13 +52,14 @@
     "device": "iPhone 17 Pro",
     "os": "iOS 27.0",
     "version": "0.1 (1)",
-    "evidence": "perf/raw/simulator-20260927.json",
-    "evidence_sha256": "f0eee59acaeb6b93794409da78785fbac4f17b118fdf2f8891dc99bd6de30a5a"
+    "evidence": "perf/raw/simulator-full-20260927.json",
+    "evidence_sha256": "de5a07a8080f40509e25fbc1f09f4cbb7d047ff629871bb6197ec85ec2f5f262"
   },
   "build": {
     "configuration": "Release",
-    "binary_sha256": "2c236891ad3dbc27613840c039771558b962c640769586ccb7fe6ba2c6716e6e",
-    "input_sha256": "4e3bee98c06868531ee98d5e0925ee319776055f4c7e8527c6d3e2c75bc5a16d",
+    "binary_sha256": "6a6f2959fc67df9166a41e6b63c2a8b5a6fba70b5b2816916abc8c14d0e05c00",
+    "input_sha256": "f077f9154798bd1c0cfc80b66df97003fbc8d1f633c475a103ffac9886cab953",
+    "built_from": "working tree",
     "actual_build": true
   },
   "scope": "Simulator App process only; excludes CoreSimulator, Simulator GUI, system services and inactive extensions",

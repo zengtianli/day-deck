@@ -1,0 +1,285 @@
+{
+  "schema_version": 1,
+  "app_id": "day-deck",
+  "environment": "simulator",
+  "mode": "full",
+  "measured_at": "2026-09-27T14:10:15.343149+08:00",
+  "version": "0.1 (1)",
+  "configuration": "Release",
+  "bundle_id": "cyou.tianli.daydeck",
+  "binary_sha256": "6a6f2959fc67df9166a41e6b63c2a8b5a6fba70b5b2816916abc8c14d0e05c00",
+  "build_receipt": {
+    "configuration": "Release",
+    "seconds": 11.5,
+    "source_sha256": "f077f9154798bd1c0cfc80b66df97003fbc8d1f633c475a103ffac9886cab953",
+    "source_unchanged": true,
+    "built_from": "working tree"
+  },
+  "git_head": "c1c06ea01594bf3c86cdedf466896ffbdcad9a41",
+  "simulator_device": "iPhone 17 Pro",
+  "simulator_os": "iOS 27.0",
+  "host": "Mac16,12 / Apple M4 / macOS 27.2",
+  "load_average_at_start": [
+    4.6181640625,
+    52.28369140625,
+    57.2607421875
+  ],
+  "measurement_tool_sha256": "0393a632f3e0a2d2551ecb173704f195c3f9da743d0a49bad0492c1e0b669698",
+  "probe_sha256": "04e8e990c1a6c393d9b49bf91ac8b4f799588f181ea10657f38517cdf281c129",
+  "scope": "Simulator App process only; excludes CoreSimulator, Simulator GUI, system services and inactive extensions",
+  "launch": {
+    "samples": [
+      {
+        "run": 0,
+        "pid": 89390,
+        "host_call_epoch": 1790489418.516971,
+        "request_to_ready_ms": 1822.8,
+        "request_to_launch_complete_ms": 1755.1
+      },
+      {
+        "run": 1,
+        "pid": 89639,
+        "host_call_epoch": 1790489426.775321,
+        "request_to_ready_ms": 471.7,
+        "request_to_launch_complete_ms": 1319.6
+      },
+      {
+        "run": 2,
+        "pid": 90009,
+        "host_call_epoch": 1790489434.945626,
+        "request_to_ready_ms": 426.4,
+        "request_to_launch_complete_ms": 1276.9
+      },
+      {
+        "run": 3,
+        "pid": 90208,
+        "host_call_epoch": 1790489442.980143,
+        "request_to_ready_ms": 458.2,
+        "request_to_launch_complete_ms": 1298.0
+      },
+      {
+        "run": 4,
+        "pid": 90504,
+        "host_call_epoch": 1790489451.1315498,
+        "request_to_ready_ms": 461.7,
+        "request_to_launch_complete_ms": 1312.6
+      },
+      {
+        "run": 5,
+        "pid": 90755,
+        "host_call_epoch": 1790489459.2727501,
+        "request_to_ready_ms": 445.6,
+        "request_to_launch_complete_ms": 1301.3
+      }
+    ],
+    "discarded_runs": 1,
+    "runs": 5,
+    "ready_median_ms": 458.2,
+    "launch_complete_median_ms": 1301.3,
+    "method": "Simulator unified log: CoreSimulator \"Requesting launch of <bundle>\" -> SpringBoard scene content state \"ready\" (app committed its first scene content) / FrontBoard \"Dropping launch assertion\" (launch finished). App process terminated 3 s before each run; system caches warm; first run after install discarded.",
+    "marker_lines": {
+      "0": [
+        {
+          "timestamp": "2026-09-27 14:10:18.614991+0800",
+          "process": "CoreSimulatorBridge",
+          "message": "Requesting launch of cyou.tianli.daydeck with options: {\n    environment =     {\n    };\n}"
+        },
+        {
+          "timestamp": "2026-09-27 14:10:18.687894+0800",
+          "process": "CoreSimulatorBridge",
+          "message": "Launch successful for 'cyou.tianli.daydeck', pid: 89390"
+        },
+        {
+          "timestamp": "2026-09-27 14:10:20.370069+0800",
+          "process": "SpringBoard",
+          "message": "[app<cyou.tianli.daydeck>:89390] Dropping launch assertion."
+        },
+        {
+          "timestamp": "2026-09-27 14:10:20.437812+0800",
+          "process": "SpringBoard",
+          "message": "[(FBSceneManager):sceneID:cyou.tianli.daydeck-default] scene content state changed: ready"
+        },
+        {
+          "timestamp": "2026-09-27 14:10:20.653399+0800",
+          "process": "InputUI",
+          "message": "[app<cyou.tianli.daydeck>:89390] Dropping launch assertion."
+        }
+      ],
+      "1": [
+        {
+          "timestamp": "2026-09-27 14:10:26.884181+0800",
+          "process": "CoreSimulatorBridge",
+          "message": "Requesting launch of cyou.tianli.daydeck with options: {\n    environment =     {\n    };\n}"
+        },
+        {
+          "timestamp": "2026-09-27 14:10:26.917369+0800",
+          "process": "CoreSimulatorBridge",
+          "message": "Launch successful for 'cyou.tianli.daydeck', pid: 89639"
+        },
+        {
+          "timestamp": "2026-09-27 14:10:27.355857+0800",
+          "process": "SpringBoard",
+          "message": "[(FBSceneManager):sceneID:cyou.tianli.daydeck-default] scene content state changed: ready"
+        },
+        {
+          "timestamp": "2026-09-27 14:10:28.203806+0800",
+          "process": "SpringBoard",
+          "message": "[app<cyou.tianli.daydeck>:89639] Dropping launch assertion."
+        },
+        {
+          "timestamp": "2026-09-27 14:10:28.228607+0800",
+          "process": "InputUI",
+          "message": "[app<cyou.tianli.daydeck>:89639] Dropping launch assertion."
+        }
+      ],
+      "2": [
+        {
+          "timestamp": "2026-09-27 14:10:35.034261+0800",
+          "process": "CoreSimulatorBridge",
+          "message": "Requesting launch of cyou.tianli.daydeck with options: {\n    environment =     {\n    };\n}"
+        },
+        {
+          "timestamp": "2026-09-27 14:10:35.050650+0800",
+          "process": "CoreSimulatorBridge",
+          "message": "Launch successful for 'cyou.tianli.daydeck', pid: 90009"
+        },
+        {
+          "timestamp": "2026-09-27 14:10:35.460652+0800",
+          "process": "SpringBoard",
+          "message": "[(FBSceneManager):sceneID:cyou.tianli.daydeck-default] scene content state changed: ready"
+        },
+        {
+          "timestamp": "2026-09-27 14:10:36.311184+0800",
+          "process": "SpringBoard",
+          "message": "[app<cyou.tianli.daydeck>:90009] Dropping launch assertion."
+        },
+        {
+          "timestamp": "2026-09-27 14:10:36.349027+0800",
+          "process": "InputUI",
+          "message": "[app<cyou.tianli.daydeck>:90009] Dropping launch assertion."
+        }
+      ],
+      "3": [
+        {
+          "timestamp": "2026-09-27 14:10:43.098354+0800",
+          "process": "CoreSimulatorBridge",
+          "message": "Requesting launch of cyou.tianli.daydeck with options: {\n    environment =     {\n    };\n}"
+        },
+        {
+          "timestamp": "2026-09-27 14:10:43.130893+0800",
+          "process": "CoreSimulatorBridge",
+          "message": "Launch successful for 'cyou.tianli.daydeck', pid: 90208"
+        },
+        {
+          "timestamp": "2026-09-27 14:10:43.556581+0800",
+          "process": "SpringBoard",
+          "message": "[(FBSceneManager):sceneID:cyou.tianli.daydeck-default] scene content state changed: ready"
+        },
+        {
+          "timestamp": "2026-09-27 14:10:44.396378+0800",
+          "process": "SpringBoard",
+          "message": "[app<cyou.tianli.daydeck>:90208] Dropping launch assertion."
+        },
+        {
+          "timestamp": "2026-09-27 14:10:44.436749+0800",
+          "process": "InputUI",
+          "message": "[app<cyou.tianli.daydeck>:90208] Dropping launch assertion."
+        }
+      ],
+      "4": [
+        {
+          "timestamp": "2026-09-27 14:10:51.228228+0800",
+          "process": "CoreSimulatorBridge",
+          "message": "Requesting launch of cyou.tianli.daydeck with options: {\n    environment =     {\n    };\n}"
+        },
+        {
+          "timestamp": "2026-09-27 14:10:51.262135+0800",
+          "process": "CoreSimulatorBridge",
+          "message": "Launch successful for 'cyou.tianli.daydeck', pid: 90504"
+        },
+        {
+          "timestamp": "2026-09-27 14:10:51.689936+0800",
+          "process": "SpringBoard",
+          "message": "[(FBSceneManager):sceneID:cyou.tianli.daydeck-default] scene content state changed: ready"
+        },
+        {
+          "timestamp": "2026-09-27 14:10:52.540844+0800",
+          "process": "SpringBoard",
+          "message": "[app<cyou.tianli.daydeck>:90504] Dropping launch assertion."
+        },
+        {
+          "timestamp": "2026-09-27 14:10:52.588366+0800",
+          "process": "InputUI",
+          "message": "[app<cyou.tianli.daydeck>:90504] Dropping launch assertion."
+        }
+      ],
+      "5": [
+        {
+          "timestamp": "2026-09-27 14:10:59.355393+0800",
+          "process": "CoreSimulatorBridge",
+          "message": "Requesting launch of cyou.tianli.daydeck with options: {\n    environment =     {\n    };\n}"
+        },
+        {
+          "timestamp": "2026-09-27 14:10:59.379481+0800",
+          "process": "CoreSimulatorBridge",
+          "message": "Launch successful for 'cyou.tianli.daydeck', pid: 90755"
+        },
+        {
+          "timestamp": "2026-09-27 14:10:59.800968+0800",
+          "process": "SpringBoard",
+          "message": "[(FBSceneManager):sceneID:cyou.tianli.daydeck-default] scene content state changed: ready"
+        },
+        {
+          "timestamp": "2026-09-27 14:11:00.656707+0800",
+          "process": "SpringBoard",
+          "message": "[app<cyou.tianli.daydeck>:90755] Dropping launch assertion."
+        },
+        {
+          "timestamp": "2026-09-27 14:11:00.696703+0800",
+          "process": "InputUI",
+          "message": "[app<cyou.tianli.daydeck>:90755] Dropping launch assertion."
+        }
+      ]
+    }
+  },
+  "size": {
+    "download_bytes": 1542670,
+    "installed_bytes": 3952640,
+    "kind": "Local simulator .app ZIP; not an App Store IPA or device slice"
+  },
+  "idle": {
+    "process": "90849",
+    "footprint_mb": 27.0,
+    "cpu_pct": 0.0,
+    "window_s": 60,
+    "settle_s": 45,
+    "method": "Shared measure.py: CPU time delta / 60s wall; 3 phys_footprint samples after CPU window, maximum reported",
+    "scope": "Simulator App process only; excludes CoreSimulator, Simulator GUI, system services and inactive extensions"
+  },
+  "source_unchanged_during_measurement": true,
+  "completed_at": "2026-09-27T14:12:55.878700+08:00",
+  "calibration": {
+    "measured_at": "2026-09-27T14:04:00+08:00",
+    "device": "iPhone 17 Pro / iOS 27.0 Simulator (same device as app runs)",
+    "app": "com.apple.Preferences (system Settings)",
+    "settings_ready_samples_ms": [
+      3626.3,
+      2505.8,
+      2529.9,
+      2517.9,
+      2589.8,
+      2507.6
+    ],
+    "settings_launch_complete_samples_ms": [
+      3424.6,
+      2911.7,
+      2917.7,
+      2906.9,
+      2977.7,
+      2887.3
+    ],
+    "settings_ready_median_ms": 2517.9,
+    "settings_launch_complete_median_ms": 2911.7,
+    "note": "Same probe and markers as the app runs; first sample discarded. Shows the simulator's own launch overhead; not a physical-device figure."
+  }
+}
