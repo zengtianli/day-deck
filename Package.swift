@@ -9,7 +9,7 @@ let package = Package(
     targets: [
         .target(name: "DayDeckCore", path: "Sources",
                 exclude: ["App.swift", "TodayView.swift", "MarkdownView.swift", "DiaryView.swift", "RecapView.swift"],
-                sources: ["API.swift", "Models.swift", "Store.swift", "Gate.swift", "Writer.swift"]),
+                sources: ["API.swift", "Models.swift", "Store.swift", "Gate.swift", "Writer.swift", "DemoData.swift"]),
         .testTarget(name: "DayDeckCoreTests", dependencies: ["DayDeckCore"], path: "Tests")
     ],
     swiftLanguageVersions: [.v5]

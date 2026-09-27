@@ -22,6 +22,10 @@ final class Store {
 
     init(api: API = .shared) {
         self.api = api
+        #if DEBUG
+        // 公开演示截图用：`-demo 1` 只喂合成数据，不读缓存、不联网（Release 不含此分支）。
+        if DemoData.enabled { DemoData.load(into: self); return }
+        #endif
         if let (value, at) = api.cache.load("/api/index", as: FeedIndex.self, api: api) {
             applyIndex(value); indexAt = at
         }
@@ -58,6 +62,9 @@ final class Store {
     }
 
     func refresh() async {
+        #if DEBUG
+        if DemoData.enabled { return }
+        #endif
         guard !loading else { return }
         loading = true
         defer { loading = false }
@@ -73,6 +80,9 @@ final class Store {
 
     @discardableResult
     func day(_ date: String, force: Bool = false) async -> FeedDay? {
+        #if DEBUG
+        if DemoData.enabled { return days[date] }
+        #endif
         let path = "/api/day/" + date
         if days[date] == nil, let (value, at) = api.cache.load(path, as: FeedDay.self, api: api) {
             days[date] = value; dayAt[date] = at
