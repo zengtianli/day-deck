@@ -1,6 +1,24 @@
 # Notihub iOS 公开演示录制交接
 
-状态：本轮未录制视频。现场没有开机模拟器，空闲门未通过（负载 95.6 ≥ 10）；本轮亦禁止装机、部署和干扰用户输入。以下是本人接手后的命令与分段脚本，不是已完成的视频证据。
+状态：当前已有本产品装机与部署长期授权；本轮空闲门实测仍未通过（录制脚本检查负载 567.6 ≥ 10），没有启动模拟器或录制视频。以下入口等待空闲条件恢复，不是已完成的视频证据。
+
+## 无输入干扰的自动入口
+
+在本仓运行：
+
+```bash
+~/Dev/.venv/bin/python scripts/capture-demo.py --check
+~/Dev/.venv/bin/python scripts/capture-demo.py
+~/Dev/.venv/bin/python ~/Apps/chapter/engine/app_sop.py accept --app day-deck-ios --check media_playback --json
+```
+
+`--check` 只查先决条件；空闲门不通过时返回 75，且不构建、装机、创建模拟器或改旧视频。正常录制使用新建专用模拟器，沿已有 `sim-run.sh --shutdown` 构建安装 Debug 包，不打开 Simulator 窗口；分别以启动参数落到今天、通知、搜索、随手记，录真实界面短片。没有点击、滚动、保存或登录演示，片段字幕明确各段独立且只读。
+
+完整解码成功后才替换 `shots/public-demo.mp4` 与 `shots/public-demo.vtt`，版本和覆盖范围写 `shots/public-demo-recording.json`；原片与日志留本仓 `build/notihub-demo-*`，以满足本轮仅改组件仓库的边界。清理仅关闭并删除本次创建的模拟器。视频生成后仍需审阅首、中、尾画面；Chapter 固定播放验收另跑，脚本不写通过证据。
+
+当前只登记固定 `media_playback`，录制使用上述直接 CLI，未挂到 `sop.capture`：Chapter 当前 `capture()` 成功后会自动提交并推送，而本组件登记的私有源码策略与实际公开远端冲突。须先在 Chapter 统一源码展示政策；录制脚本自身不提交或推送。
+
+本轮只完成语法和空闲门检查，真实录制分支尚未运行。若后续录像需作为审核材料，由获准的整理步骤将确认过的原片按下文审核目录归位。
 
 ## 录制边界
 
@@ -10,7 +28,7 @@
 
 ## 本人接手：先准备专用模拟器
 
-以下命令将新建模拟器并安装本地 Debug 包，仅在本人决定恢复录制后执行；本轮未执行。先等待机器空闲，再从仓库目录运行。`sim-run.sh --shutdown` 复用共享构建与安装入口，完成后自动关机，不打开 Simulator 窗口。
+以下是手工排查用的命令，会新建模拟器并安装本地 Debug 包，已在本产品长期授权范围内，本轮未执行。空闲门通过后，优先使用上面的自动入口；`sim-run.sh --shutdown` 复用共享构建与安装入口，完成后自动关机，不打开 Simulator 窗口。
 
 ```bash
 cd /Users/tianli/Apps/notifhub/ios/01-源程序

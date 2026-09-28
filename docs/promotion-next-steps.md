@@ -1,6 +1,6 @@
 # Notihub iOS 推广页缺项交接
 
-本轮仅调查并保存本文，未修改共享配置、Mac 仓、门户或共享引擎，未部署。时间：2026-09-28。
+本轮仅调查并保存本文，未修改共享配置、Mac 仓、门户或共享引擎，未部署。时间：2026-09-28。当前授权已允许本组件提交、推送和部署；例外是不能改动或部署其他组件服务。本文的阻碍是跨组件责任边界和现有发布接口能力，不能概括成“用户禁止部署”。
 
 ## 已核实的责任层
 
@@ -15,33 +15,50 @@
 1. 门户 `standalone_homepage.py` 的 companion section 输出该组件 `_icon` 和 `_perf`，标明 iPhone/iPad 与测量环境，继续保持自用展示、无公开下载。
 2. 共享 `product_icons.py` 对带 fragment 的主页只检查目标 section 内的可见组件图标；不存在 section 或可见图标时失败。全页主页继续核对全页品牌/favicon，不能降低像素阈值掩盖错误，也不能用改变 iOS 正式源规避。
 
-这两处均在本组件仓外，修改前须声明共享范围。本轮保留了责任层与修改步骤；线上 `page_icon` 和 `page` 需重建部署后回读，而本轮明确禁止部署。
+这两处均在本组件仓外。模板最小改动可控制在 `companions()` 的输出分支，图标校验最小改动可控制在 `IconReferences` 对 URL fragment 的范围选择；具体补丁由责任方处理，本轮没有改共享源码或跨组件发布。
 
-## 性能事实
+## 当前发布接口不能限定 iOS 小节
+
+本轮重新读取了 `product_bundles.py` 与 `scripts/deploy_product_bundles.py`，结论仍是没有 section 级发布入口：
+
+- `product_bundles.stage_product_bundle()` 校验整个 `site-manifest.json`，要求 `index.html`，验证文件白名单与哈希后替换整个目标目录；不识别 HTML fragment。
+- `deploy_product_bundles.py` 的 `ALLOWED_IDS` 只有 `clipbook`、`folio-mac`、`doc-tools`、`photo-desk`；iOS 与 Notihub Mac 均不在其中。
+- `select_rows()` 要求 `category=mac`、公开产品及 `homepage_bundle`；远端根固定为 `/var/www/apps-products/mac`。`validate_assets()` 还强制安装包下载，与当前自用、仅展示的 iOS 页政策不符。
+- `scripts_for()` 为整个选定产品目录生成备份、`rsync --delete`、哈希检查和目录回滚；不存在“只部署 `#iphone` 且 Mac 其余字节不变”的参数。
+
+仅将 Notihub 加进白名单不足以解决问题。要扩展单组件可回滚入口，至少需处理自用无下载政策、iOS 数据归属、section 精确定位、发布前远端基线哈希校验、只替换该 section 与其资产、失败回滚及验收范围。即使保留其他 HTML 字节不变，发布对象仍是 Mac 组件的 `index.html`。这超出快速补小缺项的范围，本轮不新增发布器、不借用全门户部署。
+
+受阻责任：`owner=notifhub-bar-mac`——iOS 指向其主页 `#iphone`，任何线上小节替换都写该组件网页；门户生成/发布接口归 `~/Apps/apps-portal/site`（本地项目名 `apps-site`）。共享校验器归 `~/Dev/tools/dev/lib/tools/macapp/product_icons.py`。此处只记录依赖，没有向其他产品创建 decision，也没有修改 `agents.json` 或 owner 授权。
+
+## 性能事实（上一轮记录）
+
+本节保留上一轮性能交接；本轮重新核实的产物摘要、复用限制与接手方法见 [性能证据接手说明](performance-followup.md)。本轮未新增完整 iOS 性能测量入口。
 
 `perf/simulator.json` 是 2026-09-27 的 `0.1 (1)` Release 模拟器记录：空闲 27 MiB（28.3 MB）、0% CPU、首屏 458.2 ms；其 ZIP 不是 App Store IPA。此文件保留来源哈希和原始测量路径。当前生产源码已改变，不能直接将这些数值标为本轮有效结果。
 
-本轮主 agent 已确认空闲门失败（负载 95.6，要求低于 10），因此跳过重新采样，不等待长时间空闲、不反复尝试。页面展示的安装包/安装后占用也应继续由当前 `perf/lightweight.json` 及测量管线派生，不能手填本文中的历史数字。
+上一轮主 agent 确认空闲门失败（负载 95.6，要求低于 10），当时跳过重新采样。页面展示的安装包/安装后占用也应继续由当前 `perf/lightweight.json` 及测量管线派生，不能手填本文中的历史数字。
 
 ## 在本仓 CLI 接手
 
-先执行安全的状态复核；`--check-only` 必须保留。`app_sop.py run` 的真实帮助说明其默认可能自动修复、推送和部署，不能在本轮边界下裸跑。
+先执行安全的状态复核；`--check-only` 必须保留。`app_sop.py run` 的真实帮助说明其默认可能自动修复、推送和部署；本组件虽然有部署授权，其当前推广 URL 却指向 Mac 主页，自动部署不能保证符合单组件边界。
 
 ```bash
 cd /Users/tianli/Apps/notifhub/ios/01-源程序
 ~/Dev/.venv/bin/python /Users/tianli/Apps/chapter/engine/app_sop.py run --app day-deck-ios --check-only --json
 ```
 
-接续共享修复时，先检查并声明两处范围，再按上文修改；以下命令本轮未执行。
+用户从本仓 CLI 接手的下一步是读取已核实的发布接口及责任文件，将“只处理 iOS section，Mac 其余内容和其他产品不变”交给 `notifhub-bar-mac` / 门户责任方确认范围。以下均为只读，不会生成发布计划或连接服务器：
 
 ```bash
 python3 ~/Dev/tools/cc-home/tools/harness/claims.py list
-python3 ~/Dev/tools/cc-home/tools/harness/claims.py claim --owner 'Notihub iOS 共享主页修复' ~/Apps/apps-portal/site ~/Dev/tools/dev/lib/tools/macapp/product_icons.py
-${EDITOR:-vi} ~/Apps/apps-portal/site/standalone_homepage.py ~/Dev/tools/dev/lib/tools/macapp/product_icons.py
-~/Dev/.venv/bin/python ~/Apps/apps-portal/site/gen_site.py
+~/Dev/.venv/bin/python ~/Apps/apps-portal/site/scripts/deploy_product_bundles.py --help
+rg -n 'ALLOWED_IDS|REMOTE =|def select_rows|def validate_assets|def scripts_for' ~/Apps/apps-portal/site/scripts/deploy_product_bundles.py
+rg -n 'for anchor, sibling|_icon|_perf' ~/Apps/apps-portal/site/standalone_homepage.py
 ```
 
-性能重新采样须先有设备运行条件，并满足空闲门。当前没有登记 `sop.measure`，`run --stage perf` 不能自动补测。先用 CLI 确认空闲门；失败即停止，不等待或重试：
+责任方明确允许修改其页面后，再为共享文件声明 claim 并实现上述补丁；claim 本身不授予跨组件发布权限。当前没有一条已存在、可安全复制执行的“只部署 Notihub iOS 小节”命令，不能伪造这一入口。
+
+性能重新采样须先有设备运行条件，并满足空闲门。目前仍未登记 `sop.measure`，`run --stage perf` 不能自动补测。先用 CLI 确认空闲门；失败即停止，不等待或重试：
 
 ```bash
 ~/Dev/.venv/bin/python - <<'PY'
@@ -54,7 +71,7 @@ raise SystemExit(0 if ok else 1)
 PY
 ```
 
-门通过且本人允许模拟器装机后，按 [录制说明](demo-recording.md) 创建专用模拟器（变量 `DEMO_SIM_UDID`），以本轮构建的 Release 包替换其中的 Debug 包，再采集 App 进程；以下有装机动作，本轮未执行：
+本产品模拟器装机已获长期授权。门通过后，按 [录制说明](demo-recording.md) 的手工准备段创建专用模拟器（变量 `DEMO_SIM_UDID`），以已核验的 Release 包替换其中的 Debug 包，再采集 App 进程；以下有装机动作，本轮未执行：
 
 ```bash
 xcrun simctl install "$DEMO_SIM_UDID" .dd-iphone/Build/Products/Release-iphonesimulator/DayDeck.app
@@ -66,11 +83,4 @@ xcrun simctl shutdown "$DEMO_SIM_UDID"
 
 此命令只生成内存/CPU 原始采样，不能证明启动速度或完整通过。还需复用旧首屏计时流程并绑定实际构建/系统/源码哈希到 `perf/simulator.json`；旧流程保存在 `~/Library/Logs/app-sop/ios-simulator-20260927b/sim_perf.py`，其中固定的模拟器 UUID 已失效、旧引擎 import 路径已迁移，必须先适配，不能原样运行。此复用适配留待性能后续，不在本轮开展长采样。
 
-发布入口已从源码核实为 `~/Apps/apps-portal/site/deploy.sh`。当前 Notihub 行未配置 `homepage_bundle`，因此 `--products-only` 的专用发布器会拒绝此产品，不能套用该参数声称只发布 Notihub。现有标准入口会重建、同步整个门户并处理 nginx；只有另行授权该部署范围、确认共享修改和产物后才运行：
-
-```bash
-bash ~/Apps/apps-portal/site/deploy.sh
-~/Dev/.venv/bin/python /Users/tianli/Apps/chapter/engine/app_sop.py run --app day-deck-ios --check-only --json
-```
-
-最后一次检查将由现有引擎回读真实线上图片和页面数字。本文不是图标、页面、性能或播放通过证据，不手写 `perf/delivery-evidence.json`。
+全门户 `deploy.sh` 会同步整个门户并处理 nginx，不属于本组件部署入口，本轮不执行也不把它列为建议接手命令。责任方完成受限发布后，从本仓再次运行上面的 `app_sop.py run --app day-deck-ios --check-only --json`，由现有引擎回读真实线上图片和页面数字。本文不是图标、页面、性能或播放通过证据，不手写 `perf/delivery-evidence.json`。
