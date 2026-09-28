@@ -32,7 +32,7 @@
 
 ## 性能事实（上一轮记录）
 
-本节保留上一轮性能交接；本轮重新核实的产物摘要、复用限制与接手方法见 [性能证据接手说明](performance-followup.md)。本轮未新增完整 iOS 性能测量入口。
+本节保留上一轮性能事实；本轮新增的固定 CLI、产物摘要与复用限制见 [性能证据接手说明](performance-followup.md)。现在可运行 `~/Dev/.venv/bin/python scripts/measure-simulator.py --run`，它先检查空闲门，再构建并测量独立模拟器；尚未产生本轮有效数字。
 
 `perf/simulator.json` 是 2026-09-27 的 `0.1 (1)` Release 模拟器记录：空闲 27 MiB（28.3 MB）、0% CPU、首屏 458.2 ms；其 ZIP 不是 App Store IPA。此文件保留来源哈希和原始测量路径。当前生产源码已改变，不能直接将这些数值标为本轮有效结果。
 
@@ -58,29 +58,13 @@ rg -n 'for anchor, sibling|_icon|_perf' ~/Apps/apps-portal/site/standalone_homep
 
 责任方明确允许修改其页面后，再为共享文件声明 claim 并实现上述补丁；claim 本身不授予跨组件发布权限。当前没有一条已存在、可安全复制执行的“只部署 Notihub iOS 小节”命令，不能伪造这一入口。
 
-性能重新采样须先有设备运行条件，并满足空闲门。目前仍未登记 `sop.measure`，`run --stage perf` 不能自动补测。先用 CLI 确认空闲门；失败即停止，不等待或重试：
+性能重新采样使用本仓固定入口，不必再手工适配旧 UUID/import。目前仍未登记 `sop.measure`，`run --stage perf` 只用于新原件落盘后的检查，不能自动补测：
 
 ```bash
-~/Dev/.venv/bin/python - <<'PY'
-import sys
-sys.path.insert(0, '/Users/tianli/Apps/chapter/engine')
-import app_sop
-ok, reason = app_sop.steady()
-print(reason)
-raise SystemExit(0 if ok else 1)
-PY
+~/Dev/.venv/bin/python scripts/measure-simulator.py --run
+~/Dev/.venv/bin/python /Users/tianli/Apps/chapter/engine/app_sop.py run --app day-deck-ios --stage perf --check-only --json
 ```
 
-本产品模拟器装机已获长期授权。门通过后，按 [录制说明](demo-recording.md) 的手工准备段创建专用模拟器（变量 `DEMO_SIM_UDID`），以已核验的 Release 包替换其中的 Debug 包，再采集 App 进程；以下有装机动作，本轮未执行：
-
-```bash
-xcrun simctl install "$DEMO_SIM_UDID" .dd-iphone/Build/Products/Release-iphonesimulator/DayDeck.app
-PERF_APP_PID="$(xcrun simctl launch --terminate-running-process "$DEMO_SIM_UDID" cyou.tianli.daydeck | awk '{print $NF}')"
-sleep 45
-~/Dev/.venv/bin/python ~/Apps/.claude/skills/app-lightweight/scripts/measure.py idle "$PERF_APP_PID" --seconds 60 > build/simulator-idle.json
-xcrun simctl shutdown "$DEMO_SIM_UDID"
-```
-
-此命令只生成内存/CPU 原始采样，不能证明启动速度或完整通过。还需复用旧首屏计时流程并绑定实际构建/系统/源码哈希到 `perf/simulator.json`；旧流程保存在 `~/Library/Logs/app-sop/ios-simulator-20260927b/sim_perf.py`，其中固定的模拟器 UUID 已失效、旧引擎 import 路径已迁移，必须先适配，不能原样运行。此复用适配留待性能后续，不在本轮开展长采样。
+第一条命令有已授权的模拟器构建、安装与采样动作，先过空闲门；忙时退出 75，不等待或重试。它复用既有首屏探针及共享内存/CPU 工具，绑定实际构建、安装副本、Runtime 和源码摘要，成功后原子替换证据；失败保留旧记录。本轮没有执行长采样，不把固定入口或模拟测试算作实际性能通过。
 
 全门户 `deploy.sh` 会同步整个门户并处理 nginx，不属于本组件部署入口，本轮不执行也不把它列为建议接手命令。责任方完成受限发布后，从本仓再次运行上面的 `app_sop.py run --app day-deck-ios --check-only --json`，由现有引擎回读真实线上图片和页面数字。本文不是图标、页面、性能或播放通过证据，不手写 `perf/delivery-evidence.json`。

@@ -35,6 +35,45 @@ def clock(seconds):
     return f"{milliseconds // 3600000:02d}:{milliseconds // 60000 % 60:02d}:{milliseconds // 1000 % 60:02d}.{milliseconds % 1000:03d}"
 
 
+def simulator_name():
+    # The shared picker filters by family in the name before matching SIM_NAME.
+    return "Notihub-public-iPhone-" + uuid.uuid4().hex[:12]
+
+
+def cleanup_device(device):
+    for operation in ("shutdown", "delete"):
+        try:
+            result = subprocess.run(["xcrun", "simctl", operation, device], capture_output=True, timeout=30)
+            if result.returncode:
+                print(f"Cleanup {operation} returned {result.returncode} for owned simulator {device}", file=sys.stderr)
+        except (OSError, subprocess.TimeoutExpired) as error:
+            # A shutdown timeout must not skip deletion or replace the original error.
+            print(f"Cleanup {operation} failed for owned simulator {device}: {error}", file=sys.stderr)
+
+
+def build_demo(environment, name, log):
+    process = subprocess.Popen(["bash", "sim-run.sh", "--no-shot", "--shutdown"], cwd=ROOT,
+                               env={**environment, "SIM_NAME": name, "SIM_LAUNCH_ARGS": "-demo 1 -tab 0"},
+                               stdout=log, stderr=subprocess.STDOUT, start_new_session=True)
+    try:
+        status = process.wait(timeout=600)
+        if status:
+            raise subprocess.CalledProcessError(status, process.args)
+    finally:
+        if process.poll() is None:
+            # Stop only this invocation's shell and build children on timeout/cancel.
+            os.killpg(process.pid, signal.SIGTERM)
+            try:
+                process.wait(timeout=10)
+            except subprocess.TimeoutExpired:
+                os.killpg(process.pid, signal.SIGKILL)
+                process.wait(timeout=10)
+
+
+def interrupted(signum, frame):
+    raise KeyboardInterrupt
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--check", action="store_true", help="Check prerequisites and idle gate only")
@@ -61,22 +100,25 @@ def main():
     (ROOT / "build").mkdir(exist_ok=True)
     try:
         staging = Path(tempfile.mkdtemp(prefix="notihub-demo-", dir=ROOT / "build"))
-        name = "Notihub-public-" + uuid.uuid4().hex[:12]
-        device = run("xcrun", "simctl", "create", name,
-                     "com.apple.CoreSimulator.SimDeviceType.iPhone-17-Pro", env=environment).stdout.strip()
-        if not device:
+        name = simulator_name()
+        created_device = run("xcrun", "simctl", "create", name,
+                             "com.apple.CoreSimulator.SimDeviceType.iPhone-17-Pro", env=environment).stdout.strip()
+        if not created_device:
             raise RuntimeError("simctl did not return a device UUID")
+        # Reject aliases such as 'booted'; cleanup must always target our new UUID.
+        device = str(uuid.UUID(created_device))
         print("Building and installing Debug demo in a new private simulator", flush=True)
         with (staging / "build.log").open("w") as log:
-            subprocess.run(["bash", "sim-run.sh", "--shutdown"], cwd=ROOT,
-                           env={**environment, "SIM_NAME": name, "SIM_LAUNCH_ARGS": "-demo 1 -tab 0"},
-                           stdout=log, stderr=subprocess.STDOUT, check=True, timeout=600)
+            build_demo(environment, name, log)
         # Do not expose arbitrary build logs or copy the fresh simulator's data.
         print("Dedicated simulator prepared", flush=True)
         run("xcrun", "simctl", "boot", device)
         run("xcrun", "simctl", "bootstatus", device, "-b", timeout=60)
         installed_app = Path(run("xcrun", "simctl", "get_app_container", device, BUNDLE, "app").stdout.strip())
         info = plistlib.loads((installed_app / "Info.plist").read_bytes())
+        executable = installed_app / info["CFBundleExecutable"]
+        if "交季度报销单".encode() not in executable.read_bytes():
+            raise RuntimeError("Installed executable lacks the DEBUG synthetic-data marker; refusing public recording")
         clips = []
         for index, (title, tab, search) in enumerate(SECTIONS, 1):
             print(f"Recording {index}/4: {title}", flush=True)
@@ -91,7 +133,9 @@ def main():
                 if recorder.poll() is not None:
                     raise RuntimeError(f"Recorder exited before clip {index} finished; inspect {log.name}")
                 recorder.send_signal(signal.SIGINT)
-                recorder.wait(timeout=20)
+                status = recorder.wait(timeout=20)
+                if status not in (0, -signal.SIGINT, 128 + signal.SIGINT):
+                    raise RuntimeError(f"Recorder failed with exit {status}; inspect {log.name}")
                 recorder = None
             duration = float(run("ffprobe", "-v", "error", "-show_entries", "format=duration",
                                  "-of", "default=nw=1:nk=1", str(clip)).stdout)
@@ -136,14 +180,17 @@ def main():
                 recorder.kill()
                 recorder.wait()
         if device:
-            subprocess.run(["xcrun", "simctl", "shutdown", device], capture_output=True, timeout=30)
             # Only the fresh, UUID-scoped device created in this invocation is deleted.
-            subprocess.run(["xcrun", "simctl", "delete", device], capture_output=True, timeout=30)
+            cleanup_device(device)
 
 
 if __name__ == "__main__":
+    signal.signal(signal.SIGTERM, interrupted)
     try:
         raise SystemExit(main())
-    except (ImportError, RuntimeError, OSError, subprocess.SubprocessError) as error:
+    except KeyboardInterrupt:
+        print("CANCELLED: own recording and simulator cleanup requested", file=sys.stderr)
+        raise SystemExit(130)
+    except (ImportError, RuntimeError, OSError, ValueError, subprocess.SubprocessError) as error:
         print(f"FAILED: {error}", file=sys.stderr)
         raise SystemExit(1)

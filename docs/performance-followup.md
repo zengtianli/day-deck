@@ -1,6 +1,6 @@
-# 性能证据接手说明
+# 模拟器性能固定入口
 
-2026-09-28，只读核对；未采样、构建、启动或安装 App，未修改 `perf/`。本轮收到的空闲门结果为 false（负载 758.8 ≥ 10），不重复等待或绕过。
+2026-09-28，已补 `scripts/measure-simulator.py`。主 agent 于 14:25 实跑 `--check`，返回 75（用户 116 秒前操作，未达 600 秒门槛），没有进入构建、安装、启动或采样，也未修改 `perf/`；不反复等待或绕过，该状态是当次观测。
 
 ## 当前结论
 
@@ -30,32 +30,36 @@
 
 因此当前既不满足同件复用，也没有可用的性能复用声明契约。旧数字可作为明确标注日期、模拟器环境的历史结果，不能用于消除当前 budget/speed 缺项。
 
-## CLI 下一步
-
-在本仓库执行以下只读命令即可再次定位入口；不要直接运行旧 `sim_perf.py`：
+## CLI 接手
 
 ```bash
 cd /Users/tianli/Apps/notifhub/ios/01-源程序
-~/Dev/.venv/bin/python /Users/tianli/Apps/.claude/skills/app-lightweight/scripts/batch_measure.py day-deck-ios --dry-run
-xcrun simctl list devices available --json
-~/Dev/.venv/bin/python -c 'import sys; sys.path.insert(0,"/Users/tianli/Apps/chapter/engine"); import app_sop; print(app_sop.steady())'
-```
-
-第一条 dry-run 在当前无 `sop.measure` 的情况下预计报告缺配置，不会测量。第三条仅检查接电、用户至少 10 分钟无输入、负载低于核数、没有构建进程；false 时停止，不使用 `--now` 绕过。
-
-本产品已获模拟器安装/启动长期授权。空闲门通过后，接手者应在本仓库新增固定测量入口，复用现有实现而不篡改历史样本：
-
-1. 参考 `/Users/tianli/Library/Logs/app-sop/ios-simulator-20260927b/sim_perf.py` 的 `launch_once()`/`probe()`；把 `DEVICE` 改为显式 `--udid`，由上述 available 列表选定并确认新隔离容器。原 `udid` 文件对应的设备已删除，不能直接使用。
-2. 将旧脚本的 `app_sop` import 目录改为 `/Users/tianli/Apps/chapter/engine`。共享采样工具仍为 `/Users/tianli/Apps/.claude/skills/app-lightweight/scripts/measure.py`。
-3. 明确本次构建/安装产物，校验安装容器内实际可执行文件 SHA256，并记录真实 `Info.plist`、主机、Runtime 与源码快照。不要根据旧脚本常量固定写 iPhone 17 Pro / iOS 27.0。若使用现有 Release 构建，必须先证明该构建与当前源码绑定。
-4. 启动探针沿原方法：丢弃安装后第一次，5 次取中位；从系统日志读取请求启动到首屏 ready，缺任何一次 ready 就保留失败，不能回填旧数。空闲采样启动后静置 45 秒，再对已核对的模拟器 App PID 调用下方共享工具。测量期间不修改被 Chapter 监控的输入。
-5. 原始样本先落在临时目录；完成后再一次性落入 `perf/raw/`，用新实测生成 `perf/simulator.json` 的环境、版本、源码/产物 SHA 与原件 SHA，保留本次限制。最后重检该组件性能阶段。
-
-```bash
-# 仅在空闲门通过、已有获授权启动且身份核对完成的 PID 后执行；替换 12345。
-~/Dev/.venv/bin/python /Users/tianli/Apps/.claude/skills/app-lightweight/scripts/measure.py idle 12345 --seconds 60 > /tmp/day-deck-ios-idle.json
-# 新的完整实测证据落盘后，只重检本组件性能阶段。
+# 只读检查：忙时退出 75，不创建目录、设备或修改 perf。
+~/Dev/.venv/bin/python scripts/measure-simulator.py --check
+# 本轮模拟器构建/安装/启动已获授权；入口仍先检查空闲门。
+~/Dev/.venv/bin/python scripts/measure-simulator.py --run
+# 新实测成功落盘后，只重检本组件性能阶段。
 ~/Dev/.venv/bin/python /Users/tianli/Apps/chapter/engine/app_sop.py run --app day-deck-ios --stage perf --check-only
 ```
 
-该被动 `idle` 命令只量已运行 PID，不能单独生成合格的 iOS 构建/源码绑定，也不能代替首屏速度测量。本轮因空闲门未通过而跳过长采样，装机和启动授权仍有效。
+空闲门沿用 Chapter `steady()`：接电、用户至少 10 分钟无输入、负载低于核数且没有构建进程。失败退出 75；不循环等待、不自动重试、不提供绕过参数。缺依赖或任一步测量失败退出非零，保留原 `perf/simulator.json`。
+
+默认使用当前可用的最高版本 iOS Runtime 和 `iPhone-17-Pro` 设备类型；可显式指定：
+
+```bash
+xcrun simctl list runtimes --json
+xcrun simctl list devicetypes --json
+~/Dev/.venv/bin/python scripts/measure-simulator.py --run --runtime com.apple.CoreSimulator.SimRuntime.iOS-27-0 --device-type com.apple.CoreSimulator.SimDeviceType.iPhone-17-Pro
+```
+
+上述 Runtime 参数是示例，必须以列表返回的可用标识替换。入口每次新建专用模拟器，创建返回值先通过 UUID 校验才进入清理路径；只关闭并删除自己创建的 UUID，shutdown 超时仍尝试 delete。不读取旧 `udid`、不选择真机、不打开 Simulator GUI，也不合成用户输入。
+
+## 实现与验收范围
+
+- Release 构建复用本仓 `bash build-platforms.sh --only iphone --release`；构建前后记录 Chapter 源码快照，真实读取产物 Info.plist 和可执行文件 SHA256，安装后核对安装副本 SHA256。构建后再次检查空闲门，不在繁忙窗口测量。
+- 子命令各有独立进程组；超时或中断时先终止该组，5 秒后仍未结束则强制结束，避免构建子孙在失败后继续工作。
+- 首屏探针从既有 `/Users/tianli/Library/Logs/app-sop/ios-simulator-20260927b/sim_perf.py` 加载 `log_ts()`、`launch_once()`、`probe()` 三个函数。通过 AST 选择函数定义，避免执行旧模块顶层的已删 UUID 读取与旧 import。缺文件或函数接口改变时明确失败；不复制第二套探针引擎。
+- 丢弃安装后第一次启动，后续 5 次全部获得首屏 ready/启动完成时间才取中位数；随后启动 App 静置 45 秒，用共享 `measure.py idle <PID> --seconds 60` 被动采样。内存 `footprint_mb` 的原工具单位是 MiB，CPU 为百分比。
+- 在 `build/simulator-perf-*` 临时目录保留本轮启动日志与测量中间物，结束后关闭并删除自己的模拟器。只有清理成功、源码/产物未变、旧 perf 文件没有被别人更新时，才写入新的唯一 `perf/raw/simulator-*.json`，并以原子替换更新 `perf/simulator.json`。原始 JSON 包含逐次日志、样本、运行环境、版本、源码/产物/安装副本/工具 SHA256；摘要引用其 SHA256。不会写 `delivery-evidence.json`。
+- 单个文件写回原子化，原件先写、摘要后写；崩溃最多留下未引用原件，不会让摘要引用半个 JSON。构建产物仍由既有入口保存在 `.dd-iphone`，测量临时目录结束后自动清理。
+- 主 agent 已统一重跑 10 项隔离测试，其中 6 项覆盖性能入口：空闲门、只读检查、原件摘要与源码/产物绑定、构建失败、无效样本和采样中源码改变；失败均保留旧证据。另 4 项覆盖录制入口。`--check` 实跑返回 75；完整运行及新数字仍待空闲时执行 `--run` 验收，模拟测试和检查成功不等于性能实测通过。
