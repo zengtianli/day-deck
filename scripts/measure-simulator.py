@@ -169,11 +169,13 @@ def main():
         try:
             created = command(["xcrun", "simctl", "create", "Notihub Perf " + str(uuid.uuid4()),
                                device_type["identifier"], runtime["identifier"]]).stdout.strip()
-            device = str(uuid.UUID(created))  # Only a validated owned UUID enters cleanup.
+            device = str(uuid.UUID(created)).upper()  # Only a validated owned UUID enters cleanup; simctl lists upper-case UDIDs.
             command(["xcrun", "simctl", "boot", device])
             command(["xcrun", "simctl", "bootstatus", device, "-b"], timeout=180)
             actual_rows = json.loads(command(["xcrun", "simctl", "list", "devices", "--json"]).stdout)["devices"]
-            actual = next(d for d in actual_rows.get(runtime["identifier"], []) if d["udid"] == device)
+            actual = next((d for d in actual_rows.get(runtime["identifier"], []) if d["udid"].upper() == device), None)
+            if actual is None:
+                raise RuntimeError("Dedicated simulator missing from simctl device list")
             if actual["state"] != "Booted":
                 raise RuntimeError("Dedicated simulator is not booted")
             command(["xcrun", "simctl", "install", device, str(bundle_path)])
@@ -254,5 +256,5 @@ if __name__ == "__main__":
     try:
         main()
     except (Exception, KeyboardInterrupt) as error:
-        print(f"Measurement stopped without a passed record: {error}", file=sys.stderr)
+        print(f"Measurement stopped without a passed record: {type(error).__name__}: {error}", file=sys.stderr)
         raise SystemExit(1)

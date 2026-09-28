@@ -20,7 +20,7 @@ SCRIPT = Path(__file__).resolve().parents[2] / "scripts/measure-simulator.py"
 SPEC = importlib.util.spec_from_file_location("measure_simulator_test_target", SCRIPT)
 measurement = importlib.util.module_from_spec(SPEC)
 SPEC.loader.exec_module(measurement)
-DEVICE = "8a5b8741-2afb-4dab-9d37-19932473ebfd"
+DEVICE = "8A5B8741-2AFB-4DAB-9D37-19932473EBFD"  # simctl returns and lists upper-case UDIDs
 BUNDLE = "cyou.tianli.daydeck"
 RUNTIME = "com.apple.CoreSimulator.SimRuntime.iOS-27-0"
 
