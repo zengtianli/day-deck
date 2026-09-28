@@ -117,8 +117,11 @@ def main():
         installed_app = Path(run("xcrun", "simctl", "get_app_container", device, BUNDLE, "app").stdout.strip())
         info = plistlib.loads((installed_app / "Info.plist").read_bytes())
         executable = installed_app / info["CFBundleExecutable"]
-        if "交季度报销单".encode() not in executable.read_bytes():
-            raise RuntimeError("Installed executable lacks the DEBUG synthetic-data marker; refusing public recording")
+        # Xcode Debug builds move app code into <name>.debug.dylib; the main executable is a stub.
+        code = [executable, *installed_app.glob(info["CFBundleExecutable"] + ".debug.dylib")]
+        if not any("交季度报销单".encode() in path.read_bytes() for path in code):
+            raise RuntimeError("Installed executable lacks the DEBUG synthetic-data marker; refusing public recording (checked: "
+                               + ", ".join(f"{path.name} {path.stat().st_size} B" for path in code) + ")")
         clips = []
         for index, (title, tab, search) in enumerate(SECTIONS, 1):
             print(f"Recording {index}/4: {title}", flush=True)
@@ -137,6 +140,12 @@ def main():
                 if status not in (0, -signal.SIGINT, 128 + signal.SIGINT):
                     raise RuntimeError(f"Recorder failed with exit {status}; inspect {log.name}")
                 recorder = None
+            # recordVideo only writes frames when the screen changes, so a static page yields a
+            # near-zero-length file. Hold the last real frame to a fixed 5 s at constant 30 fps.
+            steady_clip = staging / f"{index:02d}-cfr.mp4"
+            run("ffmpeg", "-v", "error", "-i", str(clip), "-vf", "tpad=stop_mode=clone:stop_duration=6,fps=30",
+                "-t", "5", "-an", "-c:v", "libx264", "-pix_fmt", "yuv420p", str(steady_clip), timeout=90)
+            clip = steady_clip
             duration = float(run("ffprobe", "-v", "error", "-show_entries", "format=duration",
                                  "-of", "default=nw=1:nk=1", str(clip)).stdout)
             if duration < 2:
