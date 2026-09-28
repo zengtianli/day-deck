@@ -38,3 +38,6 @@ handoffs/
 
 # Superseded local artifacts
 /archived/
+
+# Full simulator measurement logs stay local (system logs, host paths); perf/simulator.json binds them by SHA256.
+perf/raw/simulator-*-*-*.json

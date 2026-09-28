@@ -4,64 +4,62 @@
   "platform": "ios",
   "version": "0.1 (1)",
   "configuration": "Release",
-  "measured_at": "2026-09-27T14:10:15.343149+08:00",
+  "measured_at": "2026-09-29T03:49:05.194309+08:00",
   "device": "iPhone 17 Pro / iOS 27.0 Simulator / Mac16,12 / Apple M4 / macOS 27.2",
-  "input_sha256": "f077f9154798bd1c0cfc80b66df97003fbc8d1f633c475a103ffac9886cab953",
-  "git_head": "c1c06ea01594bf3c86cdedf466896ffbdcad9a41",
-  "data": "Fresh app container on isolated simulator; default first-run data; no production user data imported",
+  "input_sha256": "4a3f5cdbb31dc8f029a2db8398aa7db051884302e7b1cc66680855b700686ee3",
+  "git_head": "88d80b0df7a90d98cadfe5bdba9b503e09fb7f7c",
+  "data": "Fresh dedicated simulator container; first-run data; no production data imported",
   "size": {
-    "download_bytes": 1542670,
-    "installed_bytes": 3952640,
+    "download_bytes": 1547572,
+    "installed_bytes": 3964928,
     "kind": "Local simulator .app ZIP; not an App Store IPA or device slice"
   },
   "idle": {
-    "process": "90849",
+    "process": "37732",
     "footprint_mb": 27.0,
     "cpu_pct": 0.0,
     "window_s": 60,
     "settle_s": 45,
-    "method": "Shared measure.py: CPU time delta / 60s wall; 3 phys_footprint samples after CPU window, maximum reported",
+    "footprint_unit": "MiB",
     "scope": "Simulator App process only; excludes CoreSimulator, Simulator GUI, system services and inactive extensions"
   },
-  "speed_gui": [
-    {
-      "key": "first_screen_ready",
-      "label": "模拟器冷启动到首屏就绪",
-      "label_en": "Simulator cold launch to first screen ready",
-      "median_ms": 458.2,
-      "runs": 5,
-      "headline": true,
-      "method": "Simulator unified log: CoreSimulator \"Requesting launch of <bundle>\" -> SpringBoard scene content state \"ready\" (app committed its first scene content) / FrontBoard \"Dropping launch assertion\" (launch finished). App process terminated 3 s before each run; system caches warm; first run after install discarded. Median of 5 runs. Reference on the same simulator: system Settings app 2517.9 ms to ready.",
-      "evidence": "perf/raw/simulator-full-20260927.json",
-      "evidence_sha256": "de5a07a8080f40509e25fbc1f09f4cbb7d047ff629871bb6197ec85ec2f5f262"
-    },
-    {
-      "key": "launch_complete",
-      "label": "模拟器冷启动到系统判定启动完成",
-      "label_en": "Simulator cold launch to launch completed",
-      "median_ms": 1301.3,
-      "runs": 5,
-      "headline": false,
-      "method": "Simulator unified log: CoreSimulator \"Requesting launch of <bundle>\" -> SpringBoard scene content state \"ready\" (app committed its first scene content) / FrontBoard \"Dropping launch assertion\" (launch finished). App process terminated 3 s before each run; system caches warm; first run after install discarded. Median of 5 runs. Reference on the same simulator: system Settings app 2517.9 ms to ready.",
-      "evidence": "perf/raw/simulator-full-20260927.json",
-      "evidence_sha256": "de5a07a8080f40509e25fbc1f09f4cbb7d047ff629871bb6197ec85ec2f5f262"
-    }
-  ],
+  "scope": "Simulator App process only; excludes CoreSimulator, Simulator GUI, system services and inactive extensions",
   "runtime_measurement": {
     "environment": "simulator",
     "device": "iPhone 17 Pro",
     "os": "iOS 27.0",
     "version": "0.1 (1)",
-    "evidence": "perf/raw/simulator-full-20260927.json",
-    "evidence_sha256": "de5a07a8080f40509e25fbc1f09f4cbb7d047ff629871bb6197ec85ec2f5f262"
+    "evidence": "perf/raw/simulator-20260929-035148-0cb81f42.json",
+    "evidence_sha256": "07716e6d3a74ef6a5e345925fd0e22b7c7a2a8deb7588dfb57912594e1579a3c"
   },
   "build": {
     "configuration": "Release",
-    "binary_sha256": "6a6f2959fc67df9166a41e6b63c2a8b5a6fba70b5b2816916abc8c14d0e05c00",
-    "input_sha256": "f077f9154798bd1c0cfc80b66df97003fbc8d1f633c475a103ffac9886cab953",
+    "binary_sha256": "1e379ced6b69e8c9418d57c29923fe10737b3f3fb9f069ca0a59392beea2c28c",
+    "input_sha256": "4a3f5cdbb31dc8f029a2db8398aa7db051884302e7b1cc66680855b700686ee3",
     "built_from": "working tree",
     "actual_build": true
   },
-  "scope": "Simulator App process only; excludes CoreSimulator, Simulator GUI, system services and inactive extensions",
-  "limitations": "模拟器应用进程占用，排除 Simulator/CoreSimulator 系统开销；此 ZIP 不是 App Store 下载包。后台与业务任务峰值未在本次测量。"
+  "speed_gui": [
+    {
+      "key": "first_screen_ready",
+      "label": "模拟器冷启动到首屏就绪",
+      "median_ms": 459.2,
+      "runs": 5,
+      "headline": true,
+      "method": "Simulator unified log: CoreSimulator \"Requesting launch of <bundle>\" -> SpringBoard scene content state \"ready\" (app committed its first scene content) / FrontBoard \"Dropping launch assertion\" (launch finished). App process terminated 3 s before each run; system caches warm; first run after install discarded. Median of 5 complete samples; original logs attached to raw evidence.",
+      "evidence": "perf/raw/simulator-20260929-035148-0cb81f42.json",
+      "evidence_sha256": "07716e6d3a74ef6a5e345925fd0e22b7c7a2a8deb7588dfb57912594e1579a3c"
+    },
+    {
+      "key": "launch_complete",
+      "label": "模拟器冷启动到系统判定启动完成",
+      "median_ms": 1308.5,
+      "runs": 5,
+      "headline": false,
+      "method": "Simulator unified log: CoreSimulator \"Requesting launch of <bundle>\" -> SpringBoard scene content state \"ready\" (app committed its first scene content) / FrontBoard \"Dropping launch assertion\" (launch finished). App process terminated 3 s before each run; system caches warm; first run after install discarded. Median of 5 complete samples; original logs attached to raw evidence.",
+      "evidence": "perf/raw/simulator-20260929-035148-0cb81f42.json",
+      "evidence_sha256": "07716e6d3a74ef6a5e345925fd0e22b7c7a2a8deb7588dfb57912594e1579a3c"
+    }
+  ],
+  "limitations": "模拟器应用进程；内存 footprint_mb 为 MiB；排除 Simulator/CoreSimulator 开销；ZIP 非 App Store 下载包；未测后台及任务峰值。"
 }

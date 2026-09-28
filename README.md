@@ -54,15 +54,13 @@ MIT © 2026 曾田力 (Tianli Zeng)
 <!-- lightweight:start -->
 ## 资源占用
 
-以下模拟器数字是 2026-09-27 构建的历史测量；当前源码的有效性能证据待补测。安装包大小仍为所列 ASC 构建的数据。
-
 安装包为 App Store 数据；内存、CPU 与启动时间为 iOS 模拟器实测，不是真机数值。
 
 | 安装包 | 空闲内存 | 空闲 CPU | 模拟器冷启动到首屏就绪 |
 |---|---|---|---|
-| **2.4 MB**（装好后 3.0 MB） | **28.3 MB** | **0%** | **458 ms** |
+| **2.4 MB**（装好后 3.0 MB） | **28.3 MB** | **0%** | **459 ms** |
 
 体积按具体发行构建回读；真机尚未测量，内存、CPU 与启动时间先用 iOS 模拟器实测并标明环境。
 
-<sub>v0.1 (3) · iPhone 17（iPhone18,3）；体积为 Apple 设备切片记录，运行性能尚未真机实测 · TestFlight VALID（未上架）；体积不含用户数据与后续缓存；手机实际安装版本尚未核验 · 2026-09-26。体积来自 Apple App Store Connect 对应构建的设备切片记录。内存、CPU 与启动时间是 iPhone 17 Pro / iOS 27.0 Simulator / Mac16,12 / Apple M4 / macOS 27.2 上本地源码 Release 构建 v0.1 (1) 的实测（2026-09-27），只统计 App 进程，不等于真机数值；真机测量尚未完成。内存口径为 phys_footprint；CPU 为 60 秒采样窗内 CPU 时间 ÷ 墙钟；大小按十进制 MB。原始数据见 [perf/lightweight.json](perf/lightweight.json)。</sub>
+<sub>v0.1 (3) · iPhone 17（iPhone18,3）；体积为 Apple 设备切片记录，运行性能尚未真机实测 · TestFlight VALID（未上架）；体积不含用户数据与后续缓存；手机实际安装版本尚未核验 · 2026-09-26。体积来自 Apple App Store Connect 对应构建的设备切片记录。内存、CPU 与启动时间是 iPhone 17 Pro / iOS 27.0 Simulator / Mac16,12 / Apple M4 / macOS 27.2 上本地源码 Release 构建 v0.1 (1) 的实测（2026-09-29），只统计 App 进程，不等于真机数值；真机测量尚未完成。内存口径为 phys_footprint；CPU 为 60 秒采样窗内 CPU 时间 ÷ 墙钟；大小按十进制 MB。原始数据见 [perf/lightweight.json](perf/lightweight.json)。</sub>
 <!-- lightweight:end -->

@@ -76,6 +76,18 @@ def gate(sop):
         raise SystemExit(75)
 
 
+def settle(sop, limit=420, interval=15):
+    # Booting or launching our own simulator spikes the 1-minute load average
+    # (observed 218). Wait for it to fall back instead of failing immediately;
+    # user activity or lost power still ends the run through the same gate.
+    deadline = time.monotonic() + limit
+    while True:
+        passed, reason = sop.steady()
+        if passed or time.monotonic() >= deadline or "负载" not in reason or "；" in reason:
+            return gate(sop)
+        time.sleep(interval)
+
+
 def probe_functions(device):
     # Reuse only the existing pure probe functions. Do not import its obsolete
     # module-level UDID file, output directory or old app_sop import path.
@@ -163,7 +175,7 @@ def main():
         receipt = {"configuration": "Release", "seconds": round(time.monotonic() - build_started, 1),
                    "source_sha256": source_sha, "source_unchanged": True, "built_from": "working tree",
                    "command": "bash build-platforms.sh --only iphone --release"}
-        gate(app_sop)  # Never sample immediately into a busy post-build window.
+        settle(app_sop)  # Never sample immediately into a busy post-build window.
         device = None
         record = None
         try:
@@ -185,7 +197,7 @@ def main():
                 raise RuntimeError("Installed simulator executable differs from built Release")
             archive = out / "DayDeck.app.zip"
             command(["ditto", "-c", "-k", "--sequesterRsrc", "--keepParent", str(bundle_path), str(archive)])
-            gate(app_sop)
+            settle(app_sop)
             measured_at = clock()
             launch = probe_functions(device)(bundle, out)
             if launch["runs"] != 5 or not launch.get("ready_median_ms") or not launch.get("launch_complete_median_ms"):
@@ -194,7 +206,7 @@ def main():
             launched = command(["xcrun", "simctl", "launch", device, bundle]).stdout
             pid = int(re.search(r":\s*(\d+)\s*$", launched).group(1))
             time.sleep(45)
-            gate(app_sop)
+            settle(app_sop)
             idle = json.loads(command([sys.executable, str(MEASURE), "idle", str(pid), "--seconds", "60"], timeout=100).stdout)["idle"]
             if not command(["ps", "-p", str(pid), "-o", "comm="]).stdout.strip().endswith("/" + executable):
                 raise RuntimeError("Measured PID no longer belongs to the App")
