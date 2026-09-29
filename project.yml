@@ -34,7 +34,9 @@ targets:
         # 出口合规:声明不使用非豁免加密 → TestFlight 每次传新包不再弹问卷。
         INFOPLIST_KEY_ITSAppUsesNonExemptEncryption: NO
         GENERATE_INFOPLIST_FILE: YES
-        MARKETING_VERSION: "0.1"
+        # 2026-09-29 需求卡：手机端直接写入提醒事项 + 复盘页读当天提醒（EventKit，iOS 18 只需完全访问的 key）
+        INFOPLIST_KEY_NSRemindersFullAccessUsageDescription: "把你选中的待办加入提醒事项，并在复盘页显示当天的提醒。读取的提醒只在本机显示，不会上传。"
+        MARKETING_VERSION: "0.2"
         CURRENT_PROJECT_VERSION: "1"
     scheme:
       testTargets: []

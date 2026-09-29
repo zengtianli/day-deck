@@ -28,9 +28,8 @@ struct RecapView: View {
                     }
                 }
 
-                if let d = day {
-                    // 搜索时只留匹配的时间线，总结/抽出的事/统计先收起，结果不被挤到屏幕外。
-                    if search.isEmpty {
+                // 搜索时只留匹配的时间线，总结/抽出的事/统计/提醒先收起，结果不被挤到屏幕外。
+                if let d = day, search.isEmpty {
                     if let s = d.summary {
                         Section("这一天") {
                             Text(s.headline).font(.headline)
@@ -67,8 +66,13 @@ struct RecapView: View {
                             LabeledContent("聊得最多", value: "\(who[0])（\(who[1]) 条）")
                         }
                     }
+                }
 
-                    }
+                // 提醒小节只依赖本机 EventKit，放在 `if let d = day` 外面：
+                // 离线首次启动、云端这天取失败时照常显示。
+                if search.isEmpty { ReminderDaySection(date: reminderDate) }
+
+                if let d = day {
                     let shown = entries(d).filter(matches)
                     Section(search.isEmpty ? "时间线 · \(d.items.count + d.cloudNotes.count)" : "匹配 · \(shown.count)") {
                         if shown.isEmpty && !search.isEmpty {
@@ -112,6 +116,9 @@ struct RecapView: View {
             .refreshable { if !date.isEmpty { await store.day(date, force: true) } }
         }
     }
+
+    /// 提醒小节的日期：选中的那天；index 还没到手（离线首次、云端失败）时回落到云端时区的今天。
+    private var reminderDate: String { date.isEmpty ? store.displayToday : date }
 
     /// 只在**有数据的日期之间**走。按自然日 ±1 会走进一堆 404 空页 ——
     /// 那不是「那天没事」，是那天根本没发布，两者在界面上必须分得开。

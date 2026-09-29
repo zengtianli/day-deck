@@ -92,6 +92,7 @@ struct AgendaRow: View {
 
 struct AgendaDetailView: View {
     @Environment(Store.self) private var store
+    @Environment(RemindersModel.self) private var reminders
     let item: Agenda
     @State private var busy = false
     @State private var note: String?
@@ -103,15 +104,20 @@ struct AgendaDetailView: View {
             Section { Text(item.title).font(.headline) }
 
             Section("动作") {
+                // 本机 EventKit 直接写入；查重、列表回落、结果文案都由 RemindersModel 给出。
+                ReminderAddControls(item: item)
                 Button { act("done") } label: { Label("标为完成", systemImage: "checkmark.circle") }
                     .disabled(busy || (savedStatus ?? item.status) == "done")
                 Button { act("dropped") } label: { Label("不做了", systemImage: "xmark.circle") }
                     .disabled(busy || (savedStatus ?? item.status) == "dropped")
+                // Mac 排队那条链保留（日历只能走它）；行为不变，只改文案。
                 Button { act("push") } label: {
-                    Label(item.pushed ? "再推一次提醒事项/日历" : "存进提醒事项/日历",
-                          systemImage: "bell.badge")
+                    Label("交给 Mac 存进日历/提醒事项", systemImage: "bell.badge")
                 }
                 .disabled(busy)
+                if localAdded {
+                    Text("本机已加入，再交给 Mac 会重复").font(.caption).foregroundStyle(.secondary)
+                }
                 if busy { ProgressView() }
                 if let n = note {
                     Text(n).font(.caption)
@@ -134,11 +140,20 @@ struct AgendaDetailView: View {
             Section("出处") {
                 LabeledContent("来源", value: item.source == "llm" ? "从通知里抽的" : "手动录入")
                 if let d = item.srcDate { LabeledContent("哪天", value: d) }
-                LabeledContent("已推进提醒事项/日历", value: item.pushed ? "是" : "否")
+                LabeledContent("Mac 已推（云端）", value: item.pushed ? "是" : "否")
+                ReminderLocalStatus(item: item)
             }
         }
         .navigationTitle(item.isEvent ? "日程" : "待办")
         .navigationBarTitleDisplayMode(.inline)
+    }
+
+    /// 本机加过（或查重发现已在）才提示；没点过「加入」时不知道，不提示。
+    private var localAdded: Bool {
+        switch reminders.outcome(for: item) {
+        case .added, .alreadyThere: return true
+        default: return false
+        }
     }
 
     private func act(_ what: String) {

@@ -20,7 +20,20 @@ A quiet daily window: see what needs doing today, record what happened, then ret
 |---|---|
 | **See what to do in the morning and what happened in the evening** | View overdue, today's, and unscheduled tasks; browse reviews and timelines by date. |
 | **No push notifications, badges, or interruptions** | No pushes, notifications, or badges; open it when you want to look back. |
-| **Write a quick note and save directly to the cloud** | Journals and task status save directly to the cloud, sharing data across iPhone, iPad, and Mac. Drafts stay on the device, and offline content shows its last update time. Only export to Apple Reminders is delegated to the Mac. |
+| **Write a quick note and save directly to the cloud** | Journals and task status save directly to the cloud, sharing data across iPhone, iPad, and Mac. Drafts stay on the device, and offline content shows its last update time. Saving to Calendar is still delegated to the Mac. |
+| **Add to Reminders in one tap** | Open a task on the Today or Notifications page and tap "加入提醒事项" (Add to Reminders); the phone writes it straight into the system Reminders app. Timed items carry their due time and an alarm; all-day items carry only the date. The same item is not added twice, and the target list can be changed on the Connect page. |
+| **The day's reminders in the review (this device only)** | When you pick a day on the Notifications page, it lists reminders due that day and still open, plus those completed that day; ones added by Notihub are marked. It reads only on-device data, so it still shows when the cloud is unavailable. |
+
+## Privacy
+
+- **Reading stays on the device**: reminders are shown from memory only; they are not uploaded, written to disk, or logged.
+- **Adding is your own action**: Notihub writes a reminder only when you tap "Add to Reminders". It does not ask for access at launch and never adds anything automatically.
+- **Notes sync with your iCloud**: the reminder notes include the task note, the original text and its source. Once in Reminders they sync through your own iCloud account.
+- **Shared lists are visible to members**: if you choose a shared list on the Connect page, its members can also see what is added (including the original text).
+
+The system permission prompt reads (in Chinese): 「把你选中的待办加入提醒事项，并在复盘页显示当天的提醒。读取的提醒只在本机显示，不会上传。」 ("Adds the tasks you choose to Reminders and shows the day's reminders in the review. Reminders read are shown only on this device and are never uploaded.")
+
+Duplicate detection: Notihub leaves a marker on each reminder it adds and uses it to spot duplicates. For tasks the Mac has already pushed, it also looks for the same title due on the same day; this relies on the Mac writing to an iCloud list. Local lists such as "On My Mac" are invisible to the phone, so those duplicates are missed.
 
 ## Availability
 
@@ -41,7 +54,7 @@ xcodebuild -scheme DayDeck -destination 'generic/platform=iOS Simulator' build
 
 See [DEVELOPING.md](DEVELOPING.md) for development details, including regression checks, validation channels, and constraints.
 
-See the [usage and recovery guide (Chinese)](docs/usage-guide.md) for everyday use, login, and offline recovery.
+See the [usage and recovery guide (Chinese)](docs/usage-guide.md) for everyday use, login, Reminders access, and offline recovery. Reminders support is available from version 0.2.
 
 ## Related
 

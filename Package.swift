@@ -8,8 +8,9 @@ let package = Package(
     products: [.library(name: "DayDeckCore", targets: ["DayDeckCore"])],
     targets: [
         .target(name: "DayDeckCore", path: "Sources",
-                exclude: ["App.swift", "TodayView.swift", "MarkdownView.swift", "DiaryView.swift", "RecapView.swift"],
-                sources: ["API.swift", "Models.swift", "Store.swift", "Gate.swift", "Writer.swift", "DemoData.swift"]),
+                exclude: ["App.swift", "TodayView.swift", "MarkdownView.swift", "DiaryView.swift", "RecapView.swift",
+                         "ReminderViews.swift", "ReminderSelfTest.swift"],
+                sources: ["API.swift", "Models.swift", "Store.swift", "Gate.swift", "Writer.swift", "DemoData.swift", "Reminders.swift"]),
         .testTarget(name: "DayDeckCoreTests", dependencies: ["DayDeckCore"], path: "Tests")
     ],
     swiftLanguageVersions: [.v5]

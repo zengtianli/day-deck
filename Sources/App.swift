@@ -3,9 +3,19 @@ import SwiftUI
 @main
 struct NotihubApp: App {
     @State private var store = Store()
+    // 系统提醒事项：只在内存里；启动时不请求授权，第一次点「加入」或「允许访问」才弹。
+    @State private var reminders = RemindersModel(store: makeReminderStore())
+
+    init() {
+        #if DEBUG
+        // 验证通道：`-reminderSelfTest <文件名>` 跑模拟器 EventKit 自检（Release 不含此分支）。
+        ReminderSelfTest.runIfRequested()
+        #endif
+    }
+
     var body: some Scene {
         WindowGroup {
-            RootView().environment(store)
+            RootView().environment(store).environment(reminders)
                 // 亮色固定：早晚各看一次，内容全是长文本；深色底在户外强光下更难读。
                 .preferredColorScheme(.light)
         }
@@ -58,6 +68,7 @@ private struct ConnectionView: View {
                     }
                     if let error = store.indexError { ErrorBlock(error: error, stale: store.indexAt) }
                 }
+                ReminderConnectionSection()
                 Section {
                     SecureField("访问密码", text: $password).disabled(busy)
                         .textContentType(.password)
