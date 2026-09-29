@@ -3,40 +3,142 @@
     "kind": "app_store_connect",
     "app_id": "6807048407",
     "bundle_id": "cyou.tianli.daydeck",
-    "build_id": "c40d2941-a2a8-4572-a46f-030207e81efd",
-    "queried_at": "2026-09-26T19:24:22.614868+08:00",
-    "distribution": "TestFlight VALID（未上架）",
+    "build_id": "95e24c35-c791-4718-a7fb-d15f701496a1",
+    "queried_at": "2026-09-29T22:26:33.066410+08:00",
+    "distribution": "TestFlight VALID（仅内测，未上架）",
     "processing_state": "VALID",
     "device_model": "iPhone18,3",
     "os_variant": "Universal",
     "api_doc": "https://developer.apple.com/documentation/appstoreconnectapi/get-v1-buildbundles-_id_-buildbundlefilesizes"
   },
   "build": {
-    "id": "c40d2941-a2a8-4572-a46f-030207e81efd",
+    "type": "builds",
+    "id": "95e24c35-c791-4718-a7fb-d15f701496a1",
     "attributes": {
-      "version": "3",
-      "uploadedDate": "2026-09-07T23:10:08-07:00",
+      "version": "5",
+      "uploadedDate": "2026-09-28T23:20:19-07:00",
+      "expirationDate": "2026-12-27T22:20:19-08:00",
       "expired": false,
-      "processingState": "VALID"
+      "minOsVersion": "18.0",
+      "lsMinimumSystemVersion": null,
+      "computedMinMacOsVersion": "15.0",
+      "computedMinVisionOsVersion": "2.0",
+      "iconAssetToken": {
+        "templateUrl": "https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/dc/50/0d/dc500d24-a7bf-33f7-c12f-d9a3081089de/AppIcon76x76@2x_U007eipad.png/{w}x{h}bb.{f}",
+        "width": 152,
+        "height": 152
+      },
+      "processingState": "VALID",
+      "buildAudienceType": "APP_STORE_ELIGIBLE",
+      "usesNonExemptEncryption": false
+    },
+    "relationships": {
+      "preReleaseVersion": {
+        "links": {
+          "self": "https://api.appstoreconnect.apple.com/v1/builds/95e24c35-c791-4718-a7fb-d15f701496a1/relationships/preReleaseVersion",
+          "related": "https://api.appstoreconnect.apple.com/v1/builds/95e24c35-c791-4718-a7fb-d15f701496a1/preReleaseVersion"
+        }
+      },
+      "individualTesters": {
+        "links": {
+          "self": "https://api.appstoreconnect.apple.com/v1/builds/95e24c35-c791-4718-a7fb-d15f701496a1/relationships/individualTesters",
+          "related": "https://api.appstoreconnect.apple.com/v1/builds/95e24c35-c791-4718-a7fb-d15f701496a1/individualTesters"
+        }
+      },
+      "betaGroups": {
+        "links": {
+          "self": "https://api.appstoreconnect.apple.com/v1/builds/95e24c35-c791-4718-a7fb-d15f701496a1/relationships/betaGroups"
+        }
+      },
+      "betaBuildLocalizations": {
+        "links": {
+          "self": "https://api.appstoreconnect.apple.com/v1/builds/95e24c35-c791-4718-a7fb-d15f701496a1/relationships/betaBuildLocalizations",
+          "related": "https://api.appstoreconnect.apple.com/v1/builds/95e24c35-c791-4718-a7fb-d15f701496a1/betaBuildLocalizations"
+        }
+      },
+      "appEncryptionDeclaration": {
+        "links": {
+          "self": "https://api.appstoreconnect.apple.com/v1/builds/95e24c35-c791-4718-a7fb-d15f701496a1/relationships/appEncryptionDeclaration",
+          "related": "https://api.appstoreconnect.apple.com/v1/builds/95e24c35-c791-4718-a7fb-d15f701496a1/appEncryptionDeclaration"
+        }
+      },
+      "betaAppReviewSubmission": {
+        "links": {
+          "self": "https://api.appstoreconnect.apple.com/v1/builds/95e24c35-c791-4718-a7fb-d15f701496a1/relationships/betaAppReviewSubmission",
+          "related": "https://api.appstoreconnect.apple.com/v1/builds/95e24c35-c791-4718-a7fb-d15f701496a1/betaAppReviewSubmission"
+        }
+      },
+      "app": {
+        "links": {
+          "self": "https://api.appstoreconnect.apple.com/v1/builds/95e24c35-c791-4718-a7fb-d15f701496a1/relationships/app",
+          "related": "https://api.appstoreconnect.apple.com/v1/builds/95e24c35-c791-4718-a7fb-d15f701496a1/app"
+        }
+      },
+      "buildBetaDetail": {
+        "links": {
+          "self": "https://api.appstoreconnect.apple.com/v1/builds/95e24c35-c791-4718-a7fb-d15f701496a1/relationships/buildBetaDetail",
+          "related": "https://api.appstoreconnect.apple.com/v1/builds/95e24c35-c791-4718-a7fb-d15f701496a1/buildBetaDetail"
+        }
+      },
+      "appStoreVersion": {
+        "links": {
+          "self": "https://api.appstoreconnect.apple.com/v1/builds/95e24c35-c791-4718-a7fb-d15f701496a1/relationships/appStoreVersion",
+          "related": "https://api.appstoreconnect.apple.com/v1/builds/95e24c35-c791-4718-a7fb-d15f701496a1/appStoreVersion"
+        }
+      },
+      "icons": {
+        "links": {
+          "self": "https://api.appstoreconnect.apple.com/v1/builds/95e24c35-c791-4718-a7fb-d15f701496a1/relationships/icons",
+          "related": "https://api.appstoreconnect.apple.com/v1/builds/95e24c35-c791-4718-a7fb-d15f701496a1/icons"
+        }
+      },
+      "buildBundles": {
+        "meta": {
+          "paging": {
+            "total": 1,
+            "limit": 10
+          }
+        },
+        "data": [
+          {
+            "type": "buildBundles",
+            "id": "7e01b92f-266e-48d5-a681-856ccfdfe963"
+          }
+        ]
+      },
+      "perfPowerMetrics": {
+        "links": {
+          "related": "https://api.appstoreconnect.apple.com/v1/builds/95e24c35-c791-4718-a7fb-d15f701496a1/perfPowerMetrics"
+        }
+      },
+      "diagnosticSignatures": {
+        "links": {
+          "self": "https://api.appstoreconnect.apple.com/v1/builds/95e24c35-c791-4718-a7fb-d15f701496a1/relationships/diagnosticSignatures",
+          "related": "https://api.appstoreconnect.apple.com/v1/builds/95e24c35-c791-4718-a7fb-d15f701496a1/diagnosticSignatures"
+        }
+      }
+    },
+    "links": {
+      "self": "https://api.appstoreconnect.apple.com/v1/builds/95e24c35-c791-4718-a7fb-d15f701496a1"
     }
   },
   "selected_device_size": {
     "type": "buildBundleFileSizes",
-    "id": "175f64a7-b60b-3c3a-8ad7-5c3d1ed5cc0b",
+    "id": "83f9fd27-574f-328a-8e93-2179588b5c60",
     "attributes": {
       "deviceModel": "iPhone18,3",
       "osVersion": "Universal",
-      "downloadBytes": 2446844,
-      "installBytes": 2952192
+      "downloadBytes": 1154507,
+      "installBytes": 1805312
     },
     "links": {
-      "self": "https://api.appstoreconnect.apple.com/v1/buildBundleFileSizes/175f64a7-b60b-3c3a-8ad7-5c3d1ed5cc0b"
+      "self": "https://api.appstoreconnect.apple.com/v1/buildBundleFileSizes/83f9fd27-574f-328a-8e93-2179588b5c60"
     }
   },
   "latest_testflight_candidate": {
-    "version": "0.1",
-    "build": "3",
-    "id": "c40d2941-a2a8-4572-a46f-030207e81efd",
+    "version": "0.2",
+    "build": "5",
+    "id": "95e24c35-c791-4718-a7fb-d15f701496a1",
     "is_primary_evidence": true
   }
 }
