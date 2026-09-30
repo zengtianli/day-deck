@@ -23,6 +23,8 @@ DayDeck.xcodeproj/
 .claude/settings.local.json
 
 # shots/ 是验收证据,留本地不进仓(git-template 的 info/exclude 默认拦 *.png)。
+# 视频/字幕/录制记录也不进仓：Chapter 重录后按 sop.media 提交，忽略后只剩 docs/usage-guide.md 会被提交。
+/shots/
 
 # ── 公开仓不带的内部件（本地仍在，只是不跟踪；oss_prep.py 维护）──
 CLAUDE.md
