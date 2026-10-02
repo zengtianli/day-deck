@@ -1,0 +1,167 @@
+{
+ "schema_version": 1,
+ "app": "day-deck-ios",
+ "checked_at": "2026-10-02T23:00:56+08:00",
+ "base_commit": "d52245d0bfb60505f547d995f69a94d804251386",
+ "device": "iPhone 17 Pro (iPhone-17-Pro) / iOS-27-0 simulator",
+ "builds": {
+  "base": {
+   "version": "0.2",
+   "build": "1",
+   "executable_sha256": "fb7294fb069dafaa157803c6dcb910bf10509f4d914b6d08fccfc857d382d8e2",
+   "sdk": "iphonesimulator27.0",
+   "configuration": "Debug"
+  },
+  "current": {
+   "version": "0.2",
+   "build": "1",
+   "executable_sha256": "fb7294fb069dafaa157803c6dcb910bf10509f4d914b6d08fccfc857d382d8e2",
+   "sdk": "iphonesimulator27.0",
+   "configuration": "Debug"
+  }
+ },
+ "data": "synthetic -demo 1 (Sources/DemoFeed.swift), same for every build, status bar 9:41",
+ "rule": "identical; or no pixel differs by more than 2 levels in any channel (rendering noise); or every pixel differing by more lies within the rows where base differs from its own control run; connection: or within one trailing text row (<= 64 px, the live 最近同步 timestamp)",
+ "screens": {
+  "today": {
+   "ok": true,
+   "verdict": "identical",
+   "current_vs_base": {
+    "identical": true,
+    "diff_pixels": 0,
+    "significant_pixels": 0
+   },
+   "control_vs_base": {
+    "identical": false,
+    "diff_pixels": 828,
+    "diff_bbox": [
+     61,
+     186,
+     1160,
+     2561
+    ],
+    "max_channel_diff": 1,
+    "significant_pixels": 0,
+    "significant_bbox": null
+   },
+   "base_sha256": "53206fcbbd5f0ca62ea63f973338b3544af7c35640f5a1ec443850e12e87965c",
+   "current_sha256": "53206fcbbd5f0ca62ea63f973338b3544af7c35640f5a1ec443850e12e87965c",
+   "control_sha256": "8ee104554ceb0a975ee24ad9d3d09c0fdf0f127befa0df16a3486c7b98b9ae4a"
+  },
+  "recap": {
+   "ok": true,
+   "verdict": "1025 px differ by <= 2 levels (rendering noise; base vs its own control: 0 px, max 0)",
+   "current_vs_base": {
+    "identical": false,
+    "diff_pixels": 1025,
+    "diff_bbox": [
+     61,
+     195,
+     1147,
+     2561
+    ],
+    "max_channel_diff": 1,
+    "significant_pixels": 0,
+    "significant_bbox": null
+   },
+   "control_vs_base": {
+    "identical": true,
+    "diff_pixels": 0,
+    "significant_pixels": 0
+   },
+   "base_sha256": "81a947c2bbce2b72d9b3ccf58bc5086f3b2e7044cdc11c365108be8813880022",
+   "current_sha256": "c26b6855e18b3c5e991c5726731d099b5492d93db07e8fd06e67dca16109ca25",
+   "control_sha256": "81a947c2bbce2b72d9b3ccf58bc5086f3b2e7044cdc11c365108be8813880022"
+  },
+  "search": {
+   "ok": true,
+   "verdict": "198 px differ by <= 2 levels (rendering noise; base vs its own control: 198 px, max 1)",
+   "current_vs_base": {
+    "identical": false,
+    "diff_pixels": 198,
+    "diff_bbox": [
+     387,
+     2385,
+     620,
+     2547
+    ],
+    "max_channel_diff": 1,
+    "significant_pixels": 0,
+    "significant_bbox": null
+   },
+   "control_vs_base": {
+    "identical": false,
+    "diff_pixels": 198,
+    "diff_bbox": [
+     387,
+     2385,
+     620,
+     2547
+    ],
+    "max_channel_diff": 1,
+    "significant_pixels": 0,
+    "significant_bbox": null
+   },
+   "base_sha256": "8b8573a2f23eb452b81791374546b469c64aa833f32dbf69f9cdb288b0d16019",
+   "current_sha256": "8183d7835a808338a6ce477afe9396133d4e28b93c031ea2f6a2108b8dc11e46",
+   "control_sha256": "8183d7835a808338a6ce477afe9396133d4e28b93c031ea2f6a2108b8dc11e46"
+  },
+  "diary": {
+   "ok": true,
+   "verdict": "365 px differ by <= 2 levels (rendering noise; base vs its own control: 0 px, max 0)",
+   "current_vs_base": {
+    "identical": false,
+    "diff_pixels": 365,
+    "diff_bbox": [
+     61,
+     2373,
+     1145,
+     2560
+    ],
+    "max_channel_diff": 1,
+    "significant_pixels": 0,
+    "significant_bbox": null
+   },
+   "control_vs_base": {
+    "identical": true,
+    "diff_pixels": 0,
+    "significant_pixels": 0
+   },
+   "base_sha256": "f841d0f9067d107df455b05ed4c2c6ee9cf91fd3280b8d27e1911f3120f5d5cf",
+   "current_sha256": "60fa27dafe9148435533f92071f73592b9112d153950bd9d5d9eac8d7025b8f8",
+   "control_sha256": "f841d0f9067d107df455b05ed4c2c6ee9cf91fd3280b8d27e1911f3120f5d5cf"
+  },
+  "connection": {
+   "ok": true,
+   "verdict": "3055 px > 2 levels at [836, 1051, 1109, 1099]: one trailing text row, the 最近同步 relative timestamp (ticks every second)",
+   "current_vs_base": {
+    "identical": false,
+    "diff_pixels": 3417,
+    "diff_bbox": [
+     836,
+     1051,
+     1110,
+     2547
+    ],
+    "max_channel_diff": 117,
+    "significant_pixels": 3055,
+    "significant_bbox": [
+     836,
+     1051,
+     1109,
+     1099
+    ]
+   },
+   "control_vs_base": {
+    "identical": true,
+    "diff_pixels": 0,
+    "significant_pixels": 0
+   },
+   "base_sha256": "79d411fd3c81f480371aad6af5e6d0d6129ec6534bd8d63c1f34224b464d2882",
+   "current_sha256": "0f0e9d41dfa6c572574820d0d0c0c3a032262ccec7dd9ab4a2b260a74bc48c59",
+   "control_sha256": "79d411fd3c81f480371aad6af5e6d0d6129ec6534bd8d63c1f34224b464d2882"
+  }
+ },
+ "unchanged": true,
+ "rejudged_at": "2026-10-02T23:32:04+08:00"
+}

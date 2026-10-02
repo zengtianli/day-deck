@@ -86,11 +86,14 @@ struct DiaryView: View {
             .task(id: date) { await store.day(date) }
             .onChange(of: store.indexAt) { _, _ in Task { await store.day(date, force: true) } }
             .refreshable { await store.day(date, force: true) }
+            #if !os(visionOS)
+            // Vision Pro 的虚拟键盘自带收起，没有键盘上方的工具栏位置
             .toolbar {
                 ToolbarItem(placement: .keyboard) {
                     Button("收起键盘") { focused = false }
                 }
             }
+            #endif
         }
     }
 

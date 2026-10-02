@@ -12,23 +12,7 @@ struct TodayView: View {
 
     var body: some View {
         NavigationStack {
-            List {
-                if let e = store.openError {
-                    Section { ErrorBlock(error: e, stale: store.openAt) }
-                }
-                group("逾期", store.overdue, tint: .red)
-                group("今天", store.dueToday, tint: .accentColor)
-                group("没定时间", store.undated, tint: .secondary)
-                group("之后", store.upcoming, tint: .secondary)
-
-                if store.open.isEmpty && store.openError == nil {
-                    // 空集不静默 —— 「一条都没有」和「没取到」看起来一样，必须分开说。
-                    Section {
-                        Text(store.loading ? "取数中…" : "一条未完成的都没有。")
-                            .foregroundStyle(.secondary).font(.callout)
-                    }
-                }
-            }
+            TodayList(search: search)
             .navigationTitle("今天 · \(store.dueToday.count + store.overdue.count)")
             .searchable(text: $search, prompt: "搜索待办")
             .refreshable { await store.refresh() }
@@ -36,6 +20,32 @@ struct TodayView: View {
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
                     if let at = store.openAt { StaleBadge(at: at) }
+                }
+            }
+        }
+    }
+}
+
+/// 「今天」的四组待办。窄屏的 TodayView 和宽屏看板（TodayBoard）左栏是同一份列表。
+struct TodayList: View {
+    @Environment(Store.self) private var store
+    let search: String
+
+    var body: some View {
+        List {
+            if let e = store.openError {
+                Section { ErrorBlock(error: e, stale: store.openAt) }
+            }
+            group("逾期", store.overdue, tint: .red)
+            group("今天", store.dueToday, tint: .accentColor)
+            group("没定时间", store.undated, tint: .secondary)
+            group("之后", store.upcoming, tint: .secondary)
+
+            if store.open.isEmpty && store.openError == nil {
+                // 空集不静默 —— 「一条都没有」和「没取到」看起来一样，必须分开说。
+                Section {
+                    Text(store.loading ? "取数中…" : "一条未完成的都没有。")
+                        .foregroundStyle(.secondary).font(.callout)
                 }
             }
         }

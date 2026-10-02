@@ -122,16 +122,9 @@ final class Store {
         api.cache.invalidate("/api/index")
     }
 
-    var overdue: [Agenda] {
-        open.filter { ($0.dueTS ?? .infinity) < Date().timeIntervalSince1970
-            && !dayCalendar.isDateInToday($0.due ?? .distantFuture) }
-    }
-    var dueToday: [Agenda] { open.filter { $0.due.map { dayCalendar.isDateInToday($0) } ?? false } }
-    var undated: [Agenda] { open.filter { $0.dueTS == nil } }
-    var upcoming: [Agenda] {
-        open.filter { item in
-            guard let due = item.due else { return false }
-            return due > Date() && !dayCalendar.isDateInToday(due)
-        }
-    }
+    // 分组规则在 AgendaBuckets（手表摘要用同一份）。
+    var overdue: [Agenda] { AgendaBuckets.overdue(open, calendar: dayCalendar) }
+    var dueToday: [Agenda] { AgendaBuckets.dueToday(open, calendar: dayCalendar) }
+    var undated: [Agenda] { AgendaBuckets.undated(open) }
+    var upcoming: [Agenda] { AgendaBuckets.upcoming(open, calendar: dayCalendar) }
 }

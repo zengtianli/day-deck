@@ -1,0 +1,183 @@
+{
+  "schema_version": 1,
+  "app": "day-deck-ios",
+  "reviewed_at": "2026-10-03T00:44:39+08:00",
+  "source_inputs": {
+    "app_id": "day-deck-ios",
+    "platform": "iphone",
+    "lane_mode": true,
+    "state": "configured",
+    "globs": [
+      "Sources/**",
+      "Shared/**",
+      "Watch/**",
+      "WatchWidget/**",
+      "*.entitlements",
+      "Resources/**",
+      "project.yml"
+    ],
+    "input_sha256": "3c63c9933477df5eb433c95e425e87c21ba55328f3a605df9b2b58c62149e6e9",
+    "file_count": 47,
+    "files": {
+      "Sources/DemoData.swift": "a935043f9e7f99314f91ce813d615159ea4078a06ef3510fab1abd3f84ab9f4d",
+      "Sources/Palette.swift": "221c03ed65f006b7b3e59049f537e1ebd1decd1caaba58d5bfc7c0ffd808f9d4",
+      "Sources/RecapView.swift": "2bd6368dd616f36ea30056cf899e87c905c3adc293ad20f8827985dd69091ff4",
+      "Sources/DiaryView.swift": "9533ad6891ffeae0e70e1f432e987dc5ac06fa46a42338b46c1bbfe98845bf2a",
+      "Sources/Adaptive.swift": "0fd7f71267814f9c002d62866acf8f993d6f5bb12fcdeaf53f028f19b2d5b67d",
+      "Sources/MarkdownView.swift": "13b33519e908ad73fdf95ddf82f08d0fb44ce476659268fbd56c32d3e9989a7b",
+      "Sources/RegularRootView.swift": "2d0e139c0a415a6c03e946f4cdb84bd80f6f993c5d71ad9c422193b2dbe4a1a3",
+      "Sources/AgendaBuckets.swift": "bed2a51c77b8526f0f63577d12a1487caa12b93b950fe79fb1418a6deae2c5fa",
+      "Sources/Models.swift": "f944fc7cd761336fa71182775f7d9b4853e8f4a1539b1468c5a9b6a710f6367f",
+      "Sources/ReminderSelfTest.swift": "cc8490a3ccfed4e332b9099d9eebda6e64cea12d118f361a28ad90d64f1d113e",
+      "Sources/WatchLink.swift": "fb9986082b37d55a7bae0aa435beee098bd3be81f4443b0fcb77a335e8fa79d4",
+      "Sources/Store.swift": "1c2ebae99d295c42a27d08009e7efb5c5bb7f0986e7f407679ea0df0062cd507",
+      "Sources/Gate.swift": "6deaad92b3327a70cf804c1d52395f0d551348bb56ffd41d1de2db8c571b080a",
+      "Sources/API.swift": "9fd9b725e4e257cb95234b9fad48cdfaf77b9980c7c167492d3a520a2f27d858",
+      "Sources/TodayView.swift": "d31f2c75dfe067cff3493c73e5653381dd5984eea68972bef9cc4ed67d6130ee",
+      "Sources/WatchDigest.swift": "3da08c03a878303d818cfc60212cc11331a865142de617a623efabb2ca78d813",
+      "Sources/App.swift": "643c20088d442aec20d1bbd128e7fd23d2cd0851df4f9f64a3f3be0f048366a7",
+      "Sources/Reminders.swift": "f02204185d78a9ae73dacab754fd3bed80b1e3e136dc981abfbdd40d1da89e0a",
+      "Sources/Writer.swift": "de2e19875e64a456dc239e6310da6106df4e6f08c0e78defb8658e47de9f109e",
+      "Sources/DemoFeed.swift": "17fb162aea1a5f209a16bd572fd302fdbcac4f4f4441776dbe6df9864b3490a1",
+      "Sources/ReminderViews.swift": "685c34767040aa631dc741ea0b23f7f298b5aae1ba8cd3d04ea9f0fb439d5afb",
+      "Shared/PlatformCompat.swift": "e70a1876bb795eaa5ee1b928fc816fc6ecfd87bfea7170a324247544e3a35e7a",
+      "Shared/LaneSignal.swift": "e7e68ac41417ddd06e7049a7bd4e01a92d52305bc999cd6ddd323178c64a2ce8",
+      "Watch/DigestVault.swift": "23c3d83694ef5d5c0a768e97550acca2319492bde2d80a1a661bcdc510fdcb8a",
+      "Watch/WatchDigestReceiver.swift": "7067b32bba2fc9d733a7fb520d86c37876a97ddfcb47533846b71ecd7dc4a145",
+      "Watch/NotihubWatchApp.swift": "ef7afa582ff42d4192f3b6cf051dfe9831acfc9edde6ed277a82b5522b93c9c7",
+      "Watch/ComplicationViews.swift": "2439134ca18fb0d0e3749387200c5140bd21584655277984b00c0f6f55ea4d24",
+      "Watch/WatchHomeView.swift": "1439c64b4220b45435c511c05a8812362dd25bd0df92d5bdaa90930910ae7aa3",
+      "WatchWidget/NotihubComplication.swift": "43c1b1d88be2e66792d57a5f3977f9da305dc9b5d4532baa3393f5e872984cea",
+      "Watch.entitlements": "5f9c5a8e47b1645f9afa49ec1a2c8a55bdeb0105afc9319e9efa8d241116d92b",
+      "WatchWidget.entitlements": "5f9c5a8e47b1645f9afa49ec1a2c8a55bdeb0105afc9319e9efa8d241116d92b",
+      "Resources/Assets.xcassets/AppIcon.solidimagestack/Front.solidimagestacklayer/Content.imageset/Contents.json": "951bfa32a0a4f7c7dc7ff27165d74a1830892e911582ea4ea60e3a1e6a1c7afe",
+      "Resources/Assets.xcassets/AppIcon.solidimagestack/Front.solidimagestacklayer/Content.imageset/front.png": "265149d454822c2c808720c61f5a4317c0bfda56fc96598ea7b19b6ea52c5dd1",
+      "Resources/Assets.xcassets/AppIcon.solidimagestack/Front.solidimagestacklayer/Contents.json": "f5fb0e1f3a8142892ed092efb5955c1c2cc537003a89ad7bbdb9dade7fe8985f",
+      "Resources/Assets.xcassets/AppIcon.solidimagestack/Back.solidimagestacklayer/Content.imageset/Contents.json": "be4825f0a347ae4ebb483201e88961c9695b550b3b793a87a85b5fccad5bd0af",
+      "Resources/Assets.xcassets/AppIcon.solidimagestack/Back.solidimagestacklayer/Content.imageset/back.png": "709a43e4f4d28977bbe09c81d3c6fc36c0a2c84419d99f1c149d664d538be47e",
+      "Resources/Assets.xcassets/AppIcon.solidimagestack/Back.solidimagestacklayer/Contents.json": "f5fb0e1f3a8142892ed092efb5955c1c2cc537003a89ad7bbdb9dade7fe8985f",
+      "Resources/Assets.xcassets/AppIcon.solidimagestack/Middle.solidimagestacklayer/Content.imageset/Contents.json": "3996ac89ef039944ca786a64bfc5b6b1aacc367f8ff1732384da7a125bcbdc61",
+      "Resources/Assets.xcassets/AppIcon.solidimagestack/Middle.solidimagestacklayer/Content.imageset/middle.png": "265149d454822c2c808720c61f5a4317c0bfda56fc96598ea7b19b6ea52c5dd1",
+      "Resources/Assets.xcassets/AppIcon.solidimagestack/Middle.solidimagestacklayer/Contents.json": "f5fb0e1f3a8142892ed092efb5955c1c2cc537003a89ad7bbdb9dade7fe8985f",
+      "Resources/Assets.xcassets/AppIcon.solidimagestack/Contents.json": "de2c28d91cfa6311521f32d804ee3d8433641b775a8818605896073fa31c07fa",
+      "Resources/Assets.xcassets/AppIcon.appiconset/icon-1024.png": "848e1308b67ad7b867dc9f3995450f763eeaa5d94722576c8b6570a43c1aab29",
+      "Resources/Assets.xcassets/AppIcon.appiconset/Contents.json": "d966e1cabdf15246cc3538dd6721e8e330796b3d830bce7f95344925f03c147e",
+      "Resources/Assets.xcassets/AccentColor.colorset/Contents.json": "57694bc02b9cf32e66eff29bc5a447285c2839bcc1b7c74be7999a7c7ec3814b",
+      "Resources/Assets.xcassets/Contents.json": "10e3b5dc202f1cd9fad1f688c8fc9fe9e9669bf3f8295e67d216b10fd99b6f49",
+      "Resources/icon-src.png": "7a60103bfe255229cf55e9728666d77a169f8f4cc9dffb26ee0a7427c109c259",
+      "project.yml": "cc220955f599955ff9170b026fc420313daf1b585f7a044e124f90d10555ebfc"
+    }
+  },
+  "compact": {
+    "original_summary": "shots/proof/compact-unchanged/original-summary.json",
+    "original_summary_sha256": "ec34c8205ead7daefc69488bfed28dcfb86f117fbd752d75889441c09d22b6ee",
+    "original_unchanged": true,
+    "original_checked_at": "2026-10-02T23:00:56+08:00",
+    "original_rejudged_at": "2026-10-02T23:32:04+08:00",
+    "base_commit": "d52245d0bfb60505f547d995f69a94d804251386",
+    "files": [
+      {
+        "file": "shots/proof/compact-unchanged/base/today.png",
+        "sha256": "53206fcbbd5f0ca62ea63f973338b3544af7c35640f5a1ec443850e12e87965c",
+        "source": "/private/tmp/claude-502/-Users-tianli-Apps/ecc6d09d-ff54-4b5d-b4b5-5610611f9949/scratchpad/fleet/day-deck/compact-proof/base/today.png"
+      },
+      {
+        "file": "shots/proof/compact-unchanged/base/recap.png",
+        "sha256": "81a947c2bbce2b72d9b3ccf58bc5086f3b2e7044cdc11c365108be8813880022",
+        "source": "/private/tmp/claude-502/-Users-tianli-Apps/ecc6d09d-ff54-4b5d-b4b5-5610611f9949/scratchpad/fleet/day-deck/compact-proof/base/recap.png"
+      },
+      {
+        "file": "shots/proof/compact-unchanged/base/search.png",
+        "sha256": "8b8573a2f23eb452b81791374546b469c64aa833f32dbf69f9cdb288b0d16019",
+        "source": "/private/tmp/claude-502/-Users-tianli-Apps/ecc6d09d-ff54-4b5d-b4b5-5610611f9949/scratchpad/fleet/day-deck/compact-proof/base/search.png"
+      },
+      {
+        "file": "shots/proof/compact-unchanged/base/diary.png",
+        "sha256": "f841d0f9067d107df455b05ed4c2c6ee9cf91fd3280b8d27e1911f3120f5d5cf",
+        "source": "/private/tmp/claude-502/-Users-tianli-Apps/ecc6d09d-ff54-4b5d-b4b5-5610611f9949/scratchpad/fleet/day-deck/compact-proof/base/diary.png"
+      },
+      {
+        "file": "shots/proof/compact-unchanged/base/connection.png",
+        "sha256": "79d411fd3c81f480371aad6af5e6d0d6129ec6534bd8d63c1f34224b464d2882",
+        "source": "/private/tmp/claude-502/-Users-tianli-Apps/ecc6d09d-ff54-4b5d-b4b5-5610611f9949/scratchpad/fleet/day-deck/compact-proof/base/connection.png"
+      },
+      {
+        "file": "shots/proof/compact-unchanged/current/today.png",
+        "sha256": "53206fcbbd5f0ca62ea63f973338b3544af7c35640f5a1ec443850e12e87965c",
+        "source": "/private/tmp/claude-502/-Users-tianli-Apps/ecc6d09d-ff54-4b5d-b4b5-5610611f9949/scratchpad/fleet/day-deck/compact-proof/current/today.png"
+      },
+      {
+        "file": "shots/proof/compact-unchanged/current/recap.png",
+        "sha256": "c26b6855e18b3c5e991c5726731d099b5492d93db07e8fd06e67dca16109ca25",
+        "source": "/private/tmp/claude-502/-Users-tianli-Apps/ecc6d09d-ff54-4b5d-b4b5-5610611f9949/scratchpad/fleet/day-deck/compact-proof/current/recap.png"
+      },
+      {
+        "file": "shots/proof/compact-unchanged/current/search.png",
+        "sha256": "8183d7835a808338a6ce477afe9396133d4e28b93c031ea2f6a2108b8dc11e46",
+        "source": "/private/tmp/claude-502/-Users-tianli-Apps/ecc6d09d-ff54-4b5d-b4b5-5610611f9949/scratchpad/fleet/day-deck/compact-proof/current/search.png"
+      },
+      {
+        "file": "shots/proof/compact-unchanged/current/diary.png",
+        "sha256": "60fa27dafe9148435533f92071f73592b9112d153950bd9d5d9eac8d7025b8f8",
+        "source": "/private/tmp/claude-502/-Users-tianli-Apps/ecc6d09d-ff54-4b5d-b4b5-5610611f9949/scratchpad/fleet/day-deck/compact-proof/current/diary.png"
+      },
+      {
+        "file": "shots/proof/compact-unchanged/current/connection.png",
+        "sha256": "0f0e9d41dfa6c572574820d0d0c0c3a032262ccec7dd9ab4a2b260a74bc48c59",
+        "source": "/private/tmp/claude-502/-Users-tianli-Apps/ecc6d09d-ff54-4b5d-b4b5-5610611f9949/scratchpad/fleet/day-deck/compact-proof/current/connection.png"
+      },
+      {
+        "file": "shots/proof/compact-unchanged/control/today.png",
+        "sha256": "8ee104554ceb0a975ee24ad9d3d09c0fdf0f127befa0df16a3486c7b98b9ae4a",
+        "source": "/private/tmp/claude-502/-Users-tianli-Apps/ecc6d09d-ff54-4b5d-b4b5-5610611f9949/scratchpad/fleet/day-deck/compact-proof/control/today.png"
+      },
+      {
+        "file": "shots/proof/compact-unchanged/control/recap.png",
+        "sha256": "81a947c2bbce2b72d9b3ccf58bc5086f3b2e7044cdc11c365108be8813880022",
+        "source": "/private/tmp/claude-502/-Users-tianli-Apps/ecc6d09d-ff54-4b5d-b4b5-5610611f9949/scratchpad/fleet/day-deck/compact-proof/control/recap.png"
+      },
+      {
+        "file": "shots/proof/compact-unchanged/control/search.png",
+        "sha256": "8183d7835a808338a6ce477afe9396133d4e28b93c031ea2f6a2108b8dc11e46",
+        "source": "/private/tmp/claude-502/-Users-tianli-Apps/ecc6d09d-ff54-4b5d-b4b5-5610611f9949/scratchpad/fleet/day-deck/compact-proof/control/search.png"
+      },
+      {
+        "file": "shots/proof/compact-unchanged/control/diary.png",
+        "sha256": "f841d0f9067d107df455b05ed4c2c6ee9cf91fd3280b8d27e1911f3120f5d5cf",
+        "source": "/private/tmp/claude-502/-Users-tianli-Apps/ecc6d09d-ff54-4b5d-b4b5-5610611f9949/scratchpad/fleet/day-deck/compact-proof/control/diary.png"
+      },
+      {
+        "file": "shots/proof/compact-unchanged/control/connection.png",
+        "sha256": "79d411fd3c81f480371aad6af5e6d0d6129ec6534bd8d63c1f34224b464d2882",
+        "source": "/private/tmp/claude-502/-Users-tianli-Apps/ecc6d09d-ff54-4b5d-b4b5-5610611f9949/scratchpad/fleet/day-deck/compact-proof/control/connection.png"
+      }
+    ],
+    "repeated_run": false,
+    "visual_review": "已阅当前五屏；保留原15张对照与原判据，未重新构建/测量",
+    "binding_limitation": "原回执只记录 Debug 主可执行stub摘要，未记录 debug.dylib 摘要；保留原声明而非伪造构建身份"
+  },
+  "platforms": {
+    "iphone": {
+      "status": "pending_store_capture",
+      "reason": "原compact 1206×2622，只作原界面对照；共享商店规格要求1320×2868"
+    },
+    "ipad": {
+      "status": "pending_landscape_capture",
+      "reason": "原ipad-v3/v2为2064×2752竖屏，最新登记要求横屏"
+    },
+    "watch": {
+      "status": "static_reused",
+      "evidence": "shots/appstore/watch/capture.json",
+      "store_spec_issues": []
+    },
+    "vision": {
+      "status": "pending_final_capture",
+      "reason": "vision-v2在22:26，早于22:27图表刻度修正；vision-v3目录为空且JSON为0B"
+    },
+    "mac": {
+      "status": "delegated",
+      "component": "notifhub-bar-mac"
+    }
+  },
+  "scope": "保存原件与静态来源核验，不新增Chapter actual功能/恢复/隐私/性能通过，也未发版装机"
+}

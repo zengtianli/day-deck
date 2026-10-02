@@ -1,0 +1,125 @@
+{
+  "schema_version": 1,
+  "app": "day-deck-ios",
+  "platform": "watch",
+  "reviewed_at": "2026-10-03T00:44:39+08:00",
+  "reused_existing_capture": true,
+  "capture_receipt_sha256": "6b3fdbac5c2b7504957df31e197794379a085b0458c2b964e117ce3b55fdf6b5",
+  "source_snapshot": {
+    "input_globs": [
+      "Shared/*.swift",
+      "Sources/Models.swift",
+      "Sources/AgendaBuckets.swift",
+      "Sources/WatchDigest.swift",
+      "Sources/DemoFeed.swift",
+      "Sources/Palette.swift",
+      "Watch/**/*.swift",
+      "WatchWidget/**/*.swift",
+      "Resources/**",
+      "Watch.entitlements",
+      "WatchWidget.entitlements",
+      "project.yml"
+    ],
+    "sha256": "7d5bba269f860b483d0ffef68787183979f512ef0bbe26d8cf7dc5e113b0dbef",
+    "file_count": 31,
+    "files": {
+      "Shared/PlatformCompat.swift": "e70a1876bb795eaa5ee1b928fc816fc6ecfd87bfea7170a324247544e3a35e7a",
+      "Shared/LaneSignal.swift": "e7e68ac41417ddd06e7049a7bd4e01a92d52305bc999cd6ddd323178c64a2ce8",
+      "Sources/Models.swift": "f944fc7cd761336fa71182775f7d9b4853e8f4a1539b1468c5a9b6a710f6367f",
+      "Sources/AgendaBuckets.swift": "bed2a51c77b8526f0f63577d12a1487caa12b93b950fe79fb1418a6deae2c5fa",
+      "Sources/WatchDigest.swift": "3da08c03a878303d818cfc60212cc11331a865142de617a623efabb2ca78d813",
+      "Sources/DemoFeed.swift": "17fb162aea1a5f209a16bd572fd302fdbcac4f4f4441776dbe6df9864b3490a1",
+      "Sources/Palette.swift": "221c03ed65f006b7b3e59049f537e1ebd1decd1caaba58d5bfc7c0ffd808f9d4",
+      "Watch/DigestVault.swift": "23c3d83694ef5d5c0a768e97550acca2319492bde2d80a1a661bcdc510fdcb8a",
+      "Watch/WatchDigestReceiver.swift": "7067b32bba2fc9d733a7fb520d86c37876a97ddfcb47533846b71ecd7dc4a145",
+      "Watch/NotihubWatchApp.swift": "ef7afa582ff42d4192f3b6cf051dfe9831acfc9edde6ed277a82b5522b93c9c7",
+      "Watch/ComplicationViews.swift": "2439134ca18fb0d0e3749387200c5140bd21584655277984b00c0f6f55ea4d24",
+      "Watch/WatchHomeView.swift": "1439c64b4220b45435c511c05a8812362dd25bd0df92d5bdaa90930910ae7aa3",
+      "WatchWidget/NotihubComplication.swift": "43c1b1d88be2e66792d57a5f3977f9da305dc9b5d4532baa3393f5e872984cea",
+      "Resources/Assets.xcassets/AppIcon.solidimagestack/Front.solidimagestacklayer/Content.imageset/Contents.json": "951bfa32a0a4f7c7dc7ff27165d74a1830892e911582ea4ea60e3a1e6a1c7afe",
+      "Resources/Assets.xcassets/AppIcon.solidimagestack/Front.solidimagestacklayer/Content.imageset/front.png": "265149d454822c2c808720c61f5a4317c0bfda56fc96598ea7b19b6ea52c5dd1",
+      "Resources/Assets.xcassets/AppIcon.solidimagestack/Front.solidimagestacklayer/Contents.json": "f5fb0e1f3a8142892ed092efb5955c1c2cc537003a89ad7bbdb9dade7fe8985f",
+      "Resources/Assets.xcassets/AppIcon.solidimagestack/Back.solidimagestacklayer/Content.imageset/Contents.json": "be4825f0a347ae4ebb483201e88961c9695b550b3b793a87a85b5fccad5bd0af",
+      "Resources/Assets.xcassets/AppIcon.solidimagestack/Back.solidimagestacklayer/Content.imageset/back.png": "709a43e4f4d28977bbe09c81d3c6fc36c0a2c84419d99f1c149d664d538be47e",
+      "Resources/Assets.xcassets/AppIcon.solidimagestack/Back.solidimagestacklayer/Contents.json": "f5fb0e1f3a8142892ed092efb5955c1c2cc537003a89ad7bbdb9dade7fe8985f",
+      "Resources/Assets.xcassets/AppIcon.solidimagestack/Middle.solidimagestacklayer/Content.imageset/Contents.json": "3996ac89ef039944ca786a64bfc5b6b1aacc367f8ff1732384da7a125bcbdc61",
+      "Resources/Assets.xcassets/AppIcon.solidimagestack/Middle.solidimagestacklayer/Content.imageset/middle.png": "265149d454822c2c808720c61f5a4317c0bfda56fc96598ea7b19b6ea52c5dd1",
+      "Resources/Assets.xcassets/AppIcon.solidimagestack/Middle.solidimagestacklayer/Contents.json": "f5fb0e1f3a8142892ed092efb5955c1c2cc537003a89ad7bbdb9dade7fe8985f",
+      "Resources/Assets.xcassets/AppIcon.solidimagestack/Contents.json": "de2c28d91cfa6311521f32d804ee3d8433641b775a8818605896073fa31c07fa",
+      "Resources/Assets.xcassets/AppIcon.appiconset/icon-1024.png": "848e1308b67ad7b867dc9f3995450f763eeaa5d94722576c8b6570a43c1aab29",
+      "Resources/Assets.xcassets/AppIcon.appiconset/Contents.json": "d966e1cabdf15246cc3538dd6721e8e330796b3d830bce7f95344925f03c147e",
+      "Resources/Assets.xcassets/AccentColor.colorset/Contents.json": "57694bc02b9cf32e66eff29bc5a447285c2839bcc1b7c74be7999a7c7ec3814b",
+      "Resources/Assets.xcassets/Contents.json": "10e3b5dc202f1cd9fad1f688c8fc9fe9e9669bf3f8295e67d216b10fd99b6f49",
+      "Resources/icon-src.png": "7a60103bfe255229cf55e9728666d77a169f8f4cc9dffb26ee0a7427c109c259",
+      "Watch.entitlements": "5f9c5a8e47b1645f9afa49ec1a2c8a55bdeb0105afc9319e9efa8d241116d92b",
+      "WatchWidget.entitlements": "5f9c5a8e47b1645f9afa49ec1a2c8a55bdeb0105afc9319e9efa8d241116d92b",
+      "project.yml": "cc220955f599955ff9170b026fc420313daf1b585f7a044e124f90d10555ebfc"
+    },
+    "commit": "d52245d0bfb60505f547d995f69a94d804251386",
+    "dirty_scope": "组件当前 Git 工作树；跨仓/软链输入的实际内容由 sha256 核验",
+    "dirty": true
+  },
+  "review_input_sha256": "3c63c9933477df5eb433c95e425e87c21ba55328f3a605df9b2b58c62149e6e9",
+  "binding": {
+    "method": "existing Watch target source snapshot equals current target inputs",
+    "target_source_match": true,
+    "capture_binary_hash_recorded": false,
+    "excluded_source_difference": "Sources/RegularRootView.swift is not compiled by DayDeckWatch or DayDeckWatchWidget",
+    "limitation": "原始截图回执未记录二进制摘要；本次为原件视觉/规格与目标源码的静态复用核验，不是重新启动、功能、恢复或性能实测"
+  },
+  "files": [
+    {
+      "file": "01-glance.png",
+      "sha256": "100b5f02660931855b6a6e2b2821853f782717f517d21f3b8982528c890d84d7",
+      "size": [
+        416,
+        496
+      ],
+      "original_source": "/private/tmp/claude-502/-Users-tianli-Apps/ecc6d09d-ff54-4b5d-b4b5-5610611f9949/scratchpad/fleet/day-deck/shots/watch-v2/glance.png",
+      "ready_signal": "os_log",
+      "ready_seconds": 0.481
+    },
+    {
+      "file": "02-sources.png",
+      "sha256": "658d95e61b627b42e46fd5b50ee1a5c2191bd2ad0a5601de63e2811a486028f2",
+      "size": [
+        416,
+        496
+      ],
+      "original_source": "/private/tmp/claude-502/-Users-tianli-Apps/ecc6d09d-ff54-4b5d-b4b5-5610611f9949/scratchpad/fleet/day-deck/shots/watch-v2/sources.png",
+      "ready_signal": "os_log",
+      "ready_seconds": 0.417
+    },
+    {
+      "file": "03-highlights.png",
+      "sha256": "78f91b50db9db8b2f5cf2e64cce28039a952e7f5a0c8165baf8f64434ade3662",
+      "size": [
+        416,
+        496
+      ],
+      "original_source": "/private/tmp/claude-502/-Users-tianli-Apps/ecc6d09d-ff54-4b5d-b4b5-5610611f9949/scratchpad/fleet/day-deck/shots/watch-v2/highlights.png",
+      "ready_signal": "os_log",
+      "ready_seconds": 0.421
+    },
+    {
+      "file": "04-complications.png",
+      "sha256": "48d8d1e9b5b87dd056763fc3fb5cfad7d633769315661bf71138a19c894a4143",
+      "size": [
+        416,
+        496
+      ],
+      "original_source": "/private/tmp/claude-502/-Users-tianli-Apps/ecc6d09d-ff54-4b5d-b4b5-5610611f9949/scratchpad/fleet/day-deck/shots/watch-v2/complications.png",
+      "ready_signal": "os_log",
+      "ready_seconds": 0.447
+    }
+  ],
+  "visual_review": {
+    "ok": true,
+    "notes": "四张为合成摘要：今天、来源、要点、四种复杂功能预览；可读，滚动内容按当前首屏显示"
+  },
+  "store_spec_issues": [],
+  "device": "Apple Watch Series 12 (46mm)",
+  "runtime": "com.apple.CoreSimulator.SimRuntime.watchOS-27-0",
+  "environment": "simulator",
+  "scope": "DEBUG 合成通知，不访问生产通知或凭据；原图不改尺寸、不重截"
+}

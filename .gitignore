@@ -18,6 +18,8 @@ DayDeck.xcodeproj/
 # git-template 的 info/exclude 默认拦所有 *.png(「大 binary 默认拦截,需要再白名单放回」)。
 # 图标是**构建输入**:xcodebuild 调 actool 读它,不进仓则 clone 下来编出来的 app 桌面白板。
 !Resources/Assets.xcassets/AppIcon.appiconset/icon-1024.png
+# Vision Pro 图标（AppIcon.solidimagestack 三层）同样是构建输入：缺了 visionOS 包零报错地没有图标。
+!Resources/Assets.xcassets/AppIcon.solidimagestack/**/*.png
 
 # CC 本地覆盖(可能含机器专属路径/开关),harness audit D6-GITIGNORE 要求
 .claude/settings.local.json

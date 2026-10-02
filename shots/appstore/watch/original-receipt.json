@@ -1,0 +1,46 @@
+{
+ "device": "Apple Watch Series 12 (46mm)",
+ "runtime": "com.apple.CoreSimulator.SimRuntime.watchOS-27-0",
+ "screens": {
+  "glance": {
+   "ready_seconds": 0.481,
+   "ready_signal": "os_log",
+   "errors": [],
+   "png": "shots/watch-v2/glance.png",
+   "size": [
+    416,
+    496
+   ]
+  },
+  "sources": {
+   "ready_seconds": 0.417,
+   "ready_signal": "os_log",
+   "errors": [],
+   "png": "shots/watch-v2/sources.png",
+   "size": [
+    416,
+    496
+   ]
+  },
+  "highlights": {
+   "ready_seconds": 0.421,
+   "ready_signal": "os_log",
+   "errors": [],
+   "png": "shots/watch-v2/highlights.png",
+   "size": [
+    416,
+    496
+   ]
+  },
+  "complications": {
+   "ready_seconds": 0.447,
+   "ready_signal": "os_log",
+   "errors": [],
+   "png": "shots/watch-v2/complications.png",
+   "size": [
+    416,
+    496
+   ]
+  }
+ }
+}
