@@ -40,13 +40,14 @@ def main(argv=None):
             if not watch_app.is_dir():
                 raise sim_lane.LaneError("iPhone 包没有嵌入 Watch App；需单独构建 Watch，不派生虚假回执")
             info = sim_lane.bundle_info(watch_app)
-            built = {**parent, "platform": "watch", "scheme": "DayDeckWatch",
-                     "app_path": str(watch_app), "destination": "generic/platform=watchOS Simulator",
+            built = {**parent, "platform": "watch", "target_scheme": "DayDeckWatch",
+                     "app_path": str(watch_app),
                      **{key: info[key] for key in ("bundle_id", "version", "build", "sdk")},
                      "executable_sha256": sim_lane.sha256(Path(info["executable"])),
                      "embedded_watch_origin": {"receipt": str(args.from_iphone.resolve()),
                                                "receipt_sha256": sim_lane.sha256(args.from_iphone),
-                                               "iphone_app": parent["app_path"]}}
+                                               "iphone_app": parent["app_path"],
+                                               "watch_app": str(watch_app)}}
             built.pop("reuse", None)
         else:
             built = sim_lane.build(REPO, scheme, args.platform, "Release",
