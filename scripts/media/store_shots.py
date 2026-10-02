@@ -44,16 +44,7 @@ def main(argv=None):
     try:
         scheme = "DayDeckWatch" if args.platform == "watch" else "DayDeck"
         if args.reuse_build:
-            built = json.loads(args.reuse_build.read_text())
-            if built.get("scheme") != scheme or built.get("platform") not in ({"iphone", "ipad"} if args.platform == "ipad" else {args.platform}):
-                raise sim_lane.LaneError("构建回执的平台或 scheme 不匹配")
-            source = Path(built["work_dir"]) / "src"
-            stale = [name for name, digest in inputs["files"].items()
-                     if not (source / name).is_file() or sha(source / name) != digest]
-            if stale:
-                raise sim_lane.LaneError("现有构建源码不匹配：" + "、".join(stale))
-            if sha(sim_lane.bundle_info(Path(built["app_path"]))["executable"]) != built["executable_sha256"]:
-                raise sim_lane.LaneError("构建回执的可执行文件哈希不匹配")
+            built = sim_lane.reuse_build(args.reuse_build, app["id"], REPO, args.platform, scheme)
         else:
             built = sim_lane.build(REPO, scheme, args.platform, "Debug", work / "build")
         rows = []
@@ -69,6 +60,7 @@ def main(argv=None):
                 raise sim_lane.LaneError(json.dumps(result["errors"], ensure_ascii=False))
             rows.append({"file": png.name, "sha256": sha(png), "size": list(spec.png_size(png)),
                          "launch_args": result["launch_args"], "ready_seconds": result["ready_seconds"],
+                         "lane_result": result,
                          "device": result["device"], "runtime": result["runtime"], "environment": "simulator"})
         problems = spec.validate(args.platform, [work / row["file"] for row in rows])
         if problems:
@@ -83,6 +75,7 @@ def main(argv=None):
                   "input_sha256": inputs["input_sha256"], "files": rows, "store_spec_issues": [],
                   "source_snapshot": inputs,
                   "reused_build": bool(args.reuse_build),
+                  "build_reuse": built.get("reuse"),
                   "build": {k: built[k] for k in ("configuration", "version", "build", "executable_sha256", "sdk")},
                   "scope": "DEBUG 合成数据；不是实际业务读写、性能实测或上架回执"}
         exe = Path(sim_lane.bundle_info(Path(built["app_path"]))["executable"])

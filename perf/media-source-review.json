@@ -179,5 +179,19 @@
       "component": "notifhub-bar-mac"
     }
   },
-  "scope": "保存原件与静态来源核验，不新增Chapter actual功能/恢复/隐私/性能通过，也未发版装机"
+  "scope": "保存原件与静态来源核验，不新增Chapter actual功能/恢复/隐私/性能通过，也未发版装机",
+  "read_only_chapter_check": {
+    "at": "2026-10-03T00:57:44+08:00",
+    "machine_state": "needs_check",
+    "delivery_state": "pending_user",
+    "code_binding": "2cb3fced617af2582c070c2e5f1efb5a8d4ab65554bc382e0b196d5d41e3d7c1",
+    "promo_ui_binding": "2077a2bc4f254c4850630a18be387be7fe72820d91e51338e2b21b136fff96cf",
+    "media_binding": "3644c984b902f047c02efc36c6902dcc7351a7214e62943f5bb4bc6ef8180b5b",
+    "old_business_checks_binding": "559c6cb34a9c7a0306b6e745d24154833de5960aa1272d0a418c6cdb08059d0b",
+    "old_business_checks_current": false,
+    "old_homepage_checks_current": true,
+    "old_media_playback_current": false,
+    "scope": "--check-only only; no action, re-test, push, installation or acceptance rewrite"
+  },
+  "local_code_commit": "76a93e0"
 }
