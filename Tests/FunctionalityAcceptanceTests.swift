@@ -37,6 +37,10 @@ final class FunctionalityAcceptanceTests: XCTestCase {
     private let longBody = String(repeating: "合成通知正文，第二行\n第三行。\n", count: 400) + "正文末尾标记"
 
     override func setUpWithError() throws {
+        guard UserDefaults.standard.string(forKey: "gatepw")?.isEmpty != false else {
+            throw NSError(domain: "FunctionalityAcceptance", code: 1,
+                          userInfo: [NSLocalizedDescriptionKey: "Run acceptance without a gatepw launch argument."])
+        }
         directory = FileManager.default.temporaryDirectory.appendingPathComponent("notihub-functionality-\(UUID())")
         let config = URLSessionConfiguration.ephemeral
         config.protocolClasses = [FunctionalityProtocol.self]
@@ -47,7 +51,7 @@ final class FunctionalityAcceptanceTests: XCTestCase {
         FunctionalityProtocol.configure { _ in throw URLError(.unsupportedURL) }
     }
     override func tearDownWithError() throws {
-        session.invalidateAndCancel()
+        session?.invalidateAndCancel()
         if let directory, FileManager.default.fileExists(atPath: directory.path) {
             try FileManager.default.removeItem(at: directory)
         }

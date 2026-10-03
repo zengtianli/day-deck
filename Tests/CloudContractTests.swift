@@ -49,6 +49,10 @@ final class CloudContractTests: XCTestCase {
     private let date = "2026-09-07"
 
     override func setUpWithError() throws {
+        guard UserDefaults.standard.string(forKey: "gatepw")?.isEmpty != false else {
+            throw NSError(domain: "CloudContractAcceptance", code: 1,
+                          userInfo: [NSLocalizedDescriptionKey: "Run acceptance without a gatepw launch argument."])
+        }
         directory = FileManager.default.temporaryDirectory.appendingPathComponent("daydeck-contract-\(UUID())")
         let config = URLSessionConfiguration.ephemeral
         config.protocolClasses = [MockProtocol.self]
@@ -59,7 +63,7 @@ final class CloudContractTests: XCTestCase {
         MockProtocol.configure { $0.fail(URLError(.notConnectedToInternet)) }
     }
     override func tearDownWithError() throws {
-        session.invalidateAndCancel()
+        session?.invalidateAndCancel()
         // Only the synthetic cache allocated by this test is removed.
         if let directory { try FileManager.default.removeItem(at: directory) }
     }
