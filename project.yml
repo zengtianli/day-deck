@@ -12,7 +12,7 @@ settings:
     DEVELOPMENT_TEAM: B9LJH93LA4
     ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME: AccentColor
     SWIFT_VERSION: "5.0"
-    MARKETING_VERSION: "0.2"
+    MARKETING_VERSION: "0.2.1"
 targets:
   DayDeck:
     type: application
@@ -24,6 +24,9 @@ targets:
       - path: Shared/PlatformCompat.swift
       # 总部共享：平台验收车道契约（lane-ready 日志、iPad 横屏请求），不传 -lane_* 参数时什么都不做
       - path: Shared/LaneSignal.swift
+      - path: Shared/AppLifecycle.swift
+      - path: Shared/AppConfiguration.swift
+      - path: Shared/AppLifecycleMobile.swift
       - path: Sources
       # ⚠ 图标资产必须在这儿列出来。漏了的表现是**编译通过、装机通过、桌面白板**——
       #   ASSETCATALOG_COMPILER_APPICON_NAME 指向一个不在工程里的 catalog,
@@ -49,7 +52,7 @@ targets:
         GENERATE_INFOPLIST_FILE: YES
         # 2026-09-29 需求卡：手机端直接写入提醒事项 + 复盘页读当天提醒（EventKit，iOS 18 只需完全访问的 key）
         INFOPLIST_KEY_NSRemindersFullAccessUsageDescription: "把你选中的待办加入提醒事项，并在复盘页显示当天的提醒。读取的提醒只在本机显示，不会上传。"
-        CURRENT_PROJECT_VERSION: "1"
+        CURRENT_PROJECT_VERSION: "6"
     scheme:
       testTargets: []
       configVariants: []
@@ -90,7 +93,7 @@ targets:
         PRODUCT_BUNDLE_IDENTIFIER: cyou.tianli.daydeck.watchkitapp
         ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
         CODE_SIGN_ENTITLEMENTS: Watch.entitlements
-        CURRENT_PROJECT_VERSION: "1"
+        CURRENT_PROJECT_VERSION: "6"
     scheme: {}
   # 表盘复杂功能：今天还有几件没点开（圆形 / 四角 / 一行字 / 矩形），只读手表 App 落在共享钥匙串里的那份摘要。
   DayDeckWatchWidget:
@@ -116,4 +119,4 @@ targets:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: cyou.tianli.daydeck.watchkitapp.widget
         CODE_SIGN_ENTITLEMENTS: WatchWidget.entitlements
-        CURRENT_PROJECT_VERSION: "1"
+        CURRENT_PROJECT_VERSION: "6"

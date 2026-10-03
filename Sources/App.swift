@@ -19,6 +19,7 @@ struct NotihubApp: App {
     var body: some Scene {
         WindowGroup {
             RootView().environment(store).environment(reminders)
+                .appLifecycleMobile(productID: "day-deck", channel: MobileProductLifecycle.channel, configuration: MobileProductLifecycle.configuration)
                 #if os(visionOS)
                 // Vision Pro 不固定亮色：窗口是系统玻璃，强行亮色会把正文画成玻璃上的深色字。
                 // 主题紫在玻璃上太暗，整窗换成提亮一档的同色相（Color.accentOnDark）。

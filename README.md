@@ -77,3 +77,14 @@ MIT © 2026 曾田力 (Tianli Zeng)
 
 <sub>v0.2 (5) · iPhone 17（iPhone18,3）；体积为 Apple 设备切片记录，运行性能尚未真机实测 · TestFlight VALID（未上架）；体积不含用户数据与后续缓存；手机实际安装版本尚未核验 · 2026-09-29。体积来自 Apple App Store Connect 对应构建的设备切片记录。内存、CPU 与启动时间是 iPhone 17 Pro / iOS 27.0 Simulator / Mac16,12 / Apple M4 / macOS 27.2 上本地源码 Release 构建 v0.2 (1) 的实测（2026-09-30），只统计 App 进程，不等于真机数值；真机测量尚未完成。内存口径为 phys_footprint；CPU 为 60 秒采样窗内 CPU 时间 ÷ 墙钟；大小按十进制 MB。原始数据见 [perf/lightweight.json](perf/lightweight.json)。</sub>
 <!-- lightweight:end -->
+
+
+## 配置与 App 更新
+
+新构建在主界面下方提供「配置与更新」，显示当前安装包的真实版本和构建号。
+
+当前没有独立可迁移的偏好配置，界面不提供空的 iCloud 开关。账号、访问凭据、业务内容、本机权限与缓存继续使用各自原有入口。
+
+「在 TestFlight 中检查更新」打开系统 TestFlight；内测新包由 TestFlight 安装。 此入口检查 App 版本，资料或后台数据刷新仍在原入口。
+
+版本号更新属于本轮新构建；手机上的新版本需通过签名安装或原商店/TestFlight 渠道取得，发行状态以现有发布记录为准。
