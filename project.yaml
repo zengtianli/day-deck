@@ -15,7 +15,8 @@ sop:
       launch_args: [-demo, '1']
       store_shots: shots/appstore/iphone/*.png
       capture:
-        command: ~/Dev/.venv/bin/python -B scripts/media/store_shots.py --platform iphone --reuse-build perf/builds/store-iphone-fixture-20261003.json
+        command: ~/Dev/.venv/bin/python -B scripts/media/store_shots.py --platform iphone --reuse-build perf/builds/store-iphone-fixture-20261003.json --in-use
+        in_use: true
         inputs: [scripts/media/store_shots.py, perf/builds/store-iphone-fixture-20261003.json]
         outputs: [shots/appstore/iphone]
       distribution: none
@@ -43,7 +44,8 @@ sop:
       launch_args: [-demo, '1']
       store_shots: shots/appstore/vision/*.png
       capture:
-        command: ~/Dev/.venv/bin/python -B scripts/media/store_shots.py --platform vision --reuse-build perf/builds/store-vision-debug-20261003.json
+        command: ~/Dev/.venv/bin/python -B scripts/media/store_shots.py --platform vision --reuse-build perf/builds/store-vision-debug-20261003.json --in-use
+        in_use: true
         inputs: [scripts/media/store_shots.py, perf/builds/store-vision-debug-20261003.json]
         outputs: [shots/appstore/vision]
       budget: {memory_mb: 60, cpu: 0.5}
