@@ -69,7 +69,8 @@ sop:
   release: perf/asc-release.json
   site_deploy: portal  # #iphone 小节在 Notihub Mac 主页里，由门户 deploy.sh 发布（同 notifhub-bar-mac）；重测后数字变了 Chapter 自动重新部署
   measure:  # Chapter 在接电源、10 分钟无操作、负载低时自动重测；脚本自带空闲与源码快照核对，只写 perf/
-    command: ~/Dev/.venv/bin/python ~/Apps/.claude/skills/app-lightweight/scripts/platform_measure.py --app day-deck-ios --repo . --platform all --fixture-debug --sync-ios
+    command: ~/Dev/.venv/bin/python scripts/perf/measure_platforms.py
+    platform_env: SOP_PERF_PLATFORM
     outputs: [perf/simulator.json, perf/lightweight.json, perf/platforms]
     in_use: true
   runtime_note: 四条移动平台线按用户接受的模拟器范围验收，Mac 由 notifhub-bar-mac 承担；模拟器数字不代表真机。
