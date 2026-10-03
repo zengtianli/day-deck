@@ -2,6 +2,14 @@
 
 本文件是待执行入口。只有主 agent 授予时段后执行；本次准备没有构建、模拟器或重测。所有模拟器步骤显式零等待，首个退出 75 即停止，不排第二条队列。Mac 使用 `notifhub-bar-mac` 已有独立产品；这里不构建 Mac。
 
+2026-10-03 后续仅在原 `store_shots.py` 增加显式 `--in-use`：本人已授权使用中、原canonical串行门仍由Root持有时，iPhone/Vision/Watch可用原headless simctl路线并强制 `--reuse-build`。只跳过闲置600秒；原 `steady(..., allow_owner_now=False)` 的低负载/无构建/非低电量门与明确AC检查保留，初始及每页都核。iPad需要原rotator的cached XCTest，可能触GUI/缓存构建，因此显式in-use返回75，默认仍原闲置路线；没有改固定三capture登记或SDK原回执。以下仅列这次可用的单iPhone实际入口，不重复下方历史SDK准备：
+
+```sh
+cd /Users/tianli/Apps/notifhub/ios/01-源程序 && /Users/tianli/Dev/.venv/bin/python -B scripts/media/store_shots.py --platform iphone --reuse-build perf/builds/store-iphone-fixture-20261003.json --in-use
+```
+
+本次轻准备未执行该命令。真实成功 `capture.json` 与75/失败stdout均有 `capture_execution`：实际 `command_args`、`in_use`、`user_authorization: explicit --in-use`（仅在显式flag时）、`gate_policy` 及初始/每页的 `gate_observations`，逐项记录原steady实值理由、AC、实际lowpowermode值（探针无此设置时为null）。没有改写 `SOP_OWNER_NOW` / `SOP_SAMPLE_GATE` 或制造父锁。这个helper不写engine attempts/ledger；手动flag结果不能冒称不含flag的fixed-command attempt已当前成功，也不声明业务/性能/上架或完整delivery PASS，Root沿实际调用与原件逐项消费。
+
 当前 47 个平台源输入为 `3c63c9933477df5eb433c95e425e87c21ba55328f3a605df9b2b58c62149e6e9`。原 Claude `builds/iphone.json`、`builds/vision.json` 已证实源输入一致，但二者都是 Debug，不能冒充原样 Release。其现有包可直接供截图入口 `--reuse-build` 使用，不需再次构建。原 `builds/watch-release.json` 是已知原样 Release 候选，尚未完成共享严格复用校验；只在时段内通过 `--reuse-build` 校验成功才算可复用，否则使用下述新 iPhone 包内实际 Watch 产物。
 
 ## 最少新构建
