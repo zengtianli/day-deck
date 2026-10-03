@@ -1,6 +1,6 @@
 # Notihub 单产品串行时段
 
-本文件是待执行入口。只有主 agent 授予时段后执行；本次准备没有构建、模拟器或重测。所有模拟器步骤显式零等待，首个退出 75 即停止，不排第二条队列。Mac 使用 `notifhub-bar-mac` 已有独立产品；这里不构建 Mac。
+本文件是待执行入口。只有主 agent 授予时段后执行；本次准备没有构建、模拟器或重测。模拟器拿锁保持显式零等待，首个退出 75 即停止，不排第二条队列。Mac 使用 `notifhub-bar-mac` 已有独立产品；这里不构建 Mac。
 
 2026-10-03 后续仅在原 `store_shots.py` 增加显式 `--in-use`：本人已授权使用中、原canonical串行门仍由Root持有时，iPhone/Vision/Watch可用原headless simctl路线并强制 `--reuse-build`。只跳过闲置600秒；原 `steady(..., allow_owner_now=False)` 的低负载/无构建/非低电量门与明确AC检查保留，初始及每页都核。iPad需要原rotator的cached XCTest，可能触GUI/缓存构建，因此显式in-use返回75，默认仍原闲置路线；没有改固定三capture登记或SDK原回执。以下仅列这次可用的单iPhone实际入口，不重复下方历史SDK准备：
 
@@ -9,6 +9,10 @@ cd /Users/tianli/Apps/notifhub/ios/01-源程序 && /Users/tianli/Dev/.venv/bin/p
 ```
 
 本次轻准备未执行该命令。真实成功 `capture.json` 与75/失败stdout均有 `capture_execution`：实际 `command_args`、`in_use`、`user_authorization: explicit --in-use`（仅在显式flag时）、`gate_policy` 及初始/每页的 `gate_observations`，逐项记录原steady实值理由、AC、实际lowpowermode值（探针无此设置时为null）。没有改写 `SOP_OWNER_NOW` / `SOP_SAMPLE_GATE` 或制造父锁。这个helper不写engine attempts/ledger；手动flag结果不能冒称不含flag的fixed-command attempt已当前成功，也不声明业务/性能/上架或完整delivery PASS，Root沿实际调用与原件逐项消费。
+
+2026-10-03 23:56:44 的真实 iPhone 调用首屏结束后，下一页负载 142.5 ≥ 10，原门返回 75，正式 Store 图为 0；原日志 `~/Library/Logs/app-sop/day-deck-ios-capture-iphone-20261003-235644.log` 保留。另核实原 `keep_booted` 接续要求上一调用进程退出，同一 helper PID 连调 `run_sim` 不能接手自己的活 PID 锁。
+
+2026-10-04 轻修复只为 iPhone（含默认模式）和已合格显式 `--in-use` 的 Vision/Watch，沿一个真实原 `sim_lane.Session` 完成一次 boot、一次 install、四次原 baseline/launch/terminate，并复制每次实际返回的 frame；不改默认其他平台/iPad。开机后与每页仍核严格原门，仅负载可在同一 Session 内每 10 秒复探，累计等待最多 180 秒；电源、低电量、其他构建或默认模式用户回归立即 75。原 2400 秒总预算内预留 180 秒清理，原 Session 自动 shutdown/release 自己的锁，禁止手删 foreign 锁。新增 `stabilization` 记录实际累计等待，`native_session.cleanup_completed` 只表示原退出接口已正常返回，不冒称已验证 shutdown；每页 `lane_result.shutdown: false` 如实表示拍该页时同一设备继续开着，实际清理在四页后或中途退出发生。这轮没有重新执行截图。
 
 当前 47 个平台源输入为 `3c63c9933477df5eb433c95e425e87c21ba55328f3a605df9b2b58c62149e6e9`。原 Claude `builds/iphone.json`、`builds/vision.json` 已证实源输入一致，但二者都是 Debug，不能冒充原样 Release。其现有包可直接供截图入口 `--reuse-build` 使用，不需再次构建。原 `builds/watch-release.json` 是已知原样 Release 候选，尚未完成共享严格复用校验；只在时段内通过 `--reuse-build` 校验成功才算可复用，否则使用下述新 iPhone 包内实际 Watch 产物。
 
