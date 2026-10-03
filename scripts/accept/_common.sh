@@ -35,6 +35,13 @@ if sys.argv[3] == '0':
     proof = json.loads(proof_path.read_text())
     if proof['repo'] != str(repo) or proof['scratch'] != str(p):
         raise SystemExit('caller scratch proof path mismatch')
+    sys.path.insert(0, str(Path.home()/'Apps/chapter/engine'))
+    import app_sop
+    app = app_sop.load_apps('day-deck-ios')[0]
+    current = {**app_sop.lane_inputs(app, 'iphone')['files'],
+               **app_sop.app_source_snapshot(app, app['sop']['test_inputs'], True)['files']}
+    if proof['files'] != current:
+        raise SystemExit('caller scratch does not bind the complete current source/test input map')
     owner = json.loads((Path.home()/'Library/Caches/sim-lane/lock/sim_lane.json').read_text())
     if owner['pid'] != proof['owner_pid']:
         raise SystemExit('caller scratch is not under its original directory lock')
