@@ -1,0 +1,46 @@
+{
+ "ok": true,
+ "platform": "iphone",
+ "configuration": "Release",
+ "scheme": "DayDeck",
+ "compilation_conditions": [
+  "DEBUG"
+ ],
+ "app_path": "/Users/tianli/Library/Caches/sim-lane/platform-measure/sim-lane-build.c8279d09c7a98272a8756bcc8254cac31e3bede8c47b4d83aa3d7cb9a9629829/sim-lane-build.idxbf2t0/dd/Build/Products/Release-iphonesimulator/DayDeck.app",
+ "bundle_id": "cyou.tianli.daydeck",
+ "version": "0.2",
+ "build": "1",
+ "executable_sha256": "0c0d0b62b5d6726cb9d08ef816469e0979cd079b0e873a5eca0e3940d4af95b1",
+ "sdk": "iphonesimulator27.0",
+ "xcode": {
+  "name": "Xcode.app",
+  "version": "27.0",
+  "build": "27A266a",
+  "developer_dir": "/Applications/Xcode.app/Contents/Developer"
+ },
+ "destination": "generic/platform=iOS Simulator",
+ "signing": "unsigned simulator build (CODE_SIGNING_ALLOWED=NO)",
+ "log": "/Users/tianli/Library/Caches/sim-lane/platform-measure/sim-lane-build.c8279d09c7a98272a8756bcc8254cac31e3bede8c47b4d83aa3d7cb9a9629829/sim-lane-build.idxbf2t0/build-iphone-Release.log",
+ "work_dir": "/Users/tianli/Library/Caches/sim-lane/platform-measure/sim-lane-build.c8279d09c7a98272a8756bcc8254cac31e3bede8c47b4d83aa3d7cb9a9629829/sim-lane-build.idxbf2t0",
+ "seconds": 28.3,
+ "generated_info_plists": [
+  {
+   "source_path": "src/Watch/Info.plist",
+   "backup_path": "cache-provenance/xcodegen-info.z3eikb0u/Watch/Info.plist",
+   "sha256": "f71bf4fd4f2c1fdff512e66223cd1084a0500f20346b52352be99c5ee491702f",
+   "targets": [
+    "DayDeckWatch"
+   ],
+   "reason": "XcodeGen target info.path; absent from original sources"
+  },
+  {
+   "source_path": "src/WatchWidget/Info.plist",
+   "backup_path": "cache-provenance/xcodegen-info.z3eikb0u/WatchWidget/Info.plist",
+   "sha256": "3381282260a39202f6910ecbf625e3cad891204ca4b6d4c9610a2511c37ce29c",
+   "targets": [
+    "DayDeckWatchWidget"
+   ],
+   "reason": "XcodeGen target info.path; absent from original sources"
+  }
+ ]
+}

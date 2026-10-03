@@ -36,6 +36,10 @@ def main(argv=None):
     parser.add_argument("--out", type=Path)
     parser.add_argument("--reuse-build", type=Path, help="复用 sim_lane 的构建 JSON；源码副本必须逐文件匹配，iPad 可用 iPhone 包")
     args = parser.parse_args(argv)
+    okay, reason = app_sop.steady(True, allow_owner_now=False)
+    if not okay:
+        print(f"推迟：{reason}；未构建、启动或截图", file=sys.stderr)
+        return 75
     app = app_sop.load_apps("day-deck-ios")[0]
     inputs = app_sop.lane_inputs(app, args.platform)
     out = (args.out or REPO / "shots/appstore" / args.platform).resolve()
@@ -50,6 +54,10 @@ def main(argv=None):
         rows = []
         screens = WATCH if args.platform == "watch" else SCREENS
         for index, (name, extra) in enumerate(screens):
+            okay, reason = app_sop.steady(True, allow_owner_now=False)
+            if not okay:
+                print(f"推迟：{reason}；候选截图未写回", file=sys.stderr)
+                return 75
             png = work / f"{index + 1:02d}-{name}.png"
             result = sim_lane.run_sim(args.platform, Path(built["app_path"]), udid, None,
                                       DEVICES[args.platform], ["-demo", "1", *extra], png, 90,

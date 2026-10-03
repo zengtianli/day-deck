@@ -14,12 +14,20 @@ sop:
       simulator: {device_type: iPhone-17-Pro}
       launch_args: [-demo, '1']
       store_shots: shots/appstore/iphone/*.png
+      capture:
+        command: ~/Dev/.venv/bin/python -B scripts/media/store_shots.py --platform iphone --reuse-build perf/builds/store-iphone-fixture-20261003.json
+        inputs: [scripts/media/store_shots.py, perf/builds/store-iphone-fixture-20261003.json]
+        outputs: [shots/appstore/iphone]
       distribution: none
     ipad:
       simulator: {device_type: iPad-Pro-13-inch-M5-12GB}
       launch_args: [-demo, '1']
       orientation: landscape
       store_shots: shots/appstore/ipad/*.png
+      capture:
+        command: ~/Dev/.venv/bin/python -B scripts/media/store_shots.py --platform ipad --reuse-build perf/builds/store-iphone-fixture-20261003.json
+        inputs: [scripts/media/store_shots.py, perf/builds/store-iphone-fixture-20261003.json]
+        outputs: [shots/appstore/ipad]
       distribution: none
     mac: {component: notifhub-bar-mac}
     watch:
@@ -34,6 +42,10 @@ sop:
       simulator: {device_type: Apple-Vision-Pro-4K}
       launch_args: [-demo, '1']
       store_shots: shots/appstore/vision/*.png
+      capture:
+        command: ~/Dev/.venv/bin/python -B scripts/media/store_shots.py --platform vision --reuse-build perf/builds/store-vision-debug-20261003.json
+        inputs: [scripts/media/store_shots.py, perf/builds/store-vision-debug-20261003.json]
+        outputs: [shots/appstore/vision]
       budget: {memory_mb: 60, cpu: 0.5}
       distribution: none
   # 2026-09-30 核实：仓库无 ci_scripts/.github，ASC 的 Xcode Cloud 产品里没有本 bundle；推送不触发构建上传
