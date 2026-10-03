@@ -1,0 +1,375 @@
+{
+ "at": "2026-10-03T23:57:27+08:00",
+ "offline": false,
+ "mode": "run",
+ "scope": "当前登记组件的增量观察；保留异时点证据，不等同本轮全量验收",
+ "families": 1,
+ "apps": [
+  {
+   "id": "day-deck-ios",
+   "name": "Notihub · 通知复盘",
+   "repo": "/Users/tianli/Apps/notifhub/ios/01-源程序",
+   "form": "ios",
+   "family": "notifhub",
+   "current": "0.2 (5)",
+   "items": [
+    {
+     "stage": "perf",
+     "key": "test",
+     "status": "stale",
+     "detail": "当前代码还没跑过测试",
+     "fix": "跑测试",
+     "auto": "test"
+    },
+    {
+     "stage": "perf",
+     "key": "perf",
+     "status": "ok",
+     "detail": "0.2 (5) · 2026-09-29",
+     "fix": null,
+     "auto": null
+    },
+    {
+     "stage": "perf",
+     "key": "size",
+     "status": "ok",
+     "detail": "installed 1.81 MB · download 1.15 MB",
+     "fix": null,
+     "auto": null
+    },
+    {
+     "stage": "perf",
+     "key": "budget",
+     "status": "missing",
+     "detail": "模拟器实测尚未绑定当前实际源码输入；缺少完整历史输入归一证明",
+     "fix": "补注明真机/模拟器环境的实际资源记录",
+     "auto": "measure",
+     "environment": null
+    },
+    {
+     "stage": "perf",
+     "key": "speed",
+     "status": "missing",
+     "detail": "模拟器实测尚未绑定当前实际源码输入；缺少完整历史输入归一证明",
+     "fix": "补注明真机/模拟器环境的实际资源记录",
+     "auto": "measure",
+     "environment": null
+    },
+    {
+     "stage": "perf",
+     "key": "platform-iphone-perf",
+     "status": "missing",
+     "detail": "iPhone：没有平台线实测 perf/platforms/iphone.json",
+     "fix": "按平台线测量并写 perf/platforms/iphone.json（共享测量脚本：sim_lane 构建运行 + footprint/ps；input_sha256 取 app_sop.py lane-inputs --app day-deck-ios --platform iphone）",
+     "auto": "measure",
+     "platform": "iphone"
+    },
+    {
+     "stage": "perf",
+     "key": "platform-ipad-perf",
+     "status": "missing",
+     "detail": "iPad：没有平台线实测 perf/platforms/ipad.json",
+     "fix": "按平台线测量并写 perf/platforms/ipad.json（共享测量脚本：sim_lane 构建运行 + footprint/ps；input_sha256 取 app_sop.py lane-inputs --app day-deck-ios --platform ipad）",
+     "auto": "measure",
+     "platform": "ipad"
+    },
+    {
+     "stage": "perf",
+     "key": "platform-watch-perf",
+     "status": "missing",
+     "detail": "Apple Watch：没有平台线实测 perf/platforms/watch.json",
+     "fix": "按平台线测量并写 perf/platforms/watch.json（共享测量脚本：sim_lane 构建运行 + footprint/ps；input_sha256 取 app_sop.py lane-inputs --app day-deck-ios --platform watch）",
+     "auto": "measure",
+     "platform": "watch"
+    },
+    {
+     "stage": "perf",
+     "key": "platform-vision-perf",
+     "status": "missing",
+     "detail": "Apple Vision Pro：没有平台线实测 perf/platforms/vision.json",
+     "fix": "按平台线测量并写 perf/platforms/vision.json（共享测量脚本：sim_lane 构建运行 + footprint/ps；input_sha256 取 app_sop.py lane-inputs --app day-deck-ios --platform vision）",
+     "auto": "measure",
+     "platform": "vision"
+    },
+    {
+     "stage": "perf",
+     "key": "input-binding",
+     "status": "stale",
+     "detail": "产品输入已变化，现有实测/素材证据未更新",
+     "fix": "补受影响的实测或素材复核证据",
+     "auto": "measure"
+    },
+    {
+     "stage": "media",
+     "key": "media",
+     "status": "stale",
+     "detail": "2026-10-03 00:44 录制后界面源码又改了 1 次",
+     "fix": "重录截图/视频",
+     "auto": "capture"
+    },
+    {
+     "stage": "media",
+     "key": "platform-iphone-shots",
+     "status": "missing",
+     "detail": "iPhone：store_shots shots/appstore/iphone/*.png 没有匹配到截图",
+     "fix": "用 sim_lane run --screenshot 截取商店截图",
+     "auto": "capture:iphone",
+     "platform": "iphone"
+    },
+    {
+     "stage": "media",
+     "key": "platform-ipad-shots",
+     "status": "missing",
+     "detail": "iPad：store_shots shots/appstore/ipad/*.png 没有匹配到截图",
+     "fix": "用 sim_lane run --screenshot 截取商店截图",
+     "auto": "capture:ipad",
+     "platform": "ipad"
+    },
+    {
+     "stage": "media",
+     "key": "platform-watch-shots",
+     "status": "ok",
+     "detail": "Apple Watch：4 张商店截图尺寸与格式合规",
+     "fix": null,
+     "auto": null,
+     "platform": "watch"
+    },
+    {
+     "stage": "media",
+     "key": "platform-vision-shots",
+     "status": "missing",
+     "detail": "Apple Vision Pro：store_shots shots/appstore/vision/*.png 没有匹配到截图",
+     "fix": "用 sim_lane run --screenshot 截取商店截图",
+     "auto": "capture:vision",
+     "platform": "vision"
+    },
+    {
+     "stage": "promo",
+     "key": "brand-naming",
+     "status": "ok",
+     "detail": "双语字段、英文主显、跨族重名及已拒绝拼音名检查通过；英语语义与其他拼音须人工审阅",
+     "fix": null,
+     "auto": null
+    },
+    {
+     "stage": "promo",
+     "key": "page_icon",
+     "status": "ok",
+     "detail": "产品页图标与正式素材一致",
+     "fix": null,
+     "auto": null
+    },
+    {
+     "stage": "promo",
+     "key": "page",
+     "status": "missing",
+     "detail": "https://app-mac-notihub.tianli.cyou/#iphone 资源证据无效：模拟器实测尚未绑定当前实际源码输入",
+     "fix": "修复绑定当前源码且摘要有效的 iOS 资源证据",
+     "auto": null
+    },
+    {
+     "stage": "promo",
+     "key": "readme",
+     "status": "missing",
+     "detail": "README 资源证据无效：模拟器实测尚未绑定当前实际源码输入",
+     "fix": "修复绑定当前源码且摘要有效的 iOS 资源证据",
+     "auto": null
+    },
+    {
+     "stage": "ship",
+     "key": "asc",
+     "status": "ok",
+     "detail": "ASC TestFlight VALID（仅内测，未上架） 0.2 (5) 已回读",
+     "fix": null,
+     "auto": null
+    },
+    {
+     "stage": "ship",
+     "key": "device",
+     "status": "na",
+     "detail": "本人 2026-10-02 要求模拟器验收；真机未验证（平台线模式：iPhone/iPad/Watch/Vision 按模拟器验收）",
+     "fix": null,
+     "auto": null
+    },
+    {
+     "stage": "ship",
+     "key": "release",
+     "status": "info",
+     "detail": "发布 0.2 (5) 之后源码有未提交改动，未发版",
+     "fix": "是否发版由本人决定：iOS 仓一推送就会触发 Xcode Cloud 构建并上传，Agent 不推送、不发版",
+     "auto": null,
+     "blocker": "user"
+    },
+    {
+     "stage": "ship",
+     "key": "product-distribution",
+     "status": "ok",
+     "detail": "自用产品",
+     "fix": null,
+     "auto": null
+    },
+    {
+     "stage": "ship",
+     "key": "product-rationale",
+     "status": "ok",
+     "detail": "自用 Notihub 手机端用于随身查看本人通知摘要、待办与随手记；当前产品目录明确不提供下载。",
+     "fix": null,
+     "auto": null
+    },
+    {
+     "stage": "ship",
+     "key": "product-source",
+     "status": "ok",
+     "detail": "源码仅自用，不对外展示",
+     "fix": null,
+     "auto": null
+    },
+    {
+     "stage": "ship",
+     "key": "platform-iphone",
+     "status": "ok",
+     "detail": "iPhone：模拟器 iPhone-17-Pro 验收；cyou.tianli.daydeck；仅模拟器验收，不发行",
+     "fix": null,
+     "auto": null,
+     "platform": "iphone",
+     "environment": "simulator"
+    },
+    {
+     "stage": "ship",
+     "key": "platform-ipad",
+     "status": "ok",
+     "detail": "iPad：模拟器 iPad-Pro-13-inch-M5-12GB 验收；cyou.tianli.daydeck；仅模拟器验收，不发行",
+     "fix": null,
+     "auto": null,
+     "platform": "ipad",
+     "environment": "simulator"
+    },
+    {
+     "stage": "ship",
+     "key": "platform-mac",
+     "status": "ok",
+     "detail": "Mac：由组件 notifhub-bar-mac（Notihub · 通知复盘）承担，它照常监测、留自己的仓与证据，本线状态即它的检查结果（chapter status --app notifhub-bar-mac）",
+     "fix": null,
+     "auto": null,
+     "platform": "mac"
+    },
+    {
+     "stage": "ship",
+     "key": "platform-watch",
+     "status": "ok",
+     "detail": "Apple Watch：模拟器 Apple-Watch-Series-12-46mm 验收；scheme DayDeckWatch；cyou.tianli.daydeck.watchkitapp；仅模拟器验收，不发行",
+     "fix": null,
+     "auto": null,
+     "platform": "watch",
+     "environment": "simulator"
+    },
+    {
+     "stage": "ship",
+     "key": "platform-vision",
+     "status": "ok",
+     "detail": "Apple Vision Pro：模拟器 Apple-Vision-Pro-4K 验收；cyou.tianli.daydeck；仅模拟器验收，不发行",
+     "fix": null,
+     "auto": null,
+     "platform": "vision",
+     "environment": "simulator"
+    },
+    {
+     "stage": "ship",
+     "key": "platform-iphone-release",
+     "status": "na",
+     "detail": "iPhone：仅模拟器验收，不发行（distribution: none；本人 2026-10-02 要求模拟器验收；真机未验证）",
+     "fix": null,
+     "auto": null,
+     "platform": "iphone"
+    },
+    {
+     "stage": "ship",
+     "key": "platform-ipad-release",
+     "status": "na",
+     "detail": "iPad：仅模拟器验收，不发行（distribution: none；本人 2026-10-02 要求模拟器验收；真机未验证）",
+     "fix": null,
+     "auto": null,
+     "platform": "ipad"
+    },
+    {
+     "stage": "ship",
+     "key": "platform-watch-release",
+     "status": "na",
+     "detail": "Apple Watch：仅模拟器验收，不发行（distribution: none；本人 2026-10-02 要求模拟器验收；真机未验证）",
+     "fix": null,
+     "auto": null,
+     "platform": "watch"
+    },
+    {
+     "stage": "ship",
+     "key": "platform-vision-release",
+     "status": "na",
+     "detail": "Apple Vision Pro：仅模拟器验收，不发行（distribution: none；本人 2026-10-02 要求模拟器验收；真机未验证）",
+     "fix": null,
+     "auto": null,
+     "platform": "vision"
+    }
+   ],
+   "input_fingerprints": {
+    "stages": {
+     "test": "664c57b08c6e15355c910c6dfa2a7f3384a330ea7ce36989ab71041a1cdf4b66",
+     "perf": "636e749a73cbf1691c54ec9be68e58bc31efe9da539dae474dd89f714f0e973c",
+     "media": "b183c6575e0fad78a50744eddd5ef4939e4584deaa9d4dc5ca39fdf7736e72e8",
+     "promo": "7e9289f4965b72ffe76c75d98e191827f20017a630912dd47097ec3a67bcdcf9",
+     "ship": "114c01d513068f23dae06cc2e461f976e2992e035cb74ea24758c5c7d6900cab"
+    },
+    "bindings": {
+     "business": "a5424b48b1abbf16975be70813413518c1077c66c00b5f5d725e763aba221043",
+     "code": "2cb3fced617af2582c070c2e5f1efb5a8d4ab65554bc382e0b196d5d41e3d7c1",
+     "ui": "595285bc095ee74fc79dda30df01de1e76aa57ec902167ae93983f3435227215",
+     "promo_ui": "2077a2bc4f254c4850630a18be387be7fe72820d91e51338e2b21b136fff96cf",
+     "media": "3644c984b902f047c02efc36c6902dcc7351a7214e62943f5bb4bc6ef8180b5b",
+     "icon": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+     "installed_icon": "dee36ace772e1ed71145ee73f01e32ff75f471341ab8aa67fb7efebb93796fe5",
+     "cli_entry": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+     "platform_iphone": "8c006ea4869703237c03393bdeeef0d30d3bbb3ba48de27035884d06f2dc8f7f",
+     "platform_ipad": "2fb0267a97fe6c29aeb4de284f2e55169b95c9a281e22af729f5aedcc8a490b8",
+     "platform_watch": "30555db6a7ea890ee80a6c0c3292ee334565bf71f9ac35b8846ac8dc76407e85",
+     "platform_vision": "fa2c38609e96f11b11e3b03f4be384c6e6fc4bdf0d8e3bd2bb31c08744b71968"
+    },
+    "icon_inputs": {},
+    "installed_icon_inputs": {},
+    "capture_inputs": {
+     "iphone": "12d2ef138bb8c202602d6a6621ca80bdbb111fa0c37717b3fdc574bb3102177a",
+     "ipad": "a327868e4078c0c56a3613cb1914f9dc3e5ba188ffa3628fc4e33c3dc423d371",
+     "vision": "23db1f284298c0045157e5a78dc90295291e3f67a69a9a711a471e5816b59b58"
+    },
+    "product_policy_sha256": "6cd0b759687a3c3246f989b00b7082f359253dab70624eb5d3cd9910fc39507d",
+    "product_naming_sha256": "73cb0824387f9b9079c10f68d5caae6cc02f25316487d777334f2292f746e64c",
+    "icon_complete": false,
+    "installed_icon_matches": false,
+    "components": {
+     "business": "a5424b48b1abbf16975be70813413518c1077c66c00b5f5d725e763aba221043",
+     "code": "2cb3fced617af2582c070c2e5f1efb5a8d4ab65554bc382e0b196d5d41e3d7c1",
+     "perf": "5e3163c79a0ca720949852bc1d429341cb8805d0c663b7a5320a28848f1cabd1",
+     "ui": "89e930033c182abfd08773cb6a5158f624953eb984e2413e58d12743f35d2db4",
+     "media": "ef7a0bc14584012e3dc68e571b6cc8d06e27956466754d4312818843ff973867"
+    }
+   },
+   "deferred_stages": {
+    "media": "测量/重录仅在恒定情况执行；测试可单独 --now。负载 140.7 ≥ 10"
+   },
+   "machine_state": "needs_check",
+   "delivery_state": "pending_user",
+   "coverage": [
+    "media_playback",
+    "launch_ipad",
+    "launch_watch",
+    "launch_vision"
+   ],
+   "resource_environments": [
+    "simulator"
+   ],
+   "scope_notes": [
+    "本次资源验收含用户接受的模拟器范围；真机资源尚未验证，模拟器数值不代表真机",
+    "iPhone、iPad、Apple Watch、Apple Vision Pro：仅模拟器验收，不发行；本人 2026-10-02 要求模拟器验收；真机未验证"
+   ]
+  }
+ ],
+ "actions": []
+}

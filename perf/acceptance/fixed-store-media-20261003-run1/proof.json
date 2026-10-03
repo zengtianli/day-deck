@@ -1,0 +1,41 @@
+{
+  "at": "2026-10-04T00:01:14.435709+08:00",
+  "actual_original_attempt": {
+    "input_sha256": "12d2ef138bb8c202602d6a6621ca80bdbb111fa0c37717b3fdc574bb3102177a",
+    "at": "2026-10-03T23:56:44.175374+08:00",
+    "result": "重录推迟：重录脚本判定当前不是恒定情况，空闲时再录（/Users/tianli/Library/Logs/app-sop/day-deck-ios-capture-iphone-20261003-235644.log）",
+    "status": "deferred"
+  },
+  "result": "deferred75 after first screen, before second screen; zero formal Store PNG",
+  "owned_device": {
+    "udid": "5A64F831-FD66-4351-ACDB-91DC55DB9A09",
+    "state": "Shutdown"
+  },
+  "producer_pid": 59393,
+  "producer_ps_returncode": 1,
+  "producer_ps_output": "",
+  "retained_native_record": {
+    "pid": 59393,
+    "pid_started": "Sat Oct  3 23:56:44 2026",
+    "label": "sim_lane:iphone:59393",
+    "at": "2026-10-03T23:57:23+08:00",
+    "udid": "5A64F831-FD66-4351-ACDB-91DC55DB9A09",
+    "keep_booted": true
+  },
+  "native_record_scope": "original keep_booted lease; exited producer and Shutdown device permit original stale acquisition, no manual removal",
+  "artifacts": [
+    {
+      "source": "/Users/tianli/Library/Logs/app-sop/day-deck-ios-capture-iphone-20261003-235644.log",
+      "file": "capture.log",
+      "sha256": "44052e3b304fa6aaf9f3856f4ab91482a66ca4bf59d329c2c6ed4b7ecffe0d5b",
+      "bytes": 1483
+    },
+    {
+      "source": "/private/tmp/notihub-fixed-media-iphone-20261003-2357.json",
+      "file": "original-run.json",
+      "sha256": "3eaa6422dbee401268a1278ba3d9f2ee6d2a0fa28536d361f4d1b1c0b084b5cc",
+      "bytes": 13298
+    }
+  ],
+  "sdk_recompiled": false
+}
