@@ -1,0 +1,83 @@
+{
+  "schema_version": 1,
+  "name": "launch_iphone",
+  "app_id": "day-deck-ios",
+  "command": "~/Dev/.venv/bin/python ~/Apps/chapter/engine/acceptors/platform_launch.py",
+  "exit_code": 0,
+  "status": "passed",
+  "started_at": "2026-10-03T22:31:18.119574+08:00",
+  "finished_at": "2026-10-03T22:33:22.927862+08:00",
+  "input_sha256": "8c006ea4869703237c03393bdeeef0d30d3bbb3ba48de27035884d06f2dc8f7f",
+  "log": "perf/acceptance/launch_iphone.log",
+  "log_sha256": "c9b26f5fd11e553b64a81ed6342c8309650d10e76e6025cab03d8dc2533046d3",
+  "summary": "iPhone 模拟器 iPhone 17 Pro 启动冒烟通过：os_log 4.282 s，截图 1206×2622",
+  "detail": {
+    "summary": "iPhone 模拟器 iPhone 17 Pro 启动冒烟通过：os_log 4.282 s，截图 1206×2622",
+    "passed": true,
+    "platform": "iphone",
+    "environment": "simulator",
+    "scheme": "DayDeck",
+    "sim_lane": "/Users/tianli/Dev/tools/dev/lib/tools/macapp/ios/sim_lane.py",
+    "method": "核验仓外构建回执与当前源码、产物及工具链后复用；沿共享 sim_lane 静默启动并截图，不抢焦点",
+    "build": {
+      "app_path": "/Users/tianli/Library/Caches/sim-lane/platform-measure/sim-lane-build.c8279d09c7a98272a8756bcc8254cac31e3bede8c47b4d83aa3d7cb9a9629829/sim-lane-build.idxbf2t0/dd/Build/Products/Release-iphonesimulator/DayDeck.app",
+      "bundle_id": "cyou.tianli.daydeck",
+      "version": "0.2",
+      "build": "1",
+      "configuration": "Release",
+      "executable_sha256": "0c0d0b62b5d6726cb9d08ef816469e0979cd079b0e873a5eca0e3940d4af95b1",
+      "sdk": "iphonesimulator27.0",
+      "xcode": {
+        "name": "Xcode.app",
+        "version": "27.0",
+        "build": "27A266a",
+        "developer_dir": "/Applications/Xcode.app/Contents/Developer"
+      },
+      "log": "/Users/tianli/Library/Caches/sim-lane/platform-measure/sim-lane-build.c8279d09c7a98272a8756bcc8254cac31e3bede8c47b4d83aa3d7cb9a9629829/sim-lane-build.idxbf2t0/build-iphone-Release.log",
+      "reuse": {
+        "receipt": "/Users/tianli/Library/Caches/sim-lane/platform-measure/sim-lane-build.c8279d09c7a98272a8756bcc8254cac31e3bede8c47b4d83aa3d7cb9a9629829/sim-lane-build.idxbf2t0/build.json",
+        "receipt_sha256": "1ef1528247f325c59b8bbf8cf285dc63a220bc7fd3ff6e891b1b25d7e58360d5",
+        "source_copy": "/Users/tianli/Library/Caches/sim-lane/platform-measure/sim-lane-build.c8279d09c7a98272a8756bcc8254cac31e3bede8c47b4d83aa3d7cb9a9629829/sim-lane-build.idxbf2t0/src",
+        "input_sha256": "3c63c9933477df5eb433c95e425e87c21ba55328f3a605df9b2b58c62149e6e9",
+        "source_file_count": 47
+      }
+    },
+    "device": {
+      "udid": "280663C5-C40F-4F3E-8E88-2EB031CA689D",
+      "name": "iPhone 17 Pro",
+      "runtime": "com.apple.CoreSimulator.SimRuntime.iOS-27-0",
+      "device_type": "iPhone-17-Pro"
+    },
+    "launch_args": [
+      "-demo",
+      "1"
+    ],
+    "waits": {
+      "lock_seconds": 300,
+      "load_seconds": 300
+    },
+    "run": {
+      "udid": "280663C5-C40F-4F3E-8E88-2EB031CA689D",
+      "pid": 89869,
+      "ready_seconds": 4.282,
+      "ready_signal": "os_log",
+      "size": [
+        1206,
+        2622
+      ],
+      "runtime": "iOS-27-0",
+      "device": "iPhone 17 Pro"
+    },
+    "verdict": {
+      "non_blank": true,
+      "changed_from_baseline": true,
+      "stable": true,
+      "diff_baseline": 0.8913,
+      "diff_prev": 0.0
+    },
+    "screenshot": "perf/platforms/iphone/launch.png",
+    "screenshot_sha256": "f29541ce385333c3094cc4142b8216794d0d6498f40f5b31f274849d7ad59173",
+    "capture_reusable": false,
+    "capture_note": "真实运行字段、源码绑定或 PNG 原件不满足复用校验；本次仅保留原启动验收"
+  }
+}
