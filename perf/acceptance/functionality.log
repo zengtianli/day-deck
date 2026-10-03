@@ -1,0 +1,59 @@
+functionality: 本机生产核心隔离集成；合成网络响应及独立临时缓存，执行 API/Store/Writer 真实路径。覆盖今日待办分组、长摘要/正文、日记回执及失效回读、状态回读、提醒事项本机写入（假 store）与 Mac 排队。未覆盖 iOS 界面、真机或线上服务。
+warning: '01-源程序': found 1 file(s) which are unhandled; explicitly declare them as resources or exclude from the target
+    /Users/tianli/Apps/notifhub/ios/01-源程序/Tests/__pycache__/test_capture_demo.cpython-314.pyc
+Building for debugging...
+[1 / 5]
+Build complete! (0.44 sec)
+Test Suite 'Selected tests' started at 2026-10-03 10:12:25.811.
+Test Suite 'DayDeckCoreTests.xctest' started at 2026-10-03 10:12:25.812.
+Test Suite 'FunctionalityAcceptanceTests' started at 2026-10-03 10:12:25.812.
+Test Case '-[DayDeckCoreTests.FunctionalityAcceptanceTests testAgendaStatusReadbackAndReminderQueueContract]' started.
+Test Case '-[DayDeckCoreTests.FunctionalityAcceptanceTests testAgendaStatusReadbackAndReminderQueueContract]' passed (0.014 seconds).
+Test Case '-[DayDeckCoreTests.FunctionalityAcceptanceTests testNoteReceiptInvalidatesCacheThenReadsBackCommittedText]' started.
+Test Case '-[DayDeckCoreTests.FunctionalityAcceptanceTests testNoteReceiptInvalidatesCacheThenReadsBackCommittedText]' passed (0.004 seconds).
+Test Case '-[DayDeckCoreTests.FunctionalityAcceptanceTests testTodayRefreshAndLongContentSurviveNetworkAndDisk]' started.
+Test Case '-[DayDeckCoreTests.FunctionalityAcceptanceTests testTodayRefreshAndLongContentSurviveNetworkAndDisk]' passed (0.003 seconds).
+Test Suite 'FunctionalityAcceptanceTests' passed at 2026-10-03 10:12:25.833.
+	 Executed 3 tests, with 0 failures (0 unexpected) in 0.021 (0.022) seconds
+Test Suite 'RemindersFunctionalityAcceptanceTests' started at 2026-10-03 10:12:25.833.
+Test Case '-[DayDeckCoreTests.RemindersFunctionalityAcceptanceTests testAllDayItemIsFloatingDateWithoutAlarm]' started.
+Test Case '-[DayDeckCoreTests.RemindersFunctionalityAcceptanceTests testAllDayItemIsFloatingDateWithoutAlarm]' passed (0.001 seconds).
+Test Case '-[DayDeckCoreTests.RemindersFunctionalityAcceptanceTests testChangedIDIsSameThingButDifferentTitleOrDateIsNot]' started.
+Test Case '-[DayDeckCoreTests.RemindersFunctionalityAcceptanceTests testChangedIDIsSameThingButDifferentTitleOrDateIsNot]' passed (0.002 seconds).
+Test Case '-[DayDeckCoreTests.RemindersFunctionalityAcceptanceTests testCompletedMarkerOnlyWithinThirtyDays]' started.
+Test Case '-[DayDeckCoreTests.RemindersFunctionalityAcceptanceTests testCompletedMarkerOnlyWithinThirtyDays]' passed (0.001 seconds).
+Test Case '-[DayDeckCoreTests.RemindersFunctionalityAcceptanceTests testDayQueryMidnightBoundariesAndMarkers]' started.
+Test Case '-[DayDeckCoreTests.RemindersFunctionalityAcceptanceTests testDayQueryMidnightBoundariesAndMarkers]' passed (0.002 seconds).
+Test Case '-[DayDeckCoreTests.RemindersFunctionalityAcceptanceTests testDeletedSavedListFallsBackToDefaultWithNotice]' started.
+Test Case '-[DayDeckCoreTests.RemindersFunctionalityAcceptanceTests testDeletedSavedListFallsBackToDefaultWithNotice]' passed (0.001 seconds).
+Test Case '-[DayDeckCoreTests.RemindersFunctionalityAcceptanceTests testDeniedNeverPromptsReadsOrWrites]' started.
+Test Case '-[DayDeckCoreTests.RemindersFunctionalityAcceptanceTests testDeniedNeverPromptsReadsOrWrites]' passed (0.001 seconds).
+Test Case '-[DayDeckCoreTests.RemindersFunctionalityAcceptanceTests testFullAccessStatesAndOutcomes]' started.
+Test Case '-[DayDeckCoreTests.RemindersFunctionalityAcceptanceTests testFullAccessStatesAndOutcomes]' passed (0.001 seconds).
+Test Case '-[DayDeckCoreTests.RemindersFunctionalityAcceptanceTests testMacPushedSameTitleSameCloudDayIsBlocked]' started.
+Test Case '-[DayDeckCoreTests.RemindersFunctionalityAcceptanceTests testMacPushedSameTitleSameCloudDayIsBlocked]' passed (0.001 seconds).
+Test Case '-[DayDeckCoreTests.RemindersFunctionalityAcceptanceTests testMarkerParsingRejectsForeignURLsAndNonFinalLines]' started.
+Test Case '-[DayDeckCoreTests.RemindersFunctionalityAcceptanceTests testMarkerParsingRejectsForeignURLsAndNonFinalLines]' passed (0.000 seconds).
+Test Case '-[DayDeckCoreTests.RemindersFunctionalityAcceptanceTests testModelTracksSectionsOutcomesAndAccessRequest]' started.
+Test Case '-[DayDeckCoreTests.RemindersFunctionalityAcceptanceTests testModelTracksSectionsOutcomesAndAccessRequest]' passed (0.001 seconds).
+Test Case '-[DayDeckCoreTests.RemindersFunctionalityAcceptanceTests testNoDueAndEventUsesStart]' started.
+Test Case '-[DayDeckCoreTests.RemindersFunctionalityAcceptanceTests testNoDueAndEventUsesStart]' passed (0.001 seconds).
+Test Case '-[DayDeckCoreTests.RemindersFunctionalityAcceptanceTests testNotDeterminedStateAndRequestOutcomes]' started.
+Test Case '-[DayDeckCoreTests.RemindersFunctionalityAcceptanceTests testNotDeterminedStateAndRequestOutcomes]' passed (0.001 seconds).
+Test Case '-[DayDeckCoreTests.RemindersFunctionalityAcceptanceTests testNotesOnlyMarkerHitBlocksWhenURLIsNotReadBack]' started.
+Test Case '-[DayDeckCoreTests.RemindersFunctionalityAcceptanceTests testNotesOnlyMarkerHitBlocksWhenURLIsNotReadBack]' passed (0.001 seconds).
+Test Case '-[DayDeckCoreTests.RemindersFunctionalityAcceptanceTests testPlanTitleNotesMarkerAndURL]' started.
+Test Case '-[DayDeckCoreTests.RemindersFunctionalityAcceptanceTests testPlanTitleNotesMarkerAndURL]' passed (0.001 seconds).
+Test Case '-[DayDeckCoreTests.RemindersFunctionalityAcceptanceTests testTimedItemAbsoluteDueSurvivesDeviceZoneDifferentFromCloud]' started.
+Test Case '-[DayDeckCoreTests.RemindersFunctionalityAcceptanceTests testTimedItemAbsoluteDueSurvivesDeviceZoneDifferentFromCloud]' passed (0.000 seconds).
+Test Case '-[DayDeckCoreTests.RemindersFunctionalityAcceptanceTests testTimedItemHasCloudZoneMinutesAndAlarm]' started.
+Test Case '-[DayDeckCoreTests.RemindersFunctionalityAcceptanceTests testTimedItemHasCloudZoneMinutesAndAlarm]' passed (0.000 seconds).
+Test Case '-[DayDeckCoreTests.RemindersFunctionalityAcceptanceTests testURLMarkerHitBlocksAndForceWrites]' started.
+Test Case '-[DayDeckCoreTests.RemindersFunctionalityAcceptanceTests testURLMarkerHitBlocksAndForceWrites]' passed (0.000 seconds).
+Test Suite 'RemindersFunctionalityAcceptanceTests' passed at 2026-10-03 10:12:25.849.
+	 Executed 17 tests, with 0 failures (0 unexpected) in 0.013 (0.015) seconds
+Test Suite 'DayDeckCoreTests.xctest' passed at 2026-10-03 10:12:25.849.
+	 Executed 20 tests, with 0 failures (0 unexpected) in 0.034 (0.037) seconds
+Test Suite 'Selected tests' passed at 2026-10-03 10:12:25.849.
+	 Executed 20 tests, with 0 failures (0 unexpected) in 0.034 (0.038) seconds
+PASS functionality: 本机生产核心隔离集成；合成网络响应及独立临时缓存，执行 API/Store/Writer 真实路径。覆盖今日待办分组、长摘要/正文、日记回执及失效回读、状态回读、提醒事项本机写入（假 store）与 Mac 排队。未覆盖 iOS 界面、真机或线上服务。

@@ -35,10 +35,10 @@
       "result": "passed",
       "scope": "code",
       "method": "real_product",
-      "checked_at": "2026-09-29T14:12:20.648139+08:00",
-      "input_sha256": "559c6cb34a9c7a0306b6e745d24154833de5960aa1272d0a418c6cdb08059d0b",
+      "checked_at": "2026-10-03T10:12:25.972457+08:00",
+      "input_sha256": "2cb3fced617af2582c070c2e5f1efb5a8d4ab65554bc382e0b196d5d41e3d7c1",
       "evidence": "perf/acceptance/functionality.json",
-      "evidence_sha256": "4fb3dc911fd95141c53aa04e4b06108aae36b62cd21053bd250f710b1a7baaaf",
+      "evidence_sha256": "7cf837287b053695b667831c2f40edd58fd0dfdab0ad3b9e0dff42253bf51b88",
       "detail": "sop.accept：bash scripts/accept/functionality.sh → PASS functionality: 本机生产核心隔离集成；合成网络响应及独立临时缓存，执行 API/Store/Writer 真实路径。覆盖今日待办分组、长摘要/正文、日记回执及失效回读、状态回读、提醒事项本机写入（假 store）与 Mac 排队。未覆盖 iOS 界面、真机或线上服务。"
     },
     "recovery": {
@@ -55,12 +55,12 @@
       "result": "passed",
       "scope": "code",
       "method": "real_product",
-      "checked_at": "2026-09-29T14:12:17.619330+08:00",
-      "input_sha256": "559c6cb34a9c7a0306b6e745d24154833de5960aa1272d0a418c6cdb08059d0b",
+      "checked_at": "2026-10-03T10:12:56.626674+08:00",
+      "input_sha256": "2cb3fced617af2582c070c2e5f1efb5a8d4ab65554bc382e0b196d5d41e3d7c1",
       "evidence": "perf/acceptance/privacy.json",
-      "evidence_sha256": "87d82b823b3da064f56f240ebf73eae5e68bf14af3ccbb19132ffa31edb285c4",
+      "evidence_sha256": "48f03b53d18bbe44c8acf9e920c86fd411d898fdd460ecefa9200b87d0185885",
       "detail": "sop.accept：bash scripts/accept/privacy.sh → PASS privacy: production API/Store/Writer/Gate in isolated URLProtocol, ephemeral session and synthetic cache; 提醒事项零网络、零落盘; no device, live service or real Keychain access."
     }
   },
-  "updated_at": "2026-10-03T09:46:44.871917+08:00"
+  "updated_at": "2026-10-03T10:12:56.641221+08:00"
 }

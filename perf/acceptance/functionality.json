@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "name": "functionality",
+  "app_id": "day-deck-ios",
+  "command": "bash scripts/accept/functionality.sh",
+  "exit_code": 0,
+  "status": "passed",
+  "started_at": "2026-10-03T10:12:22.396773+08:00",
+  "finished_at": "2026-10-03T10:12:25.972457+08:00",
+  "input_sha256": "2cb3fced617af2582c070c2e5f1efb5a8d4ab65554bc382e0b196d5d41e3d7c1",
+  "log": "perf/acceptance/functionality.log",
+  "log_sha256": "ba92c83b9717aa795462617695c745e403d291d186ee198c84419d7798e6af4a",
+  "summary": "PASS functionality: 本机生产核心隔离集成；合成网络响应及独立临时缓存，执行 API/Store/Writer 真实路径。覆盖今日待办分组、长摘要/正文、日记回执及失效回读、状态回读、提醒事项本机写入（假 store）与 Mac 排队。未覆盖 iOS 界面、真机或线上服务。",
+  "detail": null
+}

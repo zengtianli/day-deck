@@ -1,0 +1,207 @@
+{
+  "schema_version": 1,
+  "app_id": "day-deck-ios",
+  "checks": [
+    {
+      "name": "functionality",
+      "scope": "host SwiftPM production core with isolated synthetic URLProtocol/cache/permissions; no iOS UI, device, live service or real Keychain acceptance",
+      "record": "perf/acceptance/functionality.json",
+      "record_sha256": "7cf837287b053695b667831c2f40edd58fd0dfdab0ad3b9e0dff42253bf51b88",
+      "log": "perf/acceptance/functionality.log",
+      "log_sha256": "ba92c83b9717aa795462617695c745e403d291d186ee198c84419d7798e6af4a",
+      "status": "passed",
+      "exit_code": 0,
+      "test_count": 20,
+      "failure_count": 0,
+      "started_at": "2026-10-03T10:12:22.396773+08:00",
+      "finished_at": "2026-10-03T10:12:25.972457+08:00",
+      "summary": "PASS functionality: 本机生产核心隔离集成；合成网络响应及独立临时缓存，执行 API/Store/Writer 真实路径。覆盖今日待办分组、长摘要/正文、日记回执及失效回读、状态回读、提醒事项本机写入（假 store）与 Mac 排队。未覆盖 iOS 界面、真机或线上服务。",
+      "test_case_names": [
+        "-[DayDeckCoreTests.FunctionalityAcceptanceTests testAgendaStatusReadbackAndReminderQueueContract]",
+        "-[DayDeckCoreTests.FunctionalityAcceptanceTests testNoteReceiptInvalidatesCacheThenReadsBackCommittedText]",
+        "-[DayDeckCoreTests.FunctionalityAcceptanceTests testTodayRefreshAndLongContentSurviveNetworkAndDisk]",
+        "-[DayDeckCoreTests.RemindersFunctionalityAcceptanceTests testAllDayItemIsFloatingDateWithoutAlarm]",
+        "-[DayDeckCoreTests.RemindersFunctionalityAcceptanceTests testChangedIDIsSameThingButDifferentTitleOrDateIsNot]",
+        "-[DayDeckCoreTests.RemindersFunctionalityAcceptanceTests testCompletedMarkerOnlyWithinThirtyDays]",
+        "-[DayDeckCoreTests.RemindersFunctionalityAcceptanceTests testDayQueryMidnightBoundariesAndMarkers]",
+        "-[DayDeckCoreTests.RemindersFunctionalityAcceptanceTests testDeletedSavedListFallsBackToDefaultWithNotice]",
+        "-[DayDeckCoreTests.RemindersFunctionalityAcceptanceTests testDeniedNeverPromptsReadsOrWrites]",
+        "-[DayDeckCoreTests.RemindersFunctionalityAcceptanceTests testFullAccessStatesAndOutcomes]",
+        "-[DayDeckCoreTests.RemindersFunctionalityAcceptanceTests testMacPushedSameTitleSameCloudDayIsBlocked]",
+        "-[DayDeckCoreTests.RemindersFunctionalityAcceptanceTests testMarkerParsingRejectsForeignURLsAndNonFinalLines]",
+        "-[DayDeckCoreTests.RemindersFunctionalityAcceptanceTests testModelTracksSectionsOutcomesAndAccessRequest]",
+        "-[DayDeckCoreTests.RemindersFunctionalityAcceptanceTests testNoDueAndEventUsesStart]",
+        "-[DayDeckCoreTests.RemindersFunctionalityAcceptanceTests testNotDeterminedStateAndRequestOutcomes]",
+        "-[DayDeckCoreTests.RemindersFunctionalityAcceptanceTests testNotesOnlyMarkerHitBlocksWhenURLIsNotReadBack]",
+        "-[DayDeckCoreTests.RemindersFunctionalityAcceptanceTests testPlanTitleNotesMarkerAndURL]",
+        "-[DayDeckCoreTests.RemindersFunctionalityAcceptanceTests testTimedItemAbsoluteDueSurvivesDeviceZoneDifferentFromCloud]",
+        "-[DayDeckCoreTests.RemindersFunctionalityAcceptanceTests testTimedItemHasCloudZoneMinutesAndAlarm]",
+        "-[DayDeckCoreTests.RemindersFunctionalityAcceptanceTests testURLMarkerHitBlocksAndForceWrites]"
+      ],
+      "controller": {
+        "attempt": "<scratch>/notihub-original-business-slot-20261003/notihub-functionality-ovhpdczt",
+        "result": {
+          "stage_exit_code": 0,
+          "exit_code": 0,
+          "final_elapsed_seconds": 5.420765125018079,
+          "budget_exceeded": false,
+          "budget_seconds": 600,
+          "parent_started_at": "2026-10-03T10:12:20+08:00",
+          "parent_finished_at": "2026-10-03T10:12:26+08:00",
+          "check": "functionality"
+        },
+        "result_sha256": "3d688f72de1df2a67f3d16711810c800877aef24b76b2b840ab3238ae01d9b00",
+        "status_sha256": "150189f6db2228d3309e7d9b36c75969fe5058d289d47f92e753163ccef11d69",
+        "raw_api_return_sha256": "89639d8bca516e23264aff7254cb6deefa3a7231c78198c4d8a1c94caaf09907",
+        "raw_api_return": {
+          "ok": true,
+          "app_id": "day-deck-ios",
+          "results": {
+            "functionality": {
+              "status": "passed",
+              "method": "real_product",
+              "evidence": "perf/acceptance/functionality.json",
+              "detail": "PASS functionality: 本机生产核心隔离集成；合成网络响应及独立临时缓存，执行 API/Store/Writer 真实路径。覆盖今日待办分组、长摘要/正文、日记回执及失效回读、状态回读、提醒事项本机写入（假 store）与 Mac 排队。未覆盖 iOS 界面、真机或线上服务。"
+            }
+          }
+        },
+        "source_before_sha256": "3e76135810e1f9244427004c4a3f3e9328f5fd690d2ee04cae805fe153e045d7",
+        "source_after_sha256": "3e76135810e1f9244427004c4a3f3e9328f5fd690d2ee04cae805fe153e045d7",
+        "before_after_equal_prepared_map": true,
+        "raw_artifacts_manifest_sha256": "a183f9253203f4cdffce54bd99f99636f06959c7e7bb0dc0a266c953c356f3b7",
+        "raw_ledger_sha256": "d39ad289b90314646b3b4edf02cae0b1face99cad18fb9b86c2c442aa0d9c1ab"
+      },
+      "old_check_backup": [
+        {
+          "name": "functionality.json",
+          "exists": true,
+          "sha256": "4fb3dc911fd95141c53aa04e4b06108aae36b62cd21053bd250f710b1a7baaaf",
+          "preserved": true
+        },
+        {
+          "name": "functionality.detail.json",
+          "exists": false
+        },
+        {
+          "name": "functionality.log",
+          "exists": true,
+          "sha256": "3e99530f79e3bfa24990d084daf837a54313f29c18bae23d3c0be1f77070d9e7",
+          "preserved": true
+        },
+        {
+          "name": "delivery-evidence.json",
+          "exists": true,
+          "sha256": "c10be570a649edfabd3b26103ccc27e0c1cd7cf7c4a357e2603c2b96745c924b",
+          "preserved": true
+        }
+      ]
+    },
+    {
+      "name": "privacy",
+      "scope": "host SwiftPM production core with isolated synthetic URLProtocol/cache/permissions; no iOS UI, device, live service or real Keychain acceptance",
+      "record": "perf/acceptance/privacy.json",
+      "record_sha256": "48f03b53d18bbe44c8acf9e920c86fd411d898fdd460ecefa9200b87d0185885",
+      "log": "perf/acceptance/privacy.log",
+      "log_sha256": "59afccc22f6173a0494b385445d8b6e7d17f9ec11f576309292c03e1afabd60d",
+      "status": "passed",
+      "exit_code": 0,
+      "test_count": 6,
+      "failure_count": 0,
+      "started_at": "2026-10-03T10:12:53.800250+08:00",
+      "finished_at": "2026-10-03T10:12:56.626674+08:00",
+      "summary": "PASS privacy: production API/Store/Writer/Gate in isolated URLProtocol, ephemeral session and synthetic cache; 提醒事项零网络、零落盘; no device, live service or real Keychain access.",
+      "test_case_names": [
+        "-[DayDeckCoreTests.PrivacyAcceptanceTests testDemoDoesNotLoadPrivateCacheOrFetchDuringRefreshAndDateSwitch]",
+        "-[DayDeckCoreTests.PrivacyAcceptanceTests testDemoRejectsAllWritesAndLoginWithoutNetworkOrCacheMutation]",
+        "-[DayDeckCoreTests.PrivacyAcceptanceTests testOnlyExplicitReminderExportUsesQueue]",
+        "-[DayDeckCoreTests.PrivacyAcceptanceTests testUntrustedDestinationsAreRejectedBeforeAnyRequest]",
+        "-[DayDeckCoreTests.RemindersPrivacyAcceptanceTests testDemoFactoryReturnsFakeNotEventKit]",
+        "-[DayDeckCoreTests.RemindersPrivacyAcceptanceTests testReadAndAddMakeNoRequestsAndLeaveNoTrace]"
+      ],
+      "controller": {
+        "attempt": "<scratch>/notihub-original-business-slot-20261003/notihub-privacy-vgolo1pk",
+        "result": {
+          "stage_exit_code": 0,
+          "exit_code": 0,
+          "final_elapsed_seconds": 5.160259417025372,
+          "budget_exceeded": false,
+          "budget_seconds": 600,
+          "parent_started_at": "2026-10-03T10:12:51+08:00",
+          "parent_finished_at": "2026-10-03T10:12:56+08:00",
+          "check": "privacy"
+        },
+        "result_sha256": "7a8387c6dbcb7358bb5d5e55724aa39895f731dbde927ec2d78b10fb9bb80c5b",
+        "status_sha256": "5acd1f167033766b6deb1ffe97443c866ace2e918c0ada97affa4285d4e1296f",
+        "raw_api_return_sha256": "c0b9c066f59b621a1abd2370606a4f9bd57bc9977f4b3f3b070731879337b16e",
+        "raw_api_return": {
+          "ok": true,
+          "app_id": "day-deck-ios",
+          "results": {
+            "privacy": {
+              "status": "passed",
+              "method": "real_product",
+              "evidence": "perf/acceptance/privacy.json",
+              "detail": "PASS privacy: production API/Store/Writer/Gate in isolated URLProtocol, ephemeral session and synthetic cache; 提醒事项零网络、零落盘; no device, live service or real Keychain access."
+            }
+          }
+        },
+        "source_before_sha256": "3e76135810e1f9244427004c4a3f3e9328f5fd690d2ee04cae805fe153e045d7",
+        "source_after_sha256": "3e76135810e1f9244427004c4a3f3e9328f5fd690d2ee04cae805fe153e045d7",
+        "before_after_equal_prepared_map": true,
+        "raw_artifacts_manifest_sha256": "d9aec29fcd9ad19b67e4ea433de231412bdc9e25a60f8b9e3f782b3b30c155e0",
+        "raw_ledger_sha256": "a6c0b9a8b120a5fd394c39fb0749c031c81eec6bb3e3a4509882bf59174e0dcd"
+      },
+      "old_check_backup": [
+        {
+          "name": "privacy.json",
+          "exists": true,
+          "sha256": "87d82b823b3da064f56f240ebf73eae5e68bf14af3ccbb19132ffa31edb285c4",
+          "preserved": true
+        },
+        {
+          "name": "privacy.detail.json",
+          "exists": false
+        },
+        {
+          "name": "privacy.log",
+          "exists": true,
+          "sha256": "39279c702c0b39d5adc5c2d08ac5f0c97d6a06cbbd1c0a4218f7cd6ef63556fd",
+          "preserved": true
+        },
+        {
+          "name": "delivery-evidence.json",
+          "exists": true,
+          "sha256": "d39ad289b90314646b3b4edf02cae0b1face99cad18fb9b86c2c442aa0d9c1ab",
+          "preserved": true
+        }
+      ]
+    }
+  ],
+  "kind": "read-only sealing of original functionality/privacy results; no new acceptance run",
+  "verified_at": "2026-10-03T10:15:00.502066+08:00",
+  "scope": "host SwiftPM production API/Store/Writer/Gate with isolated URLProtocol, ephemeral session, synthetic cache and fake ReminderStore/permission scenarios",
+  "inputs": {
+    "map_reference": "perf/acceptance/recovery.source-receipt.json",
+    "map_reference_sha256": "587a55ef5d09900fee85693e9b232a22c3690a1ea7f8c17c29e71e7e7a25b291",
+    "compiled_file_count": 47,
+    "test_input_file_count": 16,
+    "compiled_input_sha256": "3c63c9933477df5eb433c95e425e87c21ba55328f3a605df9b2b58c62149e6e9",
+    "test_input_sha256": "203a49780b8a7dfe795caad3dea1898be4aa5ae65534612ca5ff4b181242c29c",
+    "business_binding": "2cb3fced617af2582c070c2e5f1efb5a8d4ab65554bc382e0b196d5d41e3d7c1",
+    "both_raw_before_after_equal_existing_prepared_map": true,
+    "current_source_tree_reenumerated_during_sealing": false
+  },
+  "final_ledger": {
+    "path": "perf/delivery-evidence.json",
+    "sha256": "a6c0b9a8b120a5fd394c39fb0749c031c81eec6bb3e3a4509882bf59174e0dcd",
+    "byte_equal_to_privacy_raw_backup": true,
+    "functionality_intermediate_ledger_preserved_in_original_attempt": true
+  },
+  "limitations": [
+    "This records the original 20/20 functionality and 6/6 privacy natural PASS only; no Swift/build/Sim/actual/reuse command was invoked during sealing.",
+    "No whole-source-tree revalidation or consumer command was run here; input equality is the preserved producer before/after map compared with the already sealed prepared map.",
+    "Historical NB75/noattempt and earlier failures remain in their original receipts; the successful later attempts do not rewrite those facts.",
+    "No iOS UI, device, live network authentication, real Keychain/permissions or platform runtime/performance acceptance is claimed.",
+    "Original record/log/ledger bytes are retained under this explicitly scoped local task; no push or publication."
+  ]
+}

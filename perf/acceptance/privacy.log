@@ -1,0 +1,32 @@
+privacy: production API/Store/Writer/Gate in isolated URLProtocol, ephemeral session and synthetic cache; 提醒事项零网络、零落盘; no device, live service or real Keychain access.
+warning: '01-源程序': found 1 file(s) which are unhandled; explicitly declare them as resources or exclude from the target
+    /Users/tianli/Apps/notifhub/ios/01-源程序/Tests/__pycache__/test_capture_demo.cpython-314.pyc
+Building for debugging...
+[1 / 4] DayDeckCore
+Build complete! (0.35 sec)
+Test Suite 'Selected tests' started at 2026-10-03 10:12:56.464.
+Test Suite 'DayDeckCoreTests.xctest' started at 2026-10-03 10:12:56.465.
+Test Suite 'PrivacyAcceptanceTests' started at 2026-10-03 10:12:56.465.
+Test Case '-[DayDeckCoreTests.PrivacyAcceptanceTests testDemoDoesNotLoadPrivateCacheOrFetchDuringRefreshAndDateSwitch]' started.
+Test Case '-[DayDeckCoreTests.PrivacyAcceptanceTests testDemoDoesNotLoadPrivateCacheOrFetchDuringRefreshAndDateSwitch]' passed (0.009 seconds).
+Test Case '-[DayDeckCoreTests.PrivacyAcceptanceTests testDemoRejectsAllWritesAndLoginWithoutNetworkOrCacheMutation]' started.
+Test Case '-[DayDeckCoreTests.PrivacyAcceptanceTests testDemoRejectsAllWritesAndLoginWithoutNetworkOrCacheMutation]' passed (0.001 seconds).
+Test Case '-[DayDeckCoreTests.PrivacyAcceptanceTests testOnlyExplicitReminderExportUsesQueue]' started.
+Test Case '-[DayDeckCoreTests.PrivacyAcceptanceTests testOnlyExplicitReminderExportUsesQueue]' passed (0.003 seconds).
+Test Case '-[DayDeckCoreTests.PrivacyAcceptanceTests testUntrustedDestinationsAreRejectedBeforeAnyRequest]' started.
+Test Case '-[DayDeckCoreTests.PrivacyAcceptanceTests testUntrustedDestinationsAreRejectedBeforeAnyRequest]' passed (0.001 seconds).
+Test Suite 'PrivacyAcceptanceTests' passed at 2026-10-03 10:12:56.480.
+	 Executed 4 tests, with 0 failures (0 unexpected) in 0.014 (0.015) seconds
+Test Suite 'RemindersPrivacyAcceptanceTests' started at 2026-10-03 10:12:56.480.
+Test Case '-[DayDeckCoreTests.RemindersPrivacyAcceptanceTests testDemoFactoryReturnsFakeNotEventKit]' started.
+Test Case '-[DayDeckCoreTests.RemindersPrivacyAcceptanceTests testDemoFactoryReturnsFakeNotEventKit]' passed (0.014 seconds).
+Test Case '-[DayDeckCoreTests.RemindersPrivacyAcceptanceTests testReadAndAddMakeNoRequestsAndLeaveNoTrace]' started.
+2026-10-03 10:12:56.495 xctest[73034:41554624] Using your own bundle identifier as an NSUserDefaults suite name does not make sense and will not work. Break on _NSUserDefaults_Log_Nonsensical_Suites to find this
+Test Case '-[DayDeckCoreTests.RemindersPrivacyAcceptanceTests testReadAndAddMakeNoRequestsAndLeaveNoTrace]' passed (0.014 seconds).
+Test Suite 'RemindersPrivacyAcceptanceTests' passed at 2026-10-03 10:12:56.508.
+	 Executed 2 tests, with 0 failures (0 unexpected) in 0.028 (0.028) seconds
+Test Suite 'DayDeckCoreTests.xctest' passed at 2026-10-03 10:12:56.508.
+	 Executed 6 tests, with 0 failures (0 unexpected) in 0.042 (0.043) seconds
+Test Suite 'Selected tests' passed at 2026-10-03 10:12:56.508.
+	 Executed 6 tests, with 0 failures (0 unexpected) in 0.042 (0.043) seconds
+PASS privacy: production API/Store/Writer/Gate in isolated URLProtocol, ephemeral session and synthetic cache; 提醒事项零网络、零落盘; no device, live service or real Keychain access.
