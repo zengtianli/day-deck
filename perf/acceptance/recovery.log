@@ -1,0 +1,75 @@
+recovery: exact production API/Store/Writer; isolated URLSession and temporary cache; 云端失败时提醒小节独立、保存失败不标已加入; no real service, Keychain, device or UI acceptance.
+warning: '01-源程序': found 1 file(s) which are unhandled; explicitly declare them as resources or exclude from the target
+    /Users/tianli/Apps/notifhub/ios/01-源程序/Tests/__pycache__/test_capture_demo.cpython-314.pyc
+Building for debugging...
+[Planning deferred tasks]
+[28 / 52]
+[29 / 53] DayDeckCore
+[35 / 112]
+[41 / 112]
+[47 / 112]
+[49 / 112]
+[54 / 112]
+[58 / 112]
+[62 / 112]
+[65 / 112]
+[67 / 112]
+[74 / 112]
+[76 / 112]
+[80 / 112] DayDeckCore
+[88 / 112] DayDeckCore
+[90 / 112] DayDeckCoreTests-product
+[92 / 112] DayDeckCore
+[93 / 112] DayDeckCore
+[94 / 112]
+[98 / 112] DayDeckCore
+[102 / 113] DayDeckCoreTests-product
+[107 / 148]
+[113 / 148]
+[117 / 148]
+[120 / 148]
+[122 / 148]
+[125 / 148]
+[126 / 148]
+[129 / 148] DayDeckCoreTests-product
+[130 / 148] DayDeckCoreTests-product
+[137 / 148] DayDeckCoreTests-product
+[140 / 148] DayDeckCoreTests-product
+[142 / 148] DayDeckCoreTests-product
+[142 / 148] AllIncludingTests
+[144 / 148] DayDeckCoreTests-product
+Build complete! (8.98 sec)
+Test Suite 'Selected tests' started at 2026-10-03 09:46:44.722.
+Test Suite 'DayDeckCoreTests.xctest' started at 2026-10-03 09:46:44.723.
+Test Suite 'CloudContractTests' started at 2026-10-03 09:46:44.723.
+Test Case '-[DayDeckCoreTests.CloudContractTests testBadJSONAndOfflineKeepLastReadableCacheAndTimestamp]' started.
+Test Case '-[DayDeckCoreTests.CloudContractTests testBadJSONAndOfflineKeepLastReadableCacheAndTimestamp]' passed (0.009 seconds).
+Test Case '-[DayDeckCoreTests.CloudContractTests testForceCancelsOldRequestAndCannotOverwriteNewValueOrDisk]' started.
+Test Case '-[DayDeckCoreTests.CloudContractTests testForceCancelsOldRequestAndCannotOverwriteNewValueOrDisk]' passed (0.003 seconds).
+Test Case '-[DayDeckCoreTests.CloudContractTests testStoreOfflineErrorIsVisibleAlongsideOldData]' started.
+Test Case '-[DayDeckCoreTests.CloudContractTests testStoreOfflineErrorIsVisibleAlongsideOldData]' passed (0.001 seconds).
+Test Suite 'CloudContractTests' passed at 2026-10-03 09:46:44.737.
+	 Executed 3 tests, with 0 failures (0 unexpected) in 0.013 (0.013) seconds
+Test Suite 'RecoveryAcceptanceTests' started at 2026-10-03 09:46:44.737.
+Test Case '-[DayDeckCoreTests.RecoveryAcceptanceTests testCachedDaySurvivesOfflineAndBadJSONThenRecovers]' started.
+Test Case '-[DayDeckCoreTests.RecoveryAcceptanceTests testCachedDaySurvivesOfflineAndBadJSONThenRecovers]' passed (0.002 seconds).
+Test Case '-[DayDeckCoreTests.RecoveryAcceptanceTests testColdOfflineDayBecomesReadableAfterRecovery]' started.
+Test Case '-[DayDeckCoreTests.RecoveryAcceptanceTests testColdOfflineDayBecomesReadableAfterRecovery]' passed (0.001 seconds).
+Test Case '-[DayDeckCoreTests.RecoveryAcceptanceTests testFailedWriteKeepsCacheUntilMatchingReceiptAndReadback]' started.
+Test Case '-[DayDeckCoreTests.RecoveryAcceptanceTests testFailedWriteKeepsCacheUntilMatchingReceiptAndReadback]' passed (0.002 seconds).
+Test Suite 'RecoveryAcceptanceTests' passed at 2026-10-03 09:46:44.742.
+	 Executed 3 tests, with 0 failures (0 unexpected) in 0.005 (0.005) seconds
+Test Suite 'RemindersRecoveryAcceptanceTests' started at 2026-10-03 09:46:44.742.
+Test Case '-[DayDeckCoreTests.RemindersRecoveryAcceptanceTests testCloudFailureWithoutCacheStillShowsTodaysReminders]' started.
+Test Case '-[DayDeckCoreTests.RemindersRecoveryAcceptanceTests testCloudFailureWithoutCacheStillShowsTodaysReminders]' passed (0.002 seconds).
+Test Case '-[DayDeckCoreTests.RemindersRecoveryAcceptanceTests testFetchFailureIsFailedNotEmptyAndRecovers]' started.
+Test Case '-[DayDeckCoreTests.RemindersRecoveryAcceptanceTests testFetchFailureIsFailedNotEmptyAndRecovers]' passed (0.002 seconds).
+Test Case '-[DayDeckCoreTests.RemindersRecoveryAcceptanceTests testSaveFailureIsFailedAndNeverShownAsAdded]' started.
+Test Case '-[DayDeckCoreTests.RemindersRecoveryAcceptanceTests testSaveFailureIsFailedAndNeverShownAsAdded]' passed (0.001 seconds).
+Test Suite 'RemindersRecoveryAcceptanceTests' passed at 2026-10-03 09:46:44.747.
+	 Executed 3 tests, with 0 failures (0 unexpected) in 0.005 (0.005) seconds
+Test Suite 'DayDeckCoreTests.xctest' passed at 2026-10-03 09:46:44.747.
+	 Executed 9 tests, with 0 failures (0 unexpected) in 0.022 (0.024) seconds
+Test Suite 'Selected tests' passed at 2026-10-03 09:46:44.747.
+	 Executed 9 tests, with 0 failures (0 unexpected) in 0.022 (0.024) seconds
+PASS recovery: exact production API/Store/Writer; isolated URLSession and temporary cache; 云端失败时提醒小节独立、保存失败不标已加入; no real service, Keychain, device or UI acceptance.

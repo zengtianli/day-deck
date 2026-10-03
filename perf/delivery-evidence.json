@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "checks": {
+    "homepage_desktop": {
+      "result": "passed",
+      "scope": "promo_ui",
+      "method": "ui_automation",
+      "checked_at": "2026-09-30T23:55:07.688785+08:00",
+      "input_sha256": "2077a2bc4f254c4850630a18be387be7fe72820d91e51338e2b21b136fff96cf",
+      "evidence": "perf/acceptance/homepage_desktop.json",
+      "evidence_sha256": "38e86160f3f188ccbcca48b12d0e9803389b9835e26c3d4f93528262cd588826",
+      "detail": "builtin:homepage_desktop：~/Dev/.venv/bin/python ~/Apps/chapter/engine/acceptors/homepage.py --viewport desktop → desktop 1440px：HTTP 200，标题「Notihub · 通知复盘 · 按日期回看通知，把待办和随手记留在同一处。」，无横向溢出，9 张图片全部加载"
+    },
+    "homepage_mobile": {
+      "result": "passed",
+      "scope": "promo_ui",
+      "method": "ui_automation",
+      "checked_at": "2026-09-30T23:55:07.681463+08:00",
+      "input_sha256": "2077a2bc4f254c4850630a18be387be7fe72820d91e51338e2b21b136fff96cf",
+      "evidence": "perf/acceptance/homepage_mobile.json",
+      "evidence_sha256": "981e61889e561612daf1f843ad50114fb993929914d06fcb1eeaeecd0a88bb38",
+      "detail": "builtin:homepage_mobile：~/Dev/.venv/bin/python ~/Apps/chapter/engine/acceptors/homepage.py --viewport mobile → mobile 390px：HTTP 200，标题「Notihub · 通知复盘 · 按日期回看通知，把待办和随手记留在同一处。」，无横向溢出，9 张图片全部加载"
+    },
+    "media_playback": {
+      "result": "passed",
+      "scope": "media",
+      "method": "ui_automation",
+      "checked_at": "2026-09-29T22:25:25.537757+08:00",
+      "input_sha256": "e57d185c8e5766a67a3be8d0e7d4935518ba05b49520130085956119cfb1c482",
+      "evidence": "perf/acceptance/media_playback.json",
+      "evidence_sha256": "3d234c8f3bc4aa365fee3506fe786c415e86b01fce976e7cdea763a7da5f783c",
+      "detail": "builtin:media_playback：~/Dev/.venv/bin/python ~/Apps/chapter/engine/acceptors/media_playback.py → 1 个本地视频 ffprobe/ffmpeg 全量解码通过（shots/public-demo.mp4 20.0s h264）；推广页 1 个视频在无界面浏览器中实际播放（1.1/30s）"
+    },
+    "functionality": {
+      "result": "passed",
+      "scope": "code",
+      "method": "real_product",
+      "checked_at": "2026-09-29T14:12:20.648139+08:00",
+      "input_sha256": "559c6cb34a9c7a0306b6e745d24154833de5960aa1272d0a418c6cdb08059d0b",
+      "evidence": "perf/acceptance/functionality.json",
+      "evidence_sha256": "4fb3dc911fd95141c53aa04e4b06108aae36b62cd21053bd250f710b1a7baaaf",
+      "detail": "sop.accept：bash scripts/accept/functionality.sh → PASS functionality: 本机生产核心隔离集成；合成网络响应及独立临时缓存，执行 API/Store/Writer 真实路径。覆盖今日待办分组、长摘要/正文、日记回执及失效回读、状态回读、提醒事项本机写入（假 store）与 Mac 排队。未覆盖 iOS 界面、真机或线上服务。"
+    },
+    "recovery": {
+      "result": "passed",
+      "scope": "code",
+      "method": "real_product",
+      "checked_at": "2026-10-03T09:46:44.859019+08:00",
+      "input_sha256": "2cb3fced617af2582c070c2e5f1efb5a8d4ab65554bc382e0b196d5d41e3d7c1",
+      "evidence": "perf/acceptance/recovery.json",
+      "evidence_sha256": "ac38167b20f9be45c495dddd183a0589292d06a8c8df3366f2c7ba9c838c77c1",
+      "detail": "sop.accept：bash scripts/accept/recovery.sh → PASS recovery: exact production API/Store/Writer; isolated URLSession and temporary cache; 云端失败时提醒小节独立、保存失败不标已加入; no real service, Keychain, device or UI acceptance."
+    },
+    "privacy": {
+      "result": "passed",
+      "scope": "code",
+      "method": "real_product",
+      "checked_at": "2026-09-29T14:12:17.619330+08:00",
+      "input_sha256": "559c6cb34a9c7a0306b6e745d24154833de5960aa1272d0a418c6cdb08059d0b",
+      "evidence": "perf/acceptance/privacy.json",
+      "evidence_sha256": "87d82b823b3da064f56f240ebf73eae5e68bf14af3ccbb19132ffa31edb285c4",
+      "detail": "sop.accept：bash scripts/accept/privacy.sh → PASS privacy: production API/Store/Writer/Gate in isolated URLProtocol, ephemeral session and synthetic cache; 提醒事项零网络、零落盘; no device, live service or real Keychain access."
+    }
+  },
+  "updated_at": "2026-10-03T09:46:44.871917+08:00"
+}
