@@ -19,7 +19,7 @@ struct NotihubApp: App {
     var body: some Scene {
         WindowGroup {
             RootView().environment(store).environment(reminders)
-                .appLifecycleMobile(productID: "day-deck", channel: MobileProductLifecycle.channel, configuration: MobileProductLifecycle.configuration)
+                .appLifecycleMobile(productID: "day-deck", channel: MobileProductLifecycle.channel, configuration: MobileProductLifecycle.configuration, placement: .settings)
                 #if os(visionOS)
                 // Vision Pro 不固定亮色：窗口是系统玻璃，强行亮色会把正文画成玻璃上的深色字。
                 // 主题紫在玻璃上太暗，整窗换成提亮一档的同色相（Color.accentOnDark）。
@@ -149,6 +149,9 @@ struct ConnectionView: View {
                     Text("登录或更新凭据")
                 } footer: {
                     Text("验证成功后，访问密码只保存在系统钥匙串。")
+                }
+                Section("应用") {
+                    AppLifecycleMobileEntry()
                 }
             }.navigationTitle("连接")
         }
