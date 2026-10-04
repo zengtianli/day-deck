@@ -1,0 +1,49 @@
+{
+ "schema_version": 1,
+ "platform": "iphone",
+ "app_id": "day-deck-ios",
+ "version": "0.2.1",
+ "build": "6",
+ "input_sha256": "abce43b7ddf2d35af6c498f22226101e019d75866dc9d8239fb43d4c2370b497",
+ "runtime_measurement": {
+  "environment": "simulator",
+  "device": "iPhone 17 Pro (iPhone-17-Pro)",
+  "os": "iOS 27.0",
+  "xcode": "Xcode 27.0 (27A266a)",
+  "evidence": "perf/platforms/iphone/measure-20261004-110501.json",
+  "evidence_sha256": "f8a7094e52999f18dea0a3b7424fe210e2cc23db20672e16a261dc961ca45bd8",
+  "build": {
+   "configuration": "Release",
+   "compilation_conditions": [
+    "DEBUG"
+   ],
+   "executable_sha256": "257c77bdbd481cf354bff03f729010c65fdae2d1017ba68a42d77b04451b3f7e",
+   "version": "0.2.1",
+   "build": "6"
+  },
+  "limitations": "Release 优化 + DEBUG 编译条件以启用虚构数据/本地 relay；运行资源来自此隔离包，包体来自原样 Release；不代表商店包或真机资源。"
+ },
+ "size": {
+  "download_bytes": 4081638,
+  "installed_bytes": 9435783,
+  "download_mb": 4.08,
+  "installed_mb": 9.44,
+  "kind": "simulator .app (Release), not a store slice"
+ },
+ "speed": {
+  "cold_launch_ms": 2986.0,
+  "runs": 5,
+  "discarded_runs": 1,
+  "ready_signal": "os_log",
+  "method": "launch command issued -> App os_log \"lane-ready\" (first data-bearing screen), App terminated 3 s before each run, first run after install discarded, median"
+ },
+ "idle": {
+  "memory_mb": 32.0,
+  "cpu_pct": 0.02,
+  "window_s": 60,
+  "settle_s": 45,
+  "method": "shared measure.py idle: CPU-time delta / wall window; phys_footprint peak of 3 samples after the window",
+  "scope": "Simulator App host process only; excludes CoreSimulator, system services and inactive extensions"
+ },
+ "measured_at": "2026-10-04T11:05:01+08:00"
+}

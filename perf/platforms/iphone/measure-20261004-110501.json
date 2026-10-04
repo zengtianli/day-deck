@@ -1,0 +1,207 @@
+{
+ "schema_version": 1,
+ "platform": "iphone",
+ "app_id": "day-deck-ios",
+ "input_sha256": "abce43b7ddf2d35af6c498f22226101e019d75866dc9d8239fb43d4c2370b497",
+ "measured_at": "2026-10-04T11:05:01+08:00",
+ "completed_at": "2026-10-04T11:14:45+08:00",
+ "build": {
+  "configuration": "Release",
+  "scheme": "DayDeck",
+  "bundle_id": "cyou.tianli.daydeck",
+  "version": "0.2.1",
+  "build": "6",
+  "sdk": "iphonesimulator27.0",
+  "executable_sha256": "54ad562a14d926c260e8fab0ddd0bcc10ea9a3491ae8ead2eeb0b130249336fd",
+  "signing": "unsigned simulator build (CODE_SIGNING_ALLOWED=NO)",
+  "seconds": 114.9,
+  "xcode": {
+   "name": "Xcode.app",
+   "version": "27.0",
+   "build": "27A266a",
+   "developer_dir": "/Applications/Xcode.app/Contents/Developer"
+  },
+  "reuse": null
+ },
+ "measurement": {
+  "environment": "simulator",
+  "device": "iPhone 17 Pro (iPhone-17-Pro)",
+  "os": "iOS 27.0",
+  "udid": "280663C5-C40F-4F3E-8E88-2EB031CA689D",
+  "install_seconds": 119.9,
+  "samples": [
+   {
+    "run": 0,
+    "pid": 97629,
+    "ready_seconds": 4.771,
+    "ready_signal": "os_log",
+    "errors": []
+   },
+   {
+    "run": 1,
+    "pid": 97788,
+    "ready_seconds": 3.8,
+    "ready_signal": "os_log",
+    "errors": []
+   },
+   {
+    "run": 2,
+    "pid": 97979,
+    "ready_seconds": 3.031,
+    "ready_signal": "os_log",
+    "errors": []
+   },
+   {
+    "run": 3,
+    "pid": 98144,
+    "ready_seconds": 2.986,
+    "ready_signal": "os_log",
+    "errors": []
+   },
+   {
+    "run": 4,
+    "pid": 98306,
+    "ready_seconds": 2.763,
+    "ready_signal": "os_log",
+    "errors": []
+   },
+   {
+    "run": 5,
+    "pid": 98459,
+    "ready_seconds": 2.826,
+    "ready_signal": "os_log",
+    "errors": []
+   }
+  ],
+  "idle": {
+   "process": "98576",
+   "footprint_mb": 32.0,
+   "cpu_pct": 0.02,
+   "window_s": 60
+  },
+  "loads": {
+   "before_launches": [
+    46.03759765625,
+    29.50390625,
+    26.98046875
+   ],
+   "counted_launches": [
+    {
+     "run": 1,
+     "before": [
+      34.72021484375,
+      27.99560546875,
+      26.498046875
+     ],
+     "after": [
+      30.0830078125,
+      27.22216796875,
+      26.24072265625
+     ]
+    },
+    {
+     "run": 2,
+     "before": [
+      27.9140625,
+      26.81982421875,
+      26.1044921875
+     ],
+     "after": [
+      24.23095703125,
+      26.06787109375,
+      25.845703125
+     ]
+    },
+    {
+     "run": 3,
+     "before": [
+      24.23095703125,
+      26.06787109375,
+      25.845703125
+     ],
+     "after": [
+      20.88623046875,
+      25.291015625,
+      25.572265625
+     ]
+    },
+    {
+     "run": 4,
+     "before": [
+      19.77392578125,
+      24.9873046875,
+      25.46337890625
+     ],
+     "after": [
+      17.49560546875,
+      24.32861328125,
+      25.2236328125
+     ]
+    },
+    {
+     "run": 5,
+     "before": [
+      16.17431640625,
+      23.94091796875,
+      25.08154296875
+     ],
+     "after": [
+      15.359375,
+      23.64306640625,
+      24.9697265625
+     ]
+    }
+   ],
+   "after_launches": [
+    15.359375,
+    23.64306640625,
+    24.9697265625
+   ],
+   "before_idle": [
+    7.6728515625,
+    20.11669921875,
+    23.57421875
+   ]
+  },
+  "orientation": null,
+  "rotation": null,
+  "device_selection": {
+   "mode": "configured/default",
+   "udid": "280663C5-C40F-4F3E-8E88-2EB031CA689D",
+   "name": "iPhone 17 Pro",
+   "state_before": "Shutdown",
+   "shutdown_verified": false
+  },
+  "with_helpers": false,
+  "scope": "Simulator App host process only; excludes CoreSimulator, system services and inactive extensions",
+  "runtime_build": {
+   "configuration": "Release",
+   "compilation_conditions": [
+    "DEBUG"
+   ],
+   "executable_sha256": "257c77bdbd481cf354bff03f729010c65fdae2d1017ba68a42d77b04451b3f7e",
+   "version": "0.2.1",
+   "build": "6"
+  },
+  "fixture_limitations": "Release 优化 + DEBUG 编译条件以启用虚构数据/本地 relay；运行资源来自此隔离包，包体来自原样 Release；不代表商店包或真机资源。",
+  "settle_s": 45
+ },
+ "size": {
+  "download_bytes": 4081638,
+  "installed_bytes": 9435783,
+  "download_mb": 4.08,
+  "installed_mb": 9.44
+ },
+ "speed": {
+  "cold_launch_ms": 2986.0,
+  "runs": 5,
+  "discarded_runs": 1,
+  "ready_signal": "os_log",
+  "method": "launch command issued -> App os_log \"lane-ready\" (first data-bearing screen), App terminated 3 s before each run, first run after install discarded, median"
+ },
+ "tool_sha256": {
+  "platform_measure.py": "da85b47da11905bd81ef01df3ef26a0b9821894aea2f92deb78976a45d70e3d2",
+  "measure.py": "9b4f3cb22190a295fade42759bdb19f27da7c5dbd13449e78cb14743472ed94c",
+  "sim_lane.py": "ba7cbd20ded10311bdc948675314205e5be797537da2eb9ae33ac2844e1d3d34"
+ }
+}
