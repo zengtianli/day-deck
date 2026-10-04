@@ -1,0 +1,28 @@
+{
+  "app_id": "day-deck-ios",
+  "check": "launch_ipad",
+  "saved_at": "2026-10-04T11:59:40.440108+08:00",
+  "files": {
+    "launch.png": {
+      "sha256": "b992c322930b1bec092f5306b57d6185f256a52b86d9cdfe13b99188ffe7ac4a",
+      "bytes": 469036,
+      "mode": 420
+    },
+    "launch_ipad.json": {
+      "sha256": "b369cc7dc2db3d64717685363b7b21a70b8fdb29666aacca13260d69256e66c9",
+      "bytes": 3726,
+      "mode": 420
+    },
+    "launch_ipad.detail.json": {
+      "sha256": "7b79bae06be700c9885e8652fd9c8908bd3a07ca285432758fa0f512680b45bc",
+      "bytes": 2937,
+      "mode": 420
+    },
+    "launch_ipad.log": {
+      "sha256": "c5066f18b9d4b3d3265660b5233ee3ba6b624f8c53ad39ff62c402299f2626fe",
+      "bytes": 94,
+      "mode": 420
+    }
+  },
+  "missing": []
+}

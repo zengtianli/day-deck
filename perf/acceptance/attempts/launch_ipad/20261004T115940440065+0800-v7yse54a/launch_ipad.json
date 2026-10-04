@@ -1,0 +1,84 @@
+{
+  "schema_version": 1,
+  "name": "launch_ipad",
+  "app_id": "day-deck-ios",
+  "command": "~/Dev/.venv/bin/python ~/Apps/chapter/engine/acceptors/platform_launch.py",
+  "exit_code": 0,
+  "status": "passed",
+  "started_at": "2026-10-04T11:26:20.793695+08:00",
+  "finished_at": "2026-10-04T11:30:46.860779+08:00",
+  "input_sha256": "ba248bbbdac55a1ed44fe7417af6a1a93e24a8cf6e2cf3603edc5fec6a774cd1",
+  "log": "perf/acceptance/launch_ipad.log",
+  "log_sha256": "c5066f18b9d4b3d3265660b5233ee3ba6b624f8c53ad39ff62c402299f2626fe",
+  "summary": "iPad 模拟器 iPad Pro 13-inch (M5) 启动冒烟通过：os_log 25.067 s，截图 2752×2064",
+  "detail": {
+    "summary": "iPad 模拟器 iPad Pro 13-inch (M5) 启动冒烟通过：os_log 25.067 s，截图 2752×2064",
+    "passed": true,
+    "platform": "ipad",
+    "environment": "simulator",
+    "scheme": "DayDeck",
+    "sim_lane": "/Users/tianli/Dev/tools/dev/lib/tools/macapp/ios/sim_lane.py",
+    "method": "核验仓外构建回执与当前源码、产物及工具链后复用；沿共享 sim_lane 静默启动并截图，不抢焦点",
+    "build": {
+      "app_path": "/Users/tianli/Library/Caches/sim-lane/platform-measure/sim-lane-build.c8279d09c7a98272a8756bcc8254cac31e3bede8c47b4d83aa3d7cb9a9629829/sim-lane-build.13yr_cab/dd/Build/Products/Release-iphonesimulator/DayDeck.app",
+      "bundle_id": "cyou.tianli.daydeck",
+      "version": "0.2.1",
+      "build": "6",
+      "configuration": "Release",
+      "executable_sha256": "257c77bdbd481cf354bff03f729010c65fdae2d1017ba68a42d77b04451b3f7e",
+      "sdk": "iphonesimulator27.0",
+      "xcode": {
+        "name": "Xcode.app",
+        "version": "27.0",
+        "build": "27A266a",
+        "developer_dir": "/Applications/Xcode.app/Contents/Developer"
+      },
+      "log": "/Users/tianli/Library/Caches/sim-lane/platform-measure/sim-lane-build.c8279d09c7a98272a8756bcc8254cac31e3bede8c47b4d83aa3d7cb9a9629829/sim-lane-build.13yr_cab/build-iphone-Release.log",
+      "reuse": {
+        "receipt": "/Users/tianli/Library/Caches/sim-lane/platform-measure/sim-lane-build.c8279d09c7a98272a8756bcc8254cac31e3bede8c47b4d83aa3d7cb9a9629829/sim-lane-build.13yr_cab/build.json",
+        "receipt_sha256": "fdf70a75de303befd6f5e447b04adc67854915fa06f8f69a907f90f53e85aca1",
+        "source_copy": "/Users/tianli/Library/Caches/sim-lane/platform-measure/sim-lane-build.c8279d09c7a98272a8756bcc8254cac31e3bede8c47b4d83aa3d7cb9a9629829/sim-lane-build.13yr_cab/src",
+        "input_sha256": "abce43b7ddf2d35af6c498f22226101e019d75866dc9d8239fb43d4c2370b497",
+        "source_file_count": 51
+      }
+    },
+    "device": {
+      "udid": "A19C635F-A987-4E08-931A-A5874216E34D",
+      "name": "iPad Pro 13-inch (M5)",
+      "runtime": "com.apple.CoreSimulator.SimRuntime.iOS-27-0",
+      "device_type": "iPad-Pro-13-inch-M5-12GB"
+    },
+    "launch_args": [
+      "-demo",
+      "1"
+    ],
+    "waits": {
+      "lock_seconds": 300,
+      "load_seconds": 300
+    },
+    "run": {
+      "udid": "A19C635F-A987-4E08-931A-A5874216E34D",
+      "pid": 10475,
+      "ready_seconds": 25.067,
+      "ready_signal": "os_log",
+      "size": [
+        2752,
+        2064
+      ],
+      "runtime": "iOS-27-0",
+      "device": "iPad Pro 13-inch (M5)"
+    },
+    "verdict": {
+      "non_blank": true,
+      "changed_from_baseline": true,
+      "stable": true,
+      "diff_baseline": 0.9478,
+      "diff_prev": 0.0
+    },
+    "screenshot": "perf/platforms/ipad/launch.png",
+    "screenshot_sha256": "b992c322930b1bec092f5306b57d6185f256a52b86d9cdfe13b99188ffe7ac4a",
+    "capture_reusable": true,
+    "capture": "perf/platforms/ipad/launch-capture.json",
+    "capture_sha256": "17c59321652df4e09af19ed74a15e3ba2b569f993505447995a22bb6052b3276"
+  }
+}
