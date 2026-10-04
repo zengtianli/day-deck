@@ -1,0 +1,207 @@
+{
+ "schema_version": 1,
+ "platform": "watch",
+ "app_id": "day-deck-ios",
+ "input_sha256": "d2823eeb7b1d95c8419a1966866d9196bd255276557bb64e68149478690fd9c1",
+ "measured_at": "2026-10-04T13:10:17+08:00",
+ "completed_at": "2026-10-04T13:15:55+08:00",
+ "build": {
+  "configuration": "Release",
+  "scheme": "DayDeckWatch",
+  "bundle_id": "cyou.tianli.daydeck.watchkitapp",
+  "version": "0.2.1",
+  "build": "6",
+  "sdk": "watchsimulator27.0",
+  "executable_sha256": "09f358aa2d6e7bd066921ccaae2f2f9c7e59ccb0e2dd948242cd3144e47a42c9",
+  "signing": "unsigned simulator build (CODE_SIGNING_ALLOWED=NO)",
+  "seconds": 57.6,
+  "xcode": {
+   "name": "Xcode.app",
+   "version": "27.0",
+   "build": "27A266a",
+   "developer_dir": "/Applications/Xcode.app/Contents/Developer"
+  },
+  "reuse": null
+ },
+ "measurement": {
+  "environment": "simulator",
+  "device": "Apple Watch Series 12 (46mm) (Apple-Watch-Series-12-46mm)",
+  "os": "watchOS 27.0",
+  "udid": "71612A23-0E31-4E0A-9C3A-F5EE4E69FCE1",
+  "install_seconds": 10.0,
+  "samples": [
+   {
+    "run": 0,
+    "pid": 76215,
+    "ready_seconds": 0.938,
+    "ready_signal": "os_log",
+    "errors": []
+   },
+   {
+    "run": 1,
+    "pid": 76336,
+    "ready_seconds": 0.657,
+    "ready_signal": "os_log",
+    "errors": []
+   },
+   {
+    "run": 2,
+    "pid": 76426,
+    "ready_seconds": 0.712,
+    "ready_signal": "os_log",
+    "errors": []
+   },
+   {
+    "run": 3,
+    "pid": 76532,
+    "ready_seconds": 0.714,
+    "ready_signal": "os_log",
+    "errors": []
+   },
+   {
+    "run": 4,
+    "pid": 76628,
+    "ready_seconds": 0.638,
+    "ready_signal": "os_log",
+    "errors": []
+   },
+   {
+    "run": 5,
+    "pid": 76716,
+    "ready_seconds": 0.733,
+    "ready_signal": "os_log",
+    "errors": []
+   }
+  ],
+  "idle": {
+   "process": "76847",
+   "footprint_mb": 19.0,
+   "cpu_pct": 0.0,
+   "window_s": 60
+  },
+  "loads": {
+   "before_launches": [
+    11.775390625,
+    28.9072265625,
+    34.50927734375
+   ],
+   "counted_launches": [
+    {
+     "run": 1,
+     "before": [
+      10.65283203125,
+      28.10302734375,
+      34.15771484375
+     ],
+     "after": [
+      10.11962890625,
+      27.70263671875,
+      33.98095703125
+     ]
+    },
+    {
+     "run": 2,
+     "before": [
+      9.46923828125,
+      27.27587890625,
+      33.79345703125
+     ],
+     "after": [
+      8.791015625,
+      26.83935546875,
+      33.60107421875
+     ]
+    },
+    {
+     "run": 3,
+     "before": [
+      8.791015625,
+      26.83935546875,
+      33.60107421875
+     ],
+     "after": [
+      8.2470703125,
+      26.4267578125,
+      33.41552734375
+     ]
+    },
+    {
+     "run": 4,
+     "before": [
+      7.82666015625,
+      26.03759765625,
+      33.2373046875
+     ],
+     "after": [
+      7.43994140625,
+      25.65478515625,
+      33.06005859375
+     ]
+    },
+    {
+     "run": 5,
+     "before": [
+      7.00390625,
+      25.26171875,
+      32.8779296875
+     ],
+     "after": [
+      7.00390625,
+      25.26171875,
+      32.8779296875
+     ]
+    }
+   ],
+   "after_launches": [
+    7.00390625,
+    25.26171875,
+    32.8779296875
+   ],
+   "before_idle": [
+    5.0322265625,
+    21.61328125,
+    31.0400390625
+   ]
+  },
+  "orientation": null,
+  "rotation": null,
+  "device_selection": {
+   "mode": "configured/default",
+   "udid": "71612A23-0E31-4E0A-9C3A-F5EE4E69FCE1",
+   "name": "Apple Watch Series 12 (46mm)",
+   "state_before": "Shutdown",
+   "shutdown_verified": false
+  },
+  "with_helpers": false,
+  "scope": "Simulator App host process only; excludes CoreSimulator, system services and inactive extensions",
+  "runtime_build": {
+   "configuration": "Release",
+   "compilation_conditions": [
+    "DEBUG"
+   ],
+   "executable_sha256": "2168850afab4e874ada1661153dff5587b4eec414e3cc2a29a5f05d5eb062247",
+   "version": "0.2.1",
+   "build": "6"
+  },
+  "fixture_limitations": "Release 优化 + DEBUG 编译条件以启用虚构数据/本地 relay；运行资源来自此隔离包，包体来自原样 Release；不代表商店包或真机资源。",
+  "settle_s": 45
+ },
+ "size": {
+  "download_bytes": 1099345,
+  "installed_bytes": 2203008,
+  "download_mb": 1.1,
+  "installed_mb": 2.2
+ },
+ "speed": {
+  "cold_launch_ms": 712.0,
+  "runs": 5,
+  "discarded_runs": 1,
+  "ready_signal": "os_log",
+  "method": "launch command issued -> App os_log \"lane-ready\" (first data-bearing screen), App terminated 3 s before each run, first run after install discarded, median"
+ },
+ "tool_sha256": {
+  "platform_measure.py": "da85b47da11905bd81ef01df3ef26a0b9821894aea2f92deb78976a45d70e3d2",
+  "measure.py": "9b4f3cb22190a295fade42759bdb19f27da7c5dbd13449e78cb14743472ed94c",
+  "sim_lane.py": "ba7cbd20ded10311bdc948675314205e5be797537da2eb9ae33ac2844e1d3d34"
+ }
+}

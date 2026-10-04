@@ -1,0 +1,58 @@
+{
+  "ok": true,
+  "platform": "ipad",
+  "udid": "A19C635F-A987-4E08-931A-A5874216E34D",
+  "device": "iPad Pro 13-inch (M5)",
+  "device_type": "iPad-Pro-13-inch-M5-12GB",
+  "runtime": "iOS-27-0",
+  "bundle_id": "cyou.tianli.daydeck",
+  "version": "0.2.1",
+  "build": "6",
+  "launch_args": [
+    "-demo",
+    "1",
+    "-lane_orientation",
+    "landscape"
+  ],
+  "environment": "simulator",
+  "errors": [],
+  "boot_seconds": 4.8,
+  "rotation": {
+    "ok": true,
+    "orientation": "landscape",
+    "seconds": 56.8,
+    "screen": [
+      2752,
+      2064
+    ],
+    "load_1_5_15": [
+      69.8,
+      36.8,
+      31.8
+    ],
+    "errors": []
+  },
+  "install_seconds": 16.7,
+  "baseline_stable": true,
+  "size": [
+    2752,
+    2064
+  ],
+  "screen_orientation": "landscape",
+  "pid": 10475,
+  "ready_seconds": 25.067,
+  "ready_signal": "os_log",
+  "screenshot": "perf/platforms/ipad/launch.png",
+  "verdict": {
+    "non_blank": true,
+    "changed_from_baseline": true,
+    "stable": true,
+    "diff_baseline": 0.9478,
+    "diff_prev": 0.0
+  },
+  "notes": [],
+  "shutdown": true,
+  "input_sha256": "abce43b7ddf2d35af6c498f22226101e019d75866dc9d8239fb43d4c2370b497",
+  "executable_sha256": "257c77bdbd481cf354bff03f729010c65fdae2d1017ba68a42d77b04451b3f7e",
+  "screenshot_sha256": "b992c322930b1bec092f5306b57d6185f256a52b86d9cdfe13b99188ffe7ac4a"
+}

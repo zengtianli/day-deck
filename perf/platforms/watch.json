@@ -1,49 +1,49 @@
 {
  "schema_version": 1,
- "platform": "iphone",
+ "platform": "watch",
  "app_id": "day-deck-ios",
  "version": "0.2.1",
  "build": "6",
  "input_sha256": "d2823eeb7b1d95c8419a1966866d9196bd255276557bb64e68149478690fd9c1",
  "runtime_measurement": {
   "environment": "simulator",
-  "device": "iPhone 17 Pro (iPhone-17-Pro)",
-  "os": "iOS 27.0",
+  "device": "Apple Watch Series 12 (46mm) (Apple-Watch-Series-12-46mm)",
+  "os": "watchOS 27.0",
   "xcode": "Xcode 27.0 (27A266a)",
-  "evidence": "perf/platforms/iphone/measure-20261004-143646.json",
-  "evidence_sha256": "f5e1961ecfaa19c2b8c639dc3b497b145512a68498cc4747452948da2c1afee3",
+  "evidence": "perf/platforms/watch/measure-20261004-131017.json",
+  "evidence_sha256": "e83d486425fe496d6940f4521f4f0f62ae32e77e04463e3e006453aa6adeb14c",
   "build": {
    "configuration": "Release",
    "compilation_conditions": [
     "DEBUG"
    ],
-   "executable_sha256": "0124c5dff54bd083c5f5a666df6516bc54b00c071f20cc665980eb55920bdb25",
+   "executable_sha256": "2168850afab4e874ada1661153dff5587b4eec414e3cc2a29a5f05d5eb062247",
    "version": "0.2.1",
    "build": "6"
   },
   "limitations": "Release 优化 + DEBUG 编译条件以启用虚构数据/本地 relay；运行资源来自此隔离包，包体来自原样 Release；不代表商店包或真机资源。"
  },
  "size": {
-  "download_bytes": 4093199,
-  "installed_bytes": 9484263,
-  "download_mb": 4.09,
-  "installed_mb": 9.48,
+  "download_bytes": 1099345,
+  "installed_bytes": 2203008,
+  "download_mb": 1.1,
+  "installed_mb": 2.2,
   "kind": "simulator .app (Release), not a store slice"
  },
  "speed": {
-  "cold_launch_ms": 1886.0,
+  "cold_launch_ms": 712.0,
   "runs": 5,
   "discarded_runs": 1,
   "ready_signal": "os_log",
   "method": "launch command issued -> App os_log \"lane-ready\" (first data-bearing screen), App terminated 3 s before each run, first run after install discarded, median"
  },
  "idle": {
-  "memory_mb": 32.0,
+  "memory_mb": 19.0,
   "cpu_pct": 0.0,
   "window_s": 60,
   "settle_s": 45,
   "method": "shared measure.py idle: CPU-time delta / wall window; phys_footprint peak of 3 samples after the window",
   "scope": "Simulator App host process only; excludes CoreSimulator, system services and inactive extensions"
  },
- "measured_at": "2026-10-04T14:36:46+08:00"
+ "measured_at": "2026-10-04T13:10:17+08:00"
 }
