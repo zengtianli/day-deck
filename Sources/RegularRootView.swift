@@ -200,7 +200,7 @@ private struct DayColumn: View {
                 // LLM 的「几条线」必须真渲染（全局产物规范：露出字面 ** 即不合格）
                 MarkdownText(text: s.text)
             } else {
-                Text("这天还没有生成总结，完整时间线里仍可查看通知与随手记。")
+                Text(T("board.no_summary", "这天还没有生成总结，完整时间线里仍可查看通知与随手记。"))
                     .font(.callout).foregroundStyle(.secondary)
             }
         }

@@ -26,10 +26,10 @@ enum FeedError: Error, Equatable {
         #if DEBUG
         case .demo: return "演示模式只读"
         #endif
-        case .network:            return "连不上 day 站"
+        case .network:            return T("error.network_headline", "连不上 day 站")
         case .http(_, let s, _):  return "站点返回 HTTP \(s)"
-        case .decoding:           return "拿到的数据对不上契约"
-        case .gate:               return "被访问闸拦住了"
+        case .decoding:           return T("error.decoding_headline", "拿到的数据对不上契约")
+        case .gate:               return T("error.gate_headline", "被访问闸拦住了")
         }
     }
 
@@ -51,15 +51,15 @@ enum FeedError: Error, Equatable {
         case .demo: return "请退出演示模式后再保存；当前草稿仍保留在此设备。"
         #endif
         case .network:
-            return "请检查网络后重试；离线时仍可阅读上次缓存的记录。"
+            return T("error.network_advice", "请检查网络后重试；离线时仍可阅读上次缓存的记录。")
         case .http(_, let s, _):
             return s == 404
-                ? "云端还没有这一天的记录，请选择其他日期或稍后刷新。"
-                : "云端暂时无法处理请求，请稍后重试。"
+                ? T("error.no_day_advice", "云端还没有这一天的记录，请选择其他日期或稍后刷新。")
+                : T("error.server_advice", "云端暂时无法处理请求，请稍后重试。")
         case .decoding(_, let field, _):
             return "请更新应用后重试；不兼容的字段是 \(field)，上次可读记录仍保留。"
         case .gate:
-            return "请在应用的连接设置中重新登录。"
+            return T("error.gate_advice", "请在应用的连接设置中重新登录。")
         }
     }
 }

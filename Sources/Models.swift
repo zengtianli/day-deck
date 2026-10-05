@@ -24,6 +24,9 @@ struct FeedIndex: Codable {
     let days: [IndexDay]
     let lastSync: Double
     let timezone: String
+    /// 说明文字的覆盖项（`service/ui.json`）。可选的装饰，不是业务数据：旧后端没有这段，写坏了 `Lenient` 当它没有，
+    /// 不连带把整份 index 解坏。上面的业务字段仍然对不上就报错。
+    var ui: Lenient<FeedUI>? = nil
 }
 
 struct Agenda: Codable, Identifiable, Hashable {

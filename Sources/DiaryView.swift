@@ -67,7 +67,7 @@ struct DiaryView: View {
                             TimelineRow(item: item)
                         }
                         if count == 0 {
-                            Text("这一天还没有随手记。").font(.caption).foregroundStyle(.secondary)
+                            Text(T("diary.empty", "这一天还没有随手记。")).font(.caption).foregroundStyle(.secondary)
                         }
                     } else if store.dayError[date] == nil {
                         Text("取数中…").font(.caption).foregroundStyle(.secondary)
@@ -75,7 +75,7 @@ struct DiaryView: View {
                 } header: {
                     Text("已记下的 · \(count)")
                 } footer: {
-                    Text("在线保存的随手记会立即出现在复盘里；Mac 上记录的随手记在同步后显示。")
+                    Text(T("diary.sync_note", "在线保存的随手记会立即出现在复盘里；Mac 上记录的随手记在同步后显示。"))
                 }
                 if let at = store.dayAt[date] {
                     Section { LabeledContent("缓存更新") { StaleBadge(at: at) } }

@@ -55,7 +55,9 @@ final class Store {
         index.first(where: { $0.date <= displayToday })?.date ?? displayToday
     }
 
+    /// 读缓存与取到新数据都走这里，后台下发的说明文字（`T("键", …)`）也在这里换上；这份里没有就回到自带文案。
     private func applyIndex(_ value: FeedIndex) {
+        Remote.ui = value.ui?.value
         index = value.days
         cloudTimezone = TimeZone(identifier: value.timezone) ?? cloudTimezone
         lastSync = Date(timeIntervalSince1970: value.lastSync)

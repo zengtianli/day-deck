@@ -40,14 +40,14 @@ struct RecapView: View {
                     } else {
                         Section {
                             // 没总结不是「没内容」，得说清楚是哪种情况
-                            Text("这天还没有生成总结，下面仍可查看通知与随手记。")
+                            Text(T("recap.no_summary", "这天还没有生成总结，下面仍可查看通知与随手记。"))
                                 .font(.callout).foregroundStyle(.secondary)
                         }
                     }
 
                     Section("这天抽出来的事 · \(d.agenda.count)") {
                         if d.agenda.isEmpty {
-                            Text("没抽出时间节点").font(.caption).foregroundStyle(.secondary)
+                            Text(T("recap.no_agenda", "没抽出时间节点")).font(.caption).foregroundStyle(.secondary)
                         } else {
                             ForEach(d.agenda) { a in
                                 NavigationLink(value: a) {
@@ -76,7 +76,7 @@ struct RecapView: View {
                     let shown = entries(d).filter(matches)
                     Section(search.isEmpty ? "时间线 · \(d.items.count + d.cloudNotes.count)" : "匹配 · \(shown.count)") {
                         if shown.isEmpty && !search.isEmpty {
-                            Text("当天没有匹配的通知或笔记，试试其他关键词。").font(.callout).foregroundStyle(.secondary)
+                            Text(T("recap.no_match", "当天没有匹配的通知或笔记，试试其他关键词。")).font(.callout).foregroundStyle(.secondary)
                         }
                         ForEach(shown) { entry in
                             switch entry {

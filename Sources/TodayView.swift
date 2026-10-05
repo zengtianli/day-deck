@@ -36,15 +36,15 @@ struct TodayList: View {
             if let e = store.openError {
                 Section { ErrorBlock(error: e, stale: store.openAt) }
             }
-            group("逾期", store.overdue, tint: .red)
-            group("今天", store.dueToday, tint: .accentColor)
-            group("没定时间", store.undated, tint: .secondary)
-            group("之后", store.upcoming, tint: .secondary)
+            group(T("today.group.overdue", "逾期"), store.overdue, tint: .red)
+            group(T("today.group.today", "今天"), store.dueToday, tint: .accentColor)
+            group(T("today.group.undated", "没定时间"), store.undated, tint: .secondary)
+            group(T("today.group.upcoming", "之后"), store.upcoming, tint: .secondary)
 
             if store.open.isEmpty && store.openError == nil {
                 // 空集不静默 —— 「一条都没有」和「没取到」看起来一样，必须分开说。
                 Section {
-                    Text(store.loading ? "取数中…" : "一条未完成的都没有。")
+                    Text(store.loading ? "取数中…" : T("today.empty", "一条未完成的都没有。"))
                         .foregroundStyle(.secondary).font(.callout)
                 }
             }
@@ -229,7 +229,7 @@ struct ErrorBlock: View {
             Label(error.headline, systemImage: "exclamationmark.triangle")
                 .font(.callout.weight(.medium)).foregroundStyle(Color.orange)
             if stale != nil {
-                Text("下面显示的是上一次取到的内容。").font(.caption).foregroundStyle(.secondary)
+                Text(T("error.stale_note", "下面显示的是上一次取到的内容。")).font(.caption).foregroundStyle(.secondary)
             }
             Text(error.whatToDo).font(.caption)
             Text(error.detail).font(.caption2).foregroundStyle(.secondary)
