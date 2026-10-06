@@ -57,12 +57,17 @@ def capture_budget(deadline, needed=0):
         raise sim_lane.Busy("同次截图 2400 秒预算不足，保留 180 秒原 Session 清理")
 
 
+# How long one capture waits for the load to settle after the simulator boots. It was 180 s; a Vision Pro
+# simulator keeps a 12-core Mac above the load line for longer than that, so every attempt gave up (2026-10-06).
+SETTLE_SECONDS = 900
+
+
 def wait_capture_gate(in_use, phase, execution, deadline):
     budget = execution["stabilization"]
     while True:
         capture_budget(deadline)
-        if budget["wait_seconds"] >= 180:
-            raise sim_lane.Busy("同次稳定等待已达 180 秒，候选截图未写回")
+        if budget["wait_seconds"] >= SETTLE_SECONDS:
+            raise sim_lane.Busy(f"同次稳定等待已达 {SETTLE_SECONDS} 秒，候选截图未写回")
         gate = capture_gate(in_use, phase)
         execution["gate_observations"].append(gate)
         if gate["allowed"]:
@@ -71,7 +76,7 @@ def wait_capture_gate(in_use, phase, execution, deadline):
         if (not gate["ac_power"] or gate["low_power_mode"] == 1
                 or "构建" in gate["steady"]["reason"] or "用户" in gate["steady"]["reason"]):
             raise sim_lane.Busy(gate["reason"])
-        delay = min(10, 180 - budget["wait_seconds"], deadline - 180 - time.monotonic())
+        delay = min(10, SETTLE_SECONDS - budget["wait_seconds"], deadline - 180 - time.monotonic())
         if delay <= 0:
             raise sim_lane.Busy(gate["reason"] + "；同次稳定等待预算用完")
         started = time.monotonic()
@@ -117,6 +122,9 @@ def main(argv=None):
     parser.add_argument("--out", type=Path)
     parser.add_argument("--reuse-build", type=Path, help="复用 sim_lane 的构建 JSON；源码副本必须逐文件匹配，iPad 可用 iPhone 包")
     parser.add_argument("--in-use", action="store_true", help="本人明确授权使用中无界面截图；仅 iPhone/Vision/Watch 且须 --reuse-build，保留接电/低负载/无构建/非低电量门")
+    parser.add_argument("--single-session", action="store_true",
+                        help="一个 Session 内连续截完各屏（iPad 也可用：竖屏、不旋转）。逐屏重新开机的路线在同一进程里"
+                             "拿不回自己留着的模拟器锁，第二屏必然被推迟（2026-10-06）")
     args = parser.parse_args(argv)
     deadline = time.monotonic() + 2400
     execution = {"in_use": args.in_use, "user_authorization": "explicit --in-use" if args.in_use else None,
@@ -125,7 +133,7 @@ def main(argv=None):
                                  "require_ac": True, "allow_owner_now": False,
                                  "low_power_mode_allowed": False, "sdk_build_allowed": not args.in_use},
                  "gate_observations": [],
-                 "stabilization": {"wait_seconds_limit": 180, "wait_seconds": 0}}
+                 "stabilization": {"wait_seconds_limit": SETTLE_SECONDS, "wait_seconds": 0}}
     if args.in_use and (args.platform == "ipad" or args.reuse_build is None):
         return deferred("使用中只接受无需旋转的 iPhone/Vision/Watch 和显式 --reuse-build；iPad 保留原闲置路线", execution)
     gate = capture_gate(args.in_use, "initial")
@@ -137,7 +145,7 @@ def main(argv=None):
     out = (args.out or REPO / "shots/appstore" / args.platform).resolve()
     work = Path(tempfile.mkdtemp(prefix="notihub-store-shots."))
     udid = None
-    single_session = args.platform == "iphone" or args.in_use
+    single_session = args.platform == "iphone" or args.in_use or args.single_session
     native = contextlib.ExitStack()
     try:
         scheme = "DayDeckWatch" if args.platform == "watch" else "DayDeck"
@@ -168,10 +176,9 @@ def main(argv=None):
                 wait_capture_gate(args.in_use, "screen:" + name, execution, deadline)
                 result = session_result(session, info, dev, ["-demo", "1", *extra], png, install_seconds, deadline)
             else:
-                gate = capture_gate(args.in_use, "screen:" + name)
-                execution["gate_observations"].append(gate)
-                if not gate["allowed"]:
-                    return deferred(gate["reason"], execution)
+                # Each screen is its own boot here, and the boot before it leaves the load high: wait for it to
+                # settle like the single-session path does, instead of giving the whole capture up on the spot.
+                wait_capture_gate(args.in_use, "screen:" + name, execution, deadline)
                 result = sim_lane.run_sim(args.platform, Path(built["app_path"]), udid, None,
                                           DEVICES[args.platform], ["-demo", "1", *extra], png, 90,
                                           index < len(screens) - 1, "auto", 0, 0, None,

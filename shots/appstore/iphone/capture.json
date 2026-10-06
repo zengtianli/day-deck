@@ -1,0 +1,565 @@
+{
+  "schema_version": 1,
+  "app": "day-deck-ios",
+  "platform": "iphone",
+  "captured_at": "2026-10-06T09:08:18+08:00",
+  "input_sha256": "d2823eeb7b1d95c8419a1966866d9196bd255276557bb64e68149478690fd9c1",
+  "files": [
+    {
+      "file": "01-today.png",
+      "sha256": "ca8a5d0f99a31e977bc237bfb86881b4bcf4e40527ea2c7b729e694a92102623",
+      "size": [
+        1320,
+        2868
+      ],
+      "launch_args": [
+        "-demo",
+        "1",
+        "-tab",
+        "0"
+      ],
+      "ready_seconds": 1.226,
+      "lane_result": {
+        "ok": true,
+        "platform": "iphone",
+        "udid": "92AE0CC6-8E0D-4978-9195-09A45BA64C63",
+        "device": "iPhone 17 Pro Max",
+        "device_type": "iPhone-17-Pro-Max",
+        "runtime": "iOS-27-0",
+        "bundle_id": "cyou.tianli.daydeck",
+        "version": "0.2.1",
+        "build": "6",
+        "launch_args": [
+          "-demo",
+          "1",
+          "-tab",
+          "0"
+        ],
+        "environment": "simulator",
+        "boot_seconds": 3.7,
+        "install_seconds": 29.1,
+        "baseline_stable": true,
+        "screenshot": "/var/folders/6_/r0ygnj7s41g013d21kpwlph80000gp/T/notihub-store-shots.dz9e_znj/01-today.png",
+        "frame_source": "/var/folders/6_/r0ygnj7s41g013d21kpwlph80000gp/T/sim-lane-shots.ot5mfcpo/launch-2.png",
+        "pid": 82819,
+        "ready_seconds": 1.226,
+        "ready_signal": "os_log",
+        "verdict": {
+          "non_blank": true,
+          "changed_from_baseline": true,
+          "stable": true,
+          "diff_baseline": 0.9481,
+          "diff_prev": 0.0
+        },
+        "errors": [],
+        "notes": [],
+        "shutdown": false,
+        "capture_method": "single original sim_lane.Session",
+        "size": [
+          1320,
+          2868
+        ]
+      },
+      "device": "iPhone 17 Pro Max",
+      "runtime": "iOS-27-0",
+      "environment": "simulator"
+    },
+    {
+      "file": "02-notifications.png",
+      "sha256": "2ac5158a0ef92e2e3a118977b68c92e8e91e4d80a816f64853dcf149222364b7",
+      "size": [
+        1320,
+        2868
+      ],
+      "launch_args": [
+        "-demo",
+        "1",
+        "-tab",
+        "1"
+      ],
+      "ready_seconds": 1.061,
+      "lane_result": {
+        "ok": true,
+        "platform": "iphone",
+        "udid": "92AE0CC6-8E0D-4978-9195-09A45BA64C63",
+        "device": "iPhone 17 Pro Max",
+        "device_type": "iPhone-17-Pro-Max",
+        "runtime": "iOS-27-0",
+        "bundle_id": "cyou.tianli.daydeck",
+        "version": "0.2.1",
+        "build": "6",
+        "launch_args": [
+          "-demo",
+          "1",
+          "-tab",
+          "1"
+        ],
+        "environment": "simulator",
+        "boot_seconds": 3.7,
+        "install_seconds": 29.1,
+        "baseline_stable": true,
+        "screenshot": "/var/folders/6_/r0ygnj7s41g013d21kpwlph80000gp/T/notihub-store-shots.dz9e_znj/02-notifications.png",
+        "frame_source": "/var/folders/6_/r0ygnj7s41g013d21kpwlph80000gp/T/sim-lane-shots.ot5mfcpo/launch-2.png",
+        "pid": 82949,
+        "ready_seconds": 1.061,
+        "ready_signal": "os_log",
+        "verdict": {
+          "non_blank": true,
+          "changed_from_baseline": true,
+          "stable": true,
+          "diff_baseline": 0.9367,
+          "diff_prev": 0.0
+        },
+        "errors": [],
+        "notes": [],
+        "shutdown": false,
+        "capture_method": "single original sim_lane.Session",
+        "size": [
+          1320,
+          2868
+        ]
+      },
+      "device": "iPhone 17 Pro Max",
+      "runtime": "iOS-27-0",
+      "environment": "simulator"
+    },
+    {
+      "file": "03-diary.png",
+      "sha256": "6488a8eb7ec15f08c9862dcab6cc4ddc58b776fa46e50d91fe42e772da86af2b",
+      "size": [
+        1320,
+        2868
+      ],
+      "launch_args": [
+        "-demo",
+        "1",
+        "-tab",
+        "2"
+      ],
+      "ready_seconds": 1.061,
+      "lane_result": {
+        "ok": true,
+        "platform": "iphone",
+        "udid": "92AE0CC6-8E0D-4978-9195-09A45BA64C63",
+        "device": "iPhone 17 Pro Max",
+        "device_type": "iPhone-17-Pro-Max",
+        "runtime": "iOS-27-0",
+        "bundle_id": "cyou.tianli.daydeck",
+        "version": "0.2.1",
+        "build": "6",
+        "launch_args": [
+          "-demo",
+          "1",
+          "-tab",
+          "2"
+        ],
+        "environment": "simulator",
+        "boot_seconds": 3.7,
+        "install_seconds": 29.1,
+        "baseline_stable": true,
+        "screenshot": "/var/folders/6_/r0ygnj7s41g013d21kpwlph80000gp/T/notihub-store-shots.dz9e_znj/03-diary.png",
+        "frame_source": "/var/folders/6_/r0ygnj7s41g013d21kpwlph80000gp/T/sim-lane-shots.ot5mfcpo/launch-2.png",
+        "pid": 83082,
+        "ready_seconds": 1.061,
+        "ready_signal": "os_log",
+        "verdict": {
+          "non_blank": true,
+          "changed_from_baseline": true,
+          "stable": true,
+          "diff_baseline": 0.9492,
+          "diff_prev": 0.0
+        },
+        "errors": [],
+        "notes": [],
+        "shutdown": false,
+        "capture_method": "single original sim_lane.Session",
+        "size": [
+          1320,
+          2868
+        ]
+      },
+      "device": "iPhone 17 Pro Max",
+      "runtime": "iOS-27-0",
+      "environment": "simulator"
+    },
+    {
+      "file": "04-connection.png",
+      "sha256": "528054218b3e295cb35b1596c3136b23495dca3b16ad3d1e5c0edb0707a2d13f",
+      "size": [
+        1320,
+        2868
+      ],
+      "launch_args": [
+        "-demo",
+        "1",
+        "-tab",
+        "3"
+      ],
+      "ready_seconds": 1.054,
+      "lane_result": {
+        "ok": true,
+        "platform": "iphone",
+        "udid": "92AE0CC6-8E0D-4978-9195-09A45BA64C63",
+        "device": "iPhone 17 Pro Max",
+        "device_type": "iPhone-17-Pro-Max",
+        "runtime": "iOS-27-0",
+        "bundle_id": "cyou.tianli.daydeck",
+        "version": "0.2.1",
+        "build": "6",
+        "launch_args": [
+          "-demo",
+          "1",
+          "-tab",
+          "3"
+        ],
+        "environment": "simulator",
+        "boot_seconds": 3.7,
+        "install_seconds": 29.1,
+        "baseline_stable": true,
+        "screenshot": "/var/folders/6_/r0ygnj7s41g013d21kpwlph80000gp/T/notihub-store-shots.dz9e_znj/04-connection.png",
+        "frame_source": "/var/folders/6_/r0ygnj7s41g013d21kpwlph80000gp/T/sim-lane-shots.ot5mfcpo/launch-2.png",
+        "pid": 83208,
+        "ready_seconds": 1.054,
+        "ready_signal": "os_log",
+        "verdict": {
+          "non_blank": true,
+          "changed_from_baseline": true,
+          "stable": true,
+          "diff_baseline": 0.9471,
+          "diff_prev": 0.0
+        },
+        "errors": [],
+        "notes": [],
+        "shutdown": false,
+        "capture_method": "single original sim_lane.Session",
+        "size": [
+          1320,
+          2868
+        ]
+      },
+      "device": "iPhone 17 Pro Max",
+      "runtime": "iOS-27-0",
+      "environment": "simulator"
+    }
+  ],
+  "store_spec_issues": [],
+  "source_snapshot": {
+    "app_id": "day-deck-ios",
+    "platform": "iphone",
+    "lane_mode": true,
+    "state": "configured",
+    "globs": [
+      "Sources/**",
+      "Shared/**",
+      "Watch/**",
+      "WatchWidget/**",
+      "*.entitlements",
+      "Resources/**",
+      "project.yml"
+    ],
+    "input_sha256": "d2823eeb7b1d95c8419a1966866d9196bd255276557bb64e68149478690fd9c1",
+    "file_count": 51,
+    "files": {
+      "Sources/MobileProductLifecycle.swift": "32fe7e08a631223b7d7b88826f6d443b0b737e3a51cab5d10c227b90c7c68a8e",
+      "Sources/DemoData.swift": "a935043f9e7f99314f91ce813d615159ea4078a06ef3510fab1abd3f84ab9f4d",
+      "Sources/Palette.swift": "221c03ed65f006b7b3e59049f537e1ebd1decd1caaba58d5bfc7c0ffd808f9d4",
+      "Sources/RecapView.swift": "2bd6368dd616f36ea30056cf899e87c905c3adc293ad20f8827985dd69091ff4",
+      "Sources/DiaryView.swift": "9533ad6891ffeae0e70e1f432e987dc5ac06fa46a42338b46c1bbfe98845bf2a",
+      "Sources/Adaptive.swift": "0fd7f71267814f9c002d62866acf8f993d6f5bb12fcdeaf53f028f19b2d5b67d",
+      "Sources/MarkdownView.swift": "13b33519e908ad73fdf95ddf82f08d0fb44ce476659268fbd56c32d3e9989a7b",
+      "Sources/RegularRootView.swift": "2d0e139c0a415a6c03e946f4cdb84bd80f6f993c5d71ad9c422193b2dbe4a1a3",
+      "Sources/AgendaBuckets.swift": "bed2a51c77b8526f0f63577d12a1487caa12b93b950fe79fb1418a6deae2c5fa",
+      "Sources/Models.swift": "f944fc7cd761336fa71182775f7d9b4853e8f4a1539b1468c5a9b6a710f6367f",
+      "Sources/ReminderSelfTest.swift": "cc8490a3ccfed4e332b9099d9eebda6e64cea12d118f361a28ad90d64f1d113e",
+      "Sources/WatchLink.swift": "fb9986082b37d55a7bae0aa435beee098bd3be81f4443b0fcb77a335e8fa79d4",
+      "Sources/Store.swift": "1c2ebae99d295c42a27d08009e7efb5c5bb7f0986e7f407679ea0df0062cd507",
+      "Sources/Gate.swift": "6deaad92b3327a70cf804c1d52395f0d551348bb56ffd41d1de2db8c571b080a",
+      "Sources/API.swift": "9fd9b725e4e257cb95234b9fad48cdfaf77b9980c7c167492d3a520a2f27d858",
+      "Sources/TodayView.swift": "d31f2c75dfe067cff3493c73e5653381dd5984eea68972bef9cc4ed67d6130ee",
+      "Sources/WatchDigest.swift": "3da08c03a878303d818cfc60212cc11331a865142de617a623efabb2ca78d813",
+      "Sources/App.swift": "dde83435d23b1467b59cd5e302cdffebc7f3f4d24f4e4c7a83b2f359b8fc5fba",
+      "Sources/Reminders.swift": "f02204185d78a9ae73dacab754fd3bed80b1e3e136dc981abfbdd40d1da89e0a",
+      "Sources/Writer.swift": "de2e19875e64a456dc239e6310da6106df4e6f08c0e78defb8658e47de9f109e",
+      "Sources/DemoFeed.swift": "17fb162aea1a5f209a16bd572fd302fdbcac4f4f4441776dbe6df9864b3490a1",
+      "Sources/ReminderViews.swift": "685c34767040aa631dc741ea0b23f7f298b5aae1ba8cd3d04ea9f0fb439d5afb",
+      "Shared/PlatformCompat.swift": "e70a1876bb795eaa5ee1b928fc816fc6ecfd87bfea7170a324247544e3a35e7a",
+      "Shared/LaneSignal.swift": "e7e68ac41417ddd06e7049a7bd4e01a92d52305bc999cd6ddd323178c64a2ce8",
+      "Shared/AppConfiguration.swift": "66d1b04072dbcbcbbc556afb79be1181396fc8bd1a6940d5960adea742219edc",
+      "Shared/AppLifecycle.swift": "07adaba8327f855b9a497346384ece9f8a526089c1c2f987b8873ab95a4fec3c",
+      "Shared/AppLifecycleMobile.swift": "9316741e97485e5281abf7b6770acbd0300e7c8aaab4f16fdf907dab56c7cbf3",
+      "Watch/DigestVault.swift": "23c3d83694ef5d5c0a768e97550acca2319492bde2d80a1a661bcdc510fdcb8a",
+      "Watch/WatchDigestReceiver.swift": "7067b32bba2fc9d733a7fb520d86c37876a97ddfcb47533846b71ecd7dc4a145",
+      "Watch/NotihubWatchApp.swift": "ef7afa582ff42d4192f3b6cf051dfe9831acfc9edde6ed277a82b5522b93c9c7",
+      "Watch/ComplicationViews.swift": "2439134ca18fb0d0e3749387200c5140bd21584655277984b00c0f6f55ea4d24",
+      "Watch/WatchHomeView.swift": "1439c64b4220b45435c511c05a8812362dd25bd0df92d5bdaa90930910ae7aa3",
+      "WatchWidget/NotihubComplication.swift": "43c1b1d88be2e66792d57a5f3977f9da305dc9b5d4532baa3393f5e872984cea",
+      "Watch.entitlements": "5f9c5a8e47b1645f9afa49ec1a2c8a55bdeb0105afc9319e9efa8d241116d92b",
+      "WatchWidget.entitlements": "5f9c5a8e47b1645f9afa49ec1a2c8a55bdeb0105afc9319e9efa8d241116d92b",
+      "Resources/Assets.xcassets/AppIcon.solidimagestack/Front.solidimagestacklayer/Content.imageset/Contents.json": "951bfa32a0a4f7c7dc7ff27165d74a1830892e911582ea4ea60e3a1e6a1c7afe",
+      "Resources/Assets.xcassets/AppIcon.solidimagestack/Front.solidimagestacklayer/Content.imageset/front.png": "265149d454822c2c808720c61f5a4317c0bfda56fc96598ea7b19b6ea52c5dd1",
+      "Resources/Assets.xcassets/AppIcon.solidimagestack/Front.solidimagestacklayer/Contents.json": "f5fb0e1f3a8142892ed092efb5955c1c2cc537003a89ad7bbdb9dade7fe8985f",
+      "Resources/Assets.xcassets/AppIcon.solidimagestack/Back.solidimagestacklayer/Content.imageset/Contents.json": "be4825f0a347ae4ebb483201e88961c9695b550b3b793a87a85b5fccad5bd0af",
+      "Resources/Assets.xcassets/AppIcon.solidimagestack/Back.solidimagestacklayer/Content.imageset/back.png": "709a43e4f4d28977bbe09c81d3c6fc36c0a2c84419d99f1c149d664d538be47e",
+      "Resources/Assets.xcassets/AppIcon.solidimagestack/Back.solidimagestacklayer/Contents.json": "f5fb0e1f3a8142892ed092efb5955c1c2cc537003a89ad7bbdb9dade7fe8985f",
+      "Resources/Assets.xcassets/AppIcon.solidimagestack/Middle.solidimagestacklayer/Content.imageset/Contents.json": "3996ac89ef039944ca786a64bfc5b6b1aacc367f8ff1732384da7a125bcbdc61",
+      "Resources/Assets.xcassets/AppIcon.solidimagestack/Middle.solidimagestacklayer/Content.imageset/middle.png": "265149d454822c2c808720c61f5a4317c0bfda56fc96598ea7b19b6ea52c5dd1",
+      "Resources/Assets.xcassets/AppIcon.solidimagestack/Middle.solidimagestacklayer/Contents.json": "f5fb0e1f3a8142892ed092efb5955c1c2cc537003a89ad7bbdb9dade7fe8985f",
+      "Resources/Assets.xcassets/AppIcon.solidimagestack/Contents.json": "de2c28d91cfa6311521f32d804ee3d8433641b775a8818605896073fa31c07fa",
+      "Resources/Assets.xcassets/AppIcon.appiconset/icon-1024.png": "848e1308b67ad7b867dc9f3995450f763eeaa5d94722576c8b6570a43c1aab29",
+      "Resources/Assets.xcassets/AppIcon.appiconset/Contents.json": "d966e1cabdf15246cc3538dd6721e8e330796b3d830bce7f95344925f03c147e",
+      "Resources/Assets.xcassets/AccentColor.colorset/Contents.json": "57694bc02b9cf32e66eff29bc5a447285c2839bcc1b7c74be7999a7c7ec3814b",
+      "Resources/Assets.xcassets/Contents.json": "10e3b5dc202f1cd9fad1f688c8fc9fe9e9669bf3f8295e67d216b10fd99b6f49",
+      "Resources/icon-src.png": "7a60103bfe255229cf55e9728666d77a169f8f4cc9dffb26ee0a7427c109c259",
+      "project.yml": "c1dee5b6129e4b79af10e5935995ab20edaad6bb1fb3d26104b8a1b85225a808"
+    }
+  },
+  "capture_execution": {
+    "in_use": false,
+    "user_authorization": null,
+    "command_args": [
+      "--platform",
+      "iphone"
+    ],
+    "gate_policy": {
+      "idle_seconds_minimum": 600,
+      "require_ac": true,
+      "allow_owner_now": false,
+      "low_power_mode_allowed": false,
+      "sdk_build_allowed": true
+    },
+    "gate_observations": [
+      {
+        "phase": "initial",
+        "observed_at": "2026-10-06T09:05:12+08:00",
+        "steady": {
+          "user_away": true,
+          "allow_owner_now": false,
+          "okay": true,
+          "reason": "空闲 37760 秒、负载 1.6"
+        },
+        "ac_power": true,
+        "low_power_mode": 0,
+        "allowed": true,
+        "reason": "空闲 37760 秒、负载 1.6"
+      },
+      {
+        "phase": "postboot",
+        "observed_at": "2026-10-06T09:05:35+08:00",
+        "steady": {
+          "user_away": true,
+          "allow_owner_now": false,
+          "okay": true,
+          "reason": "空闲 37783 秒、负载 2.1"
+        },
+        "ac_power": true,
+        "low_power_mode": 0,
+        "allowed": true,
+        "reason": "空闲 37783 秒、负载 2.1"
+      },
+      {
+        "phase": "screen:today",
+        "observed_at": "2026-10-06T09:06:05+08:00",
+        "steady": {
+          "user_away": true,
+          "allow_owner_now": false,
+          "okay": false,
+          "reason": "负载 38.1 ≥ 12"
+        },
+        "ac_power": true,
+        "low_power_mode": 0,
+        "allowed": false,
+        "reason": "负载 38.1 ≥ 12"
+      },
+      {
+        "phase": "screen:today",
+        "observed_at": "2026-10-06T09:06:15+08:00",
+        "steady": {
+          "user_away": true,
+          "allow_owner_now": false,
+          "okay": false,
+          "reason": "负载 35.2 ≥ 12"
+        },
+        "ac_power": true,
+        "low_power_mode": 0,
+        "allowed": false,
+        "reason": "负载 35.2 ≥ 12"
+      },
+      {
+        "phase": "screen:today",
+        "observed_at": "2026-10-06T09:06:25+08:00",
+        "steady": {
+          "user_away": true,
+          "allow_owner_now": false,
+          "okay": false,
+          "reason": "负载 30.4 ≥ 12"
+        },
+        "ac_power": true,
+        "low_power_mode": 0,
+        "allowed": false,
+        "reason": "负载 30.4 ≥ 12"
+      },
+      {
+        "phase": "screen:today",
+        "observed_at": "2026-10-06T09:06:35+08:00",
+        "steady": {
+          "user_away": true,
+          "allow_owner_now": false,
+          "okay": false,
+          "reason": "负载 26.0 ≥ 12"
+        },
+        "ac_power": true,
+        "low_power_mode": 0,
+        "allowed": false,
+        "reason": "负载 26.0 ≥ 12"
+      },
+      {
+        "phase": "screen:today",
+        "observed_at": "2026-10-06T09:06:45+08:00",
+        "steady": {
+          "user_away": true,
+          "allow_owner_now": false,
+          "okay": false,
+          "reason": "负载 22.5 ≥ 12"
+        },
+        "ac_power": true,
+        "low_power_mode": 0,
+        "allowed": false,
+        "reason": "负载 22.5 ≥ 12"
+      },
+      {
+        "phase": "screen:today",
+        "observed_at": "2026-10-06T09:06:55+08:00",
+        "steady": {
+          "user_away": true,
+          "allow_owner_now": false,
+          "okay": false,
+          "reason": "负载 19.4 ≥ 12"
+        },
+        "ac_power": true,
+        "low_power_mode": 0,
+        "allowed": false,
+        "reason": "负载 19.4 ≥ 12"
+      },
+      {
+        "phase": "screen:today",
+        "observed_at": "2026-10-06T09:07:06+08:00",
+        "steady": {
+          "user_away": true,
+          "allow_owner_now": false,
+          "okay": false,
+          "reason": "负载 16.6 ≥ 12"
+        },
+        "ac_power": true,
+        "low_power_mode": 0,
+        "allowed": false,
+        "reason": "负载 16.6 ≥ 12"
+      },
+      {
+        "phase": "screen:today",
+        "observed_at": "2026-10-06T09:07:16+08:00",
+        "steady": {
+          "user_away": true,
+          "allow_owner_now": false,
+          "okay": false,
+          "reason": "负载 14.4 ≥ 12"
+        },
+        "ac_power": true,
+        "low_power_mode": 0,
+        "allowed": false,
+        "reason": "负载 14.4 ≥ 12"
+      },
+      {
+        "phase": "screen:today",
+        "observed_at": "2026-10-06T09:07:26+08:00",
+        "steady": {
+          "user_away": true,
+          "allow_owner_now": false,
+          "okay": false,
+          "reason": "负载 12.5 ≥ 12"
+        },
+        "ac_power": true,
+        "low_power_mode": 0,
+        "allowed": false,
+        "reason": "负载 12.5 ≥ 12"
+      },
+      {
+        "phase": "screen:today",
+        "observed_at": "2026-10-06T09:07:36+08:00",
+        "steady": {
+          "user_away": true,
+          "allow_owner_now": false,
+          "okay": true,
+          "reason": "空闲 37904 秒、负载 11.2"
+        },
+        "ac_power": true,
+        "low_power_mode": 0,
+        "allowed": true,
+        "reason": "空闲 37904 秒、负载 11.2"
+      },
+      {
+        "phase": "screen:notifications",
+        "observed_at": "2026-10-06T09:07:44+08:00",
+        "steady": {
+          "user_away": true,
+          "allow_owner_now": false,
+          "okay": true,
+          "reason": "空闲 37912 秒、负载 9.6"
+        },
+        "ac_power": true,
+        "low_power_mode": 0,
+        "allowed": true,
+        "reason": "空闲 37912 秒、负载 9.6"
+      },
+      {
+        "phase": "screen:diary",
+        "observed_at": "2026-10-06T09:07:54+08:00",
+        "steady": {
+          "user_away": true,
+          "allow_owner_now": false,
+          "okay": true,
+          "reason": "空闲 37923 秒、负载 8.3"
+        },
+        "ac_power": true,
+        "low_power_mode": 0,
+        "allowed": true,
+        "reason": "空闲 37923 秒、负载 8.3"
+      },
+      {
+        "phase": "screen:connection",
+        "observed_at": "2026-10-06T09:08:05+08:00",
+        "steady": {
+          "user_away": true,
+          "allow_owner_now": false,
+          "okay": true,
+          "reason": "空闲 37933 秒、负载 7.2"
+        },
+        "ac_power": true,
+        "low_power_mode": 0,
+        "allowed": true,
+        "reason": "空闲 37933 秒、负载 7.2"
+      }
+    ],
+    "stabilization": {
+      "wait_seconds_limit": 180,
+      "wait_seconds": 90.07458979101648
+    },
+    "native_session": {
+      "platform": "iphone",
+      "udid": "92AE0CC6-8E0D-4978-9195-09A45BA64C63",
+      "label": "sim_lane:iphone:81261",
+      "keep_booted": false,
+      "cleanup_completed": true
+    }
+  },
+  "reused_build": false,
+  "build_reuse": null,
+  "build": {
+    "configuration": "Debug",
+    "version": "0.2.1",
+    "build": "6",
+    "executable_sha256": "fb7294fb069dafaa157803c6dcb910bf10509f4d914b6d08fccfc857d382d8e2",
+    "sdk": "iphonesimulator27.0",
+    "debug_code_sha256": "f4610c1da539d479d3633e7f4c45d770b299110dcb1c61c423bde883f7e94b4b"
+  },
+  "scope": "DEBUG 合成数据；不是实际业务读写、性能实测或上架回执"
+}
