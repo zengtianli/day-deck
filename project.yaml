@@ -92,6 +92,87 @@ sop:
   runtime:
     kind: ios
     readback: builtin:asc-device
+  cli:  # 手机上放不了命令行：手机能看、能点的，用同族 Mac App 里的 notihub（云端同一份数据）
+    commands:
+    - notihub
+    app: cyou.tianli.notifhubbar
+  agent_cli:  # 界面功能对照（写法见 app 技能 references/agent-cli.md）；功能从界面源码逐项列出，改界面时同轮更新
+    readback: notihub cloud status
+    features:
+    - name: 今天：未完成待办四组（逾期 / 今天 / 没定时间 / 之后）与计数
+      command: notihub cloud open
+    - name: 今天：搜索待办
+      command: notihub cloud open
+    - name: 今天：下拉刷新 / 刷新
+      command: notihub cloud open
+    - name: 数据陈旧度（缓存更新、最后同步）
+      command: notihub cloud status
+    - name: 待办详情（跟谁、时间、备注、佐证原文、出处、Mac 是否已推）
+      command: notihub cloud open
+    - name: 标为完成
+      command: notihub cloud mark
+    - name: 不做了
+      command: notihub cloud mark
+    - name: 加入提醒事项 / 仍要再加一次
+      command: notihub push
+    - name: 交给 Mac 存进日历/提醒事项
+      command: notihub push
+    - name: 排队等待 Mac 的状态
+      command: notihub queue list
+    - name: 本机是否已加入提醒事项
+      missing: 命令只能把待办写进提醒事项，读不回某条是否已在提醒事项里；手机本机的提醒事项命令也够不到
+    - name: 通知：当天总结（标题与几条线）
+      command: notihub cloud day
+    - name: 通知：这天抽出来的事
+      command: notihub cloud day
+    - name: 通知：这天的数（通知、合并后、折叠的噪音、随手记、聊得最多）
+      command: notihub cloud day
+    - name: 通知：时间线（通知与云端笔记）
+      command: notihub cloud day
+    - name: 通知：展开正文 / 收起正文
+      human: 只在窗口里有意义（展开状态；命令输出总是全文）
+    - name: 通知：搜索当天通知与笔记
+      command: notihub cloud day
+    - name: 通知：前一天 / 后一天 / 挑一天
+      command: notihub cloud days
+    - name: 通知：当天的提醒事项（仅本机）
+      missing: 命令只能把待办写进提醒事项，读不回某条是否已在提醒事项里；手机本机的提醒事项命令也够不到
+    - name: 通知：下拉刷新
+      command: notihub cloud day
+    - name: 随手记：写下并「记下来」
+      command: notihub cloud note
+    - name: 随手记：已记下的（云端笔记与 Mac 上的随手记）
+      command: notihub cloud day
+    - name: 随手记：草稿保存在此设备
+      human: 只在窗口里有意义（未保存的界面草稿）
+    - name: 随手记：收起键盘
+      human: 只在窗口里有意义
+    - name: 连接：最近同步与读取错误
+      command: notihub cloud status
+    - name: 连接：云端站点链接
+      human: 只在窗口里有意义（打开浏览器）
+    - name: 连接：访问密码登录或更新凭据
+      human: 要本人在手机上输入密码，凭据只进该设备的钥匙串
+    - name: 连接：提醒事项授权（允许访问 / 去设置）
+      human: 系统授权弹窗只能本人点
+    - name: 连接：加入到哪个提醒事项列表
+      command: notihub push
+    - name: 配置与更新：应用版本
+      missing: 没有读手机端已装版本的命令（Chapter 用 builtin:asc-device 回读）
+    - name: 配置与更新：检查更新 / 在 TestFlight 中检查更新
+      human: 只在窗口里有意义（跳转 TestFlight，由本人在手机上更新）
+    - name: 宽屏：侧栏分区与云端同步状态
+      command: notihub cloud status
+    - name: 宽屏：今天看板（待办与当天要点）
+      command: notihub cloud open
+    - name: 宽屏：看这天的完整时间线
+      command: notihub cloud day
+    - name: 手表：摘要（今日待办数、要点、从哪来）
+      command: notihub cloud day
+    - name: 手表：表盘复杂功能（未完成数）
+      command: notihub cloud status
+    - name: 手表：多久没同步的提示
+      command: notihub cloud status
   product:
     distribution: personal
     source_visibility: private
