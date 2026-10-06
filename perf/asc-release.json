@@ -1,14 +1,14 @@
 {
   "version": "0.2.1",
-  "build": "7",
+  "build": "8",
   "source_kind": "app_store_connect",
   "distribution": "TestFlight VALID（仅内测，未上架）",
-  "queried_at": "2026-10-06T01:54:47.190239+08:00",
+  "queried_at": "2026-10-06T11:30:43.670094+08:00",
   "app_id": "6807048407",
   "bundle_id": "cyou.tianli.daydeck",
-  "build_id": "c93c13ee-2870-4cc4-b479-d9429d175aed",
+  "build_id": "aaafdb8e-c85c-4fdb-86aa-2d5599a6f4a3",
   "processing_state": "VALID",
   "device_install_verified": false,
-  "source_commit": "bd6274d94ca52bdab70139f743c65077945aceae",
-  "source_note": "0.2.1(7)：分组名、空状态与出错建议可由后端 service/ui.json 覆盖；经 push-testflight.sh --testflight-only 归档上传，归档时 Sources/Shared 无未提交改动。未做重建比对。"
+  "source_commit": "ad1f836",
+  "source_note": "Watch text follows the backend ui segment (carried with the digest from the phone)"
 }
