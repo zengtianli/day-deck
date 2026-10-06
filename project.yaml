@@ -156,21 +156,29 @@ sop:
     - name: 连接：提醒事项授权（允许访问 / 去设置）
       human: 系统授权弹窗只能本人点
     - name: 连接：加入到哪个提醒事项列表
-      command: notihub push
+      missing: 手机上保存的这项选择命令读不到也改不了（Mac 上 notihub push 的 --list 只是单次参数）
     - name: 配置与更新：应用版本
       missing: 没有读手机端已装版本的命令（Chapter 用 builtin:asc-device 回读）
+    - name: 配置与更新：更新渠道与更新状态
+      missing: 共享生命周期模块暂无命令入口
     - name: 配置与更新：检查更新 / 在 TestFlight 中检查更新
-      human: 只在窗口里有意义（跳转 TestFlight，由本人在手机上更新）
-    - name: 宽屏：侧栏分区与云端同步状态
+      missing: 共享生命周期模块暂无命令入口
+    - name: 标签或侧栏分区切换（今天 / 通知 / 随手记 / 连接）
+      human: 只在窗口里有意义（各分区内容各有命令）
+    - name: 宽屏：侧栏云端同步状态（连接是否正常、最后同步）
       command: notihub cloud status
+    - name: 宽屏：侧栏「今天」角标（逾期 + 今天到期的件数）
+      command: notihub cloud open
+    - name: 宽屏：侧栏「通知」角标（最近一天没点开的件数）
+      command: notihub cloud day
     - name: 宽屏：今天看板（待办与当天要点）
       command: notihub cloud open
     - name: 宽屏：看这天的完整时间线
       command: notihub cloud day
     - name: 手表：摘要（今日待办数、要点、从哪来）
       command: notihub cloud day
-    - name: 手表：表盘复杂功能（未完成数）
-      command: notihub cloud status
+    - name: 手表：表盘复杂功能（当天未读数）
+      command: notihub cloud day
     - name: 手表：多久没同步的提示
       command: notihub cloud status
   product:
