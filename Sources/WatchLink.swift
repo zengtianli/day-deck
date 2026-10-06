@@ -47,7 +47,9 @@ final class WatchLink: NSObject {
         #endif
         let date = store.landingDate
         guard let day = await store.day(date) else { return }
-        publish(WatchDigest.make(day: day, open: store.open, timezone: store.cloudTimezone, lastSync: store.lastSync))
+        // 后端改过的手表话术跟着摘要走；覆盖项变了摘要就不同，会重发
+        publish(WatchDigest.make(day: day, open: store.open, timezone: store.cloudTimezone, lastSync: store.lastSync,
+                                 ui: Remote.ui))
     }
 
     private func publish(_ digest: WatchDigest) {

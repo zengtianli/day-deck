@@ -211,7 +211,8 @@ struct StaleBadge: View {
         let mins = Int(Date().timeIntervalSince(at) / 60)
         Text(mins < 2 ? "刚刚" : mins < 60 ? "\(mins) 分钟前" : timestamp)
             .font(.caption2)
-            .foregroundStyle(mins > 180 ? Color.orange : Color.secondary)
+            // 多旧算旧：与手表主页同一个键（WatchDigest.staleAfter），自带 3 小时
+            .foregroundStyle(mins > Int(WatchDigest.staleAfter / 60) ? Color.orange : Color.secondary)
     }
     private var timestamp: String {
         let formatter = DateFormatter()

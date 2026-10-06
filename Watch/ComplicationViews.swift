@@ -61,7 +61,8 @@ struct DigestComplicationView: View {
                     Text(d.headline.isEmpty ? "合并后 \(d.events) 件事" : d.headline)
                         .font(.caption2).foregroundStyle(.secondary).lineLimit(1)
                 } else {
-                    Text(entry.digest == nil ? "在 iPhone 上打开 Notihub" : "今天的摘要还没同步")
+                    // 还没收到过摘要时没有覆盖项可用（话术是跟着摘要来的），那一句只有自带的
+                    Text(entry.digest == nil ? "在 iPhone 上打开 Notihub" : T("watch.not_today", "今天的摘要还没同步"))
                         .font(.caption).foregroundStyle(.secondary).lineLimit(2)
                 }
             }

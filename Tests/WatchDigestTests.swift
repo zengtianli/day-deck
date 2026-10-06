@@ -95,4 +95,96 @@ final class WatchDigestTests: XCTestCase {
         XCTAssertEqual(digest.total, 46)
         XCTAssertTrue(digest.isToday(feed.now))
     }
+
+    // MARK: 后端覆盖项（service/ui.json）随摘要到手表
+
+    override func setUp() { super.setUp(); Remote.ui = nil }
+    override func tearDown() { Remote.ui = nil; super.tearDown() }
+
+    private func object(_ digest: WatchDigest) throws -> [String: Any] {
+        try XCTUnwrap(JSONSerialization.jsonObject(with: JSONEncoder().encode(digest)) as? [String: Any])
+    }
+
+    /// 没有覆盖项时摘要里没有 `ui` 这个键：旧手表收到的与接入前逐键相同。有的话只带手表用得到的那几项。
+    func testOnlyWatchCopyRidesWithTheDigestAndNothingWhenUnset() throws {
+        let before = WatchDigest.make(day: day([]), open: [], timezone: tz, lastSync: nil)
+        for unset in [nil, FeedUI(), FeedUI(copy: [:], vocab: [:], order: [], limits: [:]),
+                      FeedUI(copy: ["today.empty": "只有 iPhone 页面用的键"], limits: ["poll_seconds": 30])] as [FeedUI?] {
+            let digest = WatchDigest.make(day: day([]), open: [], timezone: tz, lastSync: nil, ui: unset)
+            XCTAssertNil(digest.ui)
+            XCTAssertEqual(digest, before)
+            XCTAssertEqual(Set(try object(digest).keys), Set(try object(before).keys))
+            XCTAssertNil(try object(digest)["ui"])
+        }
+        let ui = FeedUI(copy: ["watch.no_items": "今天很安静", "today.group.overdue": "拖着的",
+                               "today.empty": "只有 iPhone 页面用的键", "watch.sync_at": "",
+                               "watch.no_apps": String(repeating: "长", count: WatchDigest.carriedCopyLimit + 1)],
+                        limits: ["stale_seconds": 7200, "poll_seconds": 30])
+        let digest = WatchDigest.make(day: day([]), open: [], timezone: tz, lastSync: nil, ui: ui)
+        XCTAssertEqual(digest.ui?.value?.copy, ["watch.no_items": "今天很安静", "today.group.overdue": "拖着的"],
+                       "空串等于没写；超过 80 字的不带；别的页面的键不带")
+        XCTAssertEqual(digest.ui?.value?.limits, ["stale_seconds": 7200])
+        XCTAssertNotEqual(digest, before, "覆盖项变了摘要就不同，WatchLink 会重发")
+    }
+
+    /// 手表那头：收到的字节 → 解出摘要 → Remote.ui → T()。下一份没带，全部回到自带文案。
+    func testWatchShowsCarriedCopyFromTheDecodedDigestAndDropsItWithTheNextOne() throws {
+        let ui = FeedUI(copy: ["watch.no_items": "今天很安静", "watch.sync_at": "上次同步 {time}",
+                               "watch.day_stale": "{date} 的（今天的没到）", "today.group.overdue": "拖着的"],
+                        limits: ["stale_seconds": 7200])
+        let sent = try JSONEncoder().encode(WatchDigest.make(day: day([]), open: [], timezone: tz, lastSync: nil, ui: ui))
+        XCTAssertEqual(T("watch.no_items", "这天还没有通知"), "这天还没有通知")
+        XCTAssertEqual(WatchDigest.staleAfter, 3 * 3600)
+
+        Remote.ui = try JSONDecoder().decode(WatchDigest.self, from: sent).ui?.value
+        XCTAssertEqual(T("watch.no_items", "这天还没有通知"), "今天很安静")
+        XCTAssertEqual(T("watch.sync_at", "同步于 {time}", ["time": "09:30"]), "上次同步 09:30")
+        XCTAssertEqual(T("watch.day_stale", "{date} · 今天的还没同步", ["date": "10月2日"]), "10月2日 的（今天的没到）")
+        XCTAssertEqual(T("today.group.overdue", "逾期"), "拖着的")
+        XCTAssertEqual(T("today.group.today", "今天"), "今天", "没写的键仍是自带的")
+        XCTAssertEqual(WatchDigest.staleAfter, 7200)
+
+        let next = try JSONEncoder().encode(WatchDigest.make(day: day([]), open: [], timezone: tz, lastSync: nil))
+        Remote.ui = try JSONDecoder().decode(WatchDigest.self, from: next).ui?.value
+        XCTAssertEqual(T("watch.no_items", "这天还没有通知"), "这天还没有通知")
+        XCTAssertEqual(T("watch.sync_at", "同步于 {time}", ["time": "09:30"]), "同步于 09:30")
+        XCTAssertEqual(T("watch.sync_never", "还没同步过"), "还没同步过")
+        XCTAssertEqual(T("watch.no_apps", "这天没有按 App 的计数"), "这天没有按 App 的计数")
+        XCTAssertEqual(T("watch.not_today", "今天的摘要还没同步"), "今天的摘要还没同步")
+        XCTAssertEqual(T("watch.day_stale", "{date} · 今天的还没同步", ["date": "10月2日"]), "10月2日 · 今天的还没同步")
+        XCTAssertEqual(WatchDigest.staleAfter, 3 * 3600)
+    }
+
+    /// 摘要里的 `ui` 写坏：只丢话术，摘要的数照常解出（手表不因此停在上一份）。
+    func testBrokenCarriedCopyCostsOnlyTheCopy() throws {
+        let good = WatchDigest.make(day: day([item(1, "甲", missed: true)]), open: [], timezone: tz,
+                                    lastSync: Date(timeIntervalSince1970: 100))
+        for broken in ["oops", 7, ["a", "b"], ["copy": ["a", "b"]], ["copy": ["watch.no_items": 5]],
+                       ["limits": ["stale_seconds": "soon"]]] as [Any] {
+            var body = try object(good)
+            body["ui"] = broken
+            let decoded = try JSONDecoder().decode(WatchDigest.self, from: JSONSerialization.data(withJSONObject: body))
+            XCTAssertEqual(decoded.total, 12, "\(broken)")
+            XCTAssertEqual(decoded.unread, 1, "\(broken)")
+            XCTAssertEqual(decoded.top.first?.who, "甲", "\(broken)")
+            XCTAssertNil(decoded.ui?.value, "\(broken)")
+        }
+        // 以后摘要多出别的键，这一版的手表照常解（接入前的手表模型解带 ui 的摘要也是同一条规则）
+        var body = try object(good)
+        body["somethingNewer"] = ["x": 1]
+        XCTAssertEqual(try JSONDecoder().decode(WatchDigest.self, from: JSONSerialization.data(withJSONObject: body)), good)
+    }
+
+    /// 要点里「正文已抹除」那一行是 iPhone 算摘要时填的，用 iPhone 手上的覆盖项；阈值被夹在范围内。
+    func testRedactedLineAndStaleWindowFollowTheBackend() {
+        let redacted = [item(1, "抹除", missed: true, redacted: true)]
+        XCTAssertEqual(WatchDigest.make(day: day(redacted), open: [], timezone: tz, lastSync: nil).top.first?.line,
+                       "正文已按保留期抹除")
+        Remote.ui = FeedUI(copy: ["watch.redacted": "正文已清理"], limits: ["stale_seconds": 5])
+        XCTAssertEqual(WatchDigest.make(day: day(redacted), open: [], timezone: tz, lastSync: nil).top.first?.line,
+                       "正文已清理")
+        XCTAssertEqual(WatchDigest.staleAfter, 600, "写得离谱的数被夹到范围里")
+        Remote.ui = FeedUI(limits: ["stale_seconds": 9_999_999])
+        XCTAssertEqual(WatchDigest.staleAfter, 86_400)
+    }
 }

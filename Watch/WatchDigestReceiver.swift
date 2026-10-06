@@ -23,10 +23,12 @@ final class WatchDigestReceiver: NSObject, ObservableObject {
             digest = WatchDigest.make(day: feed.day, open: feed.open, timezone: feed.timezone,
                                       lastSync: feed.lastSync, now: feed.now)
             receivedAt = feed.now
+            Remote.ui = digest?.ui?.value
             return
         }
         #endif
         if let saved = DigestVault.load() {
+            Remote.ui = saved.digest.ui?.value   // 读本机那一份：后端改过的话术跟着摘要走
             digest = saved.digest
             receivedAt = saved.receivedAt
         }
@@ -40,6 +42,7 @@ final class WatchDigestReceiver: NSObject, ObservableObject {
               let incoming = try? JSONDecoder().decode(WatchDigest.self, from: data) else { return }
         if let current = digest, incoming.isOlder(than: current) { return }
         let now = Date()
+        Remote.ui = incoming.ui?.value   // 先换覆盖项，再发布摘要触发重画；这份没带就全部回到自带文案
         digest = incoming
         receivedAt = now
         DigestVault.save(.init(digest: incoming, receivedAt: now))

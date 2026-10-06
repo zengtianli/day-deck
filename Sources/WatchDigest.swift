@@ -39,13 +39,39 @@ struct WatchDigest: Codable, Equatable {
     let dueToday: Int
     let overdue: Int
     let lastSync: Double?     // 云端最后一次同步（Mac 采集）的时刻
+    /// 后端覆盖项（service/ui.json）里手表用得到的那几项，随摘要多传一跳，手表与 iPhone 说同样的话。
+    /// 可选：旧摘要没有这一项；`Lenient` 让以后形状变了也只是这一项回落，不连带整份摘要。
+    var ui: Lenient<FeedUI>? = nil
 
     static let contextKey = "digest"
     static let topLimit = 6
     static let lineLimit = 80
 
+    /// 手表显示要用的覆盖项：只有这几个键随摘要走（其余手表用不到；摘要要小，WatchConnectivity 的上下文有大小上限）。
+    /// 待办分组名与 iPhone「今天」页是同一组键。
+    static let carriedCopy: Set<String> = ["today.group.today", "today.group.overdue", "watch.day_stale",
+                                           "watch.sync_at", "watch.sync_never", "watch.no_apps",
+                                           "watch.no_items", "watch.not_today"]
+    static let carriedLimits: Set<String> = ["stale_seconds"]
+    /// 一条话术最多带多少字：再长手表一行也放不下，也不让一条写错的长文把整份摘要撑到发不出去。
+    static let carriedCopyLimit = 80
+
+    /// 从 iPhone 手上的覆盖项里摘出手表那几项；一项都没有时返回 nil（摘要与没有覆盖时相同，不多一个键）。
+    static func carried(_ ui: FeedUI?) -> Lenient<FeedUI>? {
+        guard let ui else { return nil }
+        let copy = (ui.copy ?? [:]).filter {
+            carriedCopy.contains($0.key) && !$0.value.isEmpty && $0.value.count <= carriedCopyLimit
+        }
+        let limits = (ui.limits ?? [:]).filter { carriedLimits.contains($0.key) && $0.value.isFinite }
+        if copy.isEmpty && limits.isEmpty { return nil }
+        return Lenient(FeedUI(copy: copy.isEmpty ? nil : copy, limits: limits.isEmpty ? nil : limits))
+    }
+
+    /// 数据多旧算「旧」（标橙）。iPhone 的 StaleBadge 与手表主页用同一个键、同样的自带值与范围。
+    static var staleAfter: TimeInterval { Remote.seconds("stale_seconds", 3 * 3600, in: 600...86_400) }
+
     static func make(day: FeedDay, open: [Agenda], timezone: TimeZone, lastSync: Date?,
-                     now: Date = Date()) -> WatchDigest {
+                     ui: FeedUI? = nil, now: Date = Date()) -> WatchDigest {
         var calendar = Calendar(identifier: .gregorian)
         calendar.timeZone = timezone
         let picked = day.items.sorted { a, b in
@@ -63,7 +89,8 @@ struct WatchDigest: Codable, Equatable {
             },
             dueToday: AgendaBuckets.dueToday(open, calendar: calendar, now: now).count,
             overdue: AgendaBuckets.overdue(open, calendar: calendar, now: now).count,
-            lastSync: lastSync?.timeIntervalSince1970)
+            lastSync: lastSync?.timeIntervalSince1970,
+            ui: carried(ui))
     }
 
     /// FeedDay 里的 `[[名字, 次数]]`；次数不是整数的整行不要（不猜）。
@@ -75,7 +102,7 @@ struct WatchDigest: Codable, Equatable {
     }
 
     private static func firstLine(_ item: FeedItem) -> String {
-        if item.redacted { return "正文已按保留期抹除" }
+        if item.redacted { return T("watch.redacted", "正文已按保留期抹除") }
         let line = item.lines.lazy.map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }
             .first { !$0.isEmpty } ?? ""
         return line.count > lineLimit ? String(line.prefix(lineLimit)) + "…" : line

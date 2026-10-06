@@ -106,6 +106,31 @@ final class RemoteCopyTests: XCTestCase {
         XCTAssertEqual(network.whatToDo, "先看看网络。")
     }
 
+    /// The watch has no network of its own: copy written in the backend reaches it inside the digest the
+    /// iPhone computes after the production fetch. Only the watch's keys travel.
+    @MainActor
+    func testBackendCopyForTheWatchTravelsFromTheFetchedIndexIntoTheDigest() async throws {
+        serve(ui: ["copy": ["watch.no_items": "今天很安静", "today.group.overdue": "拖过了",
+                            "error.network_advice": "先看看网络。"],
+                   "vocab": [String: Any](), "order": [String](), "limits": ["stale_seconds": 7200]])
+        let store = Store(api: api)
+        await store.refresh()
+        XCTAssertNil(store.indexError)
+        let day = FeedDay(date: "2026-09-07", total: 3, muted: 0, notes: 0, first: nil, last: nil,
+                          byHour: Array(repeating: 0, count: 24), apps: [], whos: [], summary: nil,
+                          agenda: [], items: [], cloudNotes: [])
+        let sent = try JSONEncoder().encode(WatchDigest.make(day: day, open: store.open, timezone: store.cloudTimezone,
+                                                             lastSync: store.lastSync, ui: Remote.ui))
+        Remote.ui = nil                                    // the watch is another process: it starts with nothing
+        let received = try JSONDecoder().decode(WatchDigest.self, from: sent)
+        XCTAssertEqual(received.ui?.value?.copy, ["watch.no_items": "今天很安静", "today.group.overdue": "拖过了"])
+        Remote.ui = received.ui?.value
+        XCTAssertEqual(T("watch.no_items", "这天还没有通知"), "今天很安静")
+        XCTAssertEqual(T("today.group.overdue", "逾期"), "拖过了")
+        XCTAssertEqual(WatchDigest.staleAfter, 7200)
+        XCTAssertEqual(network.whatToDo, "请检查网络后重试；离线时仍可阅读上次缓存的记录。", "iPhone-only keys stay on the iPhone")
+    }
+
     @MainActor
     func testMalformedUIDropsOnlyTheOverrides() async throws {
         let store = Store(api: api)

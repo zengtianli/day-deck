@@ -9,12 +9,19 @@ import WidgetKit
 struct DigestProvider: TimelineProvider {
     func placeholder(in context: Context) -> DigestEntry { DigestEntry(date: .now, digest: nil) }
 
+    /// 手表 App 落盘的那份摘要；它带来的话术覆盖项同时交给 T()（复杂功能跑在自己的进程里，要自己接一次）。
+    private func latest() -> WatchDigest? {
+        let digest = DigestVault.load()?.digest
+        Remote.ui = digest?.ui?.value
+        return digest
+    }
+
     func getSnapshot(in context: Context, completion: @escaping (DigestEntry) -> Void) {
-        completion(DigestEntry(date: .now, digest: DigestVault.load()?.digest))
+        completion(DigestEntry(date: .now, digest: latest()))
     }
 
     func getTimeline(in context: Context, completion: @escaping (Timeline<DigestEntry>) -> Void) {
-        let digest = DigestVault.load()?.digest
+        let digest = latest()
         let now = Date()
         var calendar = Calendar(identifier: .gregorian)
         calendar.timeZone = digest?.cloudTimeZone ?? .current

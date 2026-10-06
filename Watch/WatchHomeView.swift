@@ -91,7 +91,7 @@ struct WatchHomeView: View {
                     }
                 }
                 if digest.apps.isEmpty {
-                    Text("这天没有按 App 的计数").font(.footnote).foregroundStyle(.secondary)
+                    Text(T("watch.no_apps", "这天没有按 App 的计数")).font(.footnote).foregroundStyle(.secondary)
                 }
                 if !digest.whos.isEmpty {
                     Text("聊得最多").font(.caption2).foregroundStyle(.secondary).padding(.top, 6)
@@ -114,7 +114,7 @@ struct WatchHomeView: View {
     private var highlights: some View {
         List {
             if digest.top.isEmpty {
-                Text("这天还没有通知").font(.footnote).foregroundStyle(.secondary)
+                Text(T("watch.no_items", "这天还没有通知")).font(.footnote).foregroundStyle(.secondary)
             }
             ForEach(digest.top) { item in
                 VStack(alignment: .leading, spacing: 2) {
@@ -139,12 +139,13 @@ struct WatchHomeView: View {
 
     // ── 文案 ────────────────────────────────────────────────────────────────
     private var dayLabel: String {
-        isToday ? "今天" : "\(monthDay(digest.date)) · 今天的还没同步"
+        isToday ? "今天" : T("watch.day_stale", "{date} · 今天的还没同步", ["date": monthDay(digest.date)])
     }
 
     private var agendaText: String {
-        var parts = ["今天 \(digest.dueToday)"]
-        if digest.overdue > 0 { parts.append("逾期 \(digest.overdue)") }
+        // 分组名与 iPhone「今天」页同一组键
+        var parts = ["\(T("today.group.today", "今天")) \(digest.dueToday)"]
+        if digest.overdue > 0 { parts.append("\(T("today.group.overdue", "逾期")) \(digest.overdue)") }
         return "待办 " + parts.joined(separator: " · ")
     }
 
@@ -155,17 +156,17 @@ struct WatchHomeView: View {
 
     private var stale: Bool {
         guard let at = syncAt else { return true }
-        return Date().timeIntervalSince(at) > 3 * 3600
+        return Date().timeIntervalSince(at) > WatchDigest.staleAfter
     }
 
     private var syncText: String {
-        guard let at = syncAt else { return "还没同步过" }
+        guard let at = syncAt else { return T("watch.sync_never", "还没同步过") }
         var calendar = Calendar(identifier: .gregorian)
         calendar.timeZone = digest.cloudTimeZone
         let formatter = DateFormatter()
         formatter.timeZone = digest.cloudTimeZone
         formatter.dateFormat = calendar.isDateInToday(at) ? "HH:mm" : "M月d日 HH:mm"
-        return "同步于 " + formatter.string(from: at)
+        return T("watch.sync_at", "同步于 {time}", ["time": formatter.string(from: at)])
     }
 
     private func time(_ ts: Double) -> String {
