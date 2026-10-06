@@ -160,9 +160,9 @@ sop:
     - name: 配置与更新：应用版本
       missing: 没有读手机端已装版本的命令（Chapter 用 builtin:asc-device 回读）
     - name: 配置与更新：更新渠道与更新状态
-      missing: 共享生命周期模块暂无命令入口
+      missing: 共享生命周期模块暂无命令入口；手机端渠道是 TestFlight，Mac 上的命令够不到手机，Mac 那边补了命令这项也读不到
     - name: 配置与更新：检查更新 / 在 TestFlight 中检查更新
-      missing: 共享生命周期模块暂无命令入口
+      missing: 共享生命周期模块暂无命令入口；手机端渠道是 TestFlight，Mac 上的命令够不到手机，Mac 那边补了命令这项也做不了
     - name: 标签或侧栏分区切换（今天 / 通知 / 随手记 / 连接）
       human: 只在窗口里有意义（各分区内容各有命令）
     - name: 宽屏：侧栏云端同步状态（连接是否正常、最后同步）
@@ -181,6 +181,8 @@ sop:
       command: notihub cloud day
     - name: 手表：多久没同步的提示
       command: notihub cloud status
+    - name: 手表：主页上下翻页（未读 / 从哪来 / 要点）
+      human: 只在窗口里有意义（翻页；三页内容 notihub cloud day 一次给全）
   product:
     distribution: personal
     source_visibility: private
