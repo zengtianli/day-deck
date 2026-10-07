@@ -120,7 +120,7 @@ sop:
     - name: 排队等待 Mac 的状态
       command: notihub queue list
     - name: 本机是否已加入提醒事项
-      missing: 命令只能把待办写进提醒事项，读不回某条是否已在提醒事项里；手机本机的提醒事项命令也够不到
+      missing: notihub 没有按待办查它是否已在提醒事项里的读命令（push 只写、targets 只列列表）。手机加入时在提醒的备注末行写 notihub:agenda/<键>，列表经 iCloud 同步到 Mac 后在 notihub data reminders 的备注一列看得到，但要自己算键比对；需要 notihub 的 cloud open 或 agenda 在 --json 里带上「已在提醒事项」。手机这一行本身是本次运行里点「加入」的结果，只在内存里
     - name: 通知：当天总结（标题与几条线）
       command: notihub cloud day
     - name: 通知：这天抽出来的事
@@ -136,7 +136,7 @@ sop:
     - name: 通知：前一天 / 后一天 / 挑一天
       command: notihub cloud days
     - name: 通知：当天的提醒事项（仅本机）
-      missing: 命令只能把待办写进提醒事项，读不回某条是否已在提醒事项里；手机本机的提醒事项命令也够不到
+      missing: 手机读的是它本机的提醒事项，App 不上传。经 iCloud 同步到 Mac 的列表，notihub data reminders 读得到标题、清单、状态、截止与备注，但没有完成时间，也不能按天取；需要 notihub data reminders 加完成时间一列和按日期筛选。只存在手机本机列表里的提醒 Mac 读不到
     - name: 通知：下拉刷新
       command: notihub cloud day
     - name: 随手记：写下并「记下来」
@@ -144,7 +144,7 @@ sop:
     - name: 随手记：已记下的（云端笔记与 Mac 上的随手记）
       command: notihub cloud day
     - name: 随手记：草稿保存在此设备
-      human: 只在窗口里有意义（未保存的界面草稿）
+      device: 没提交的草稿只存在这台手机的本机偏好里（diary.cloudDraft 三个键），点「记下来」之前不上传，Mac 与后端读不到；写随手记本身用 notihub cloud note
     - name: 随手记：收起键盘
       human: 只在窗口里有意义
     - name: 连接：最近同步与读取错误
@@ -156,13 +156,15 @@ sop:
     - name: 连接：提醒事项授权（允许访问 / 去设置）
       human: 系统授权弹窗只能本人点
     - name: 连接：加入到哪个提醒事项列表
-      missing: 手机上保存的这项选择命令读不到也改不了（Mac 上 notihub push 的 --list 只是单次参数）
+      device: 这项选择只存在这台手机的本机偏好里（reminderListID，存的是手机上那个提醒列表的标识），App 不上报，也没有可迁移配置；Mac 与后端读不到也改不了。Mac 上 notihub push 写到哪个列表由 Mac 的 rules.json 决定，是另一份设置
+    # 「配置与更新」面板（共享 AppLifecycleMobile）：手机端渠道是 TestFlight、没有可迁移配置（MobileProductLifecycle），
+    # 三项都只在那台手机本机。Mac 上的 notihub config / update 读的是 Mac 那一份，不是这里。
     - name: 配置与更新：应用版本
-      missing: 没有读手机端已装版本的命令（Chapter 用 builtin:asc-device 回读）
+      device: 显示的是这台手机上装的那一份 App 的版本与构建号（读自手机上的 App 包），手机不上报，notihub 与云端读不到
     - name: 配置与更新：更新渠道与更新状态
-      missing: 共享生命周期模块暂无命令入口；手机端渠道是 TestFlight，Mac 上的命令够不到手机，Mac 那边补了命令这项也读不到
+      device: 渠道名（TestFlight）和那句说明是编进手机 App 的固定文字，只在这台手机的面板里显示；这个渠道下 App 自己不查更新，没有可读的状态，手机也不上报
     - name: 配置与更新：检查更新 / 在 TestFlight 中检查更新
-      missing: 共享生命周期模块暂无命令入口；手机端渠道是 TestFlight，Mac 上的命令够不到手机，Mac 那边补了命令这项也做不了
+      device: 按钮只是在这台手机上跳到 TestFlight（itms-beta://），查更新和安装都由手机上的 TestFlight 完成；Mac 与云端替它点不了，也读不到结果
     - name: 标签或侧栏分区切换（今天 / 通知 / 随手记 / 连接）
       human: 只在窗口里有意义（各分区内容各有命令）
     - name: 宽屏：侧栏云端同步状态（连接是否正常、最后同步）
