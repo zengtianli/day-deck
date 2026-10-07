@@ -121,8 +121,10 @@ sop:
       command: notihub push
     - name: 排队等待 Mac 的状态
       command: notihub queue list
-    - name: 本机是否已加入提醒事项
-      missing: notihub 没有按待办查它是否已在提醒事项里的读命令（push 只写、targets 只列列表）。手机加入时在提醒的备注末行写 notihub:agenda/<键>，列表经 iCloud 同步到 Mac 后在 notihub data reminders 的备注一列看得到，但要自己算键比对；需要 notihub 的 cloud open 或 agenda 在 --json 里带上「已在提醒事项」。手机这一行本身是本次运行里点「加入」的结果，只在内存里
+    - name: 本机是否已加入提醒事项（同步到 Mac 的列表）
+      command: notihub cloud open
+    - name: 本机是否已加入提醒事项（只在手机本机的列表）
+      device: 只存在这台手机本机、不经 iCloud 同步的提醒列表；Reminders.swift 用 EventKit 只读进内存，不经 API 或 Cache，Mac 与后端没有这份列表。手机本次点击后的结果也只存在 outcomes 内存里
     - name: 通知：当天总结（标题与几条线）
       command: notihub cloud day
     - name: 通知：这天抽出来的事
@@ -137,8 +139,10 @@ sop:
       command: notihub cloud day
     - name: 通知：前一天 / 后一天 / 挑一天
       command: notihub cloud days
-    - name: 通知：当天的提醒事项（仅本机）
-      missing: 手机读的是它本机的提醒事项，App 不上传。经 iCloud 同步到 Mac 的列表，notihub data reminders 读得到标题、清单、状态、截止与备注，但没有完成时间，也不能按天取；需要 notihub data reminders 加完成时间一列和按日期筛选。只存在手机本机列表里的提醒 Mac 读不到
+    - name: 通知：当天的提醒事项（同步到 Mac 的列表）
+      command: notihub data reminders
+    - name: 通知：当天的提醒事项（只在手机本机的列表）
+      device: 只存在这台手机本机、不经 iCloud 同步的提醒列表；ReminderDay.fetch 经 EventKit 查询，数据只进内存，不上传，Mac 与后端读不到
     - name: 通知：下拉刷新
       command: notihub cloud day
     - name: 随手记：写下并「记下来」
