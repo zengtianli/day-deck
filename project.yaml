@@ -105,8 +105,10 @@ sop:
       command: notihub cloud open
     - name: 今天：下拉刷新 / 刷新
       command: notihub cloud open
-    - name: 数据陈旧度（缓存更新、最后同步）
+    - name: 数据陈旧度：最后同步
       command: notihub cloud status
+    - name: 数据陈旧度：缓存更新
+      device: 说的是这台手机上一次取到这一天并落盘的时间，缓存在手机 App 沙盒的 Application Support 里，手机不上报；notihub cloud status 给的是云端的最后同步，读不到手机上这一份缓存的时间
     - name: 待办详情（跟谁、时间、备注、佐证原文、出处、Mac 是否已推）
       command: notihub cloud open
     - name: 标为完成
