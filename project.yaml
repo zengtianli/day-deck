@@ -193,6 +193,6 @@ sop:
       human: 只在窗口里有意义（翻页；三页内容 notihub cloud day 一次给全）
   product:
     distribution: personal
-    source_visibility: private
-    source_url: ''
-    rationale: 自用 Notihub 手机端用于随身查看本人通知摘要、待办与随手记；当前产品目录明确不提供下载。
+    source_visibility: public
+    source_url: 'https://github.com/zengtianli/notihub'
+    rationale: 移动客户端脱敏源码已进入公开快照；本轮未构建、送审或提供安装包，发行保持自用。
