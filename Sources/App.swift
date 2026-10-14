@@ -18,6 +18,22 @@ struct NotihubApp: App {
 
     var body: some Scene {
         WindowGroup {
+            #if DEBUG && os(iOS)
+            if ProductBasicsSelfTest.requested {
+                ProductBasicsTestView()
+            } else {
+                productRoot
+            }
+            #else
+            productRoot
+            #endif
+        }
+        #if os(visionOS)
+        .defaultSize(width: 1280, height: 820)
+        #endif
+    }
+
+    private var productRoot: some View {
             RootView().environment(store).environment(reminders)
                 .appLifecycleMobile(productID: "day-deck", channel: MobileProductLifecycle.channel, configuration: MobileProductLifecycle.configuration, placement: .settings)
                 #if os(visionOS)
@@ -29,11 +45,6 @@ struct NotihubApp: App {
                 // 亮色固定：早晚各看一次，内容全是长文本；深色底在户外强光下更难读。
                 .preferredColorScheme(.light)
                 #endif
-        }
-        #if os(visionOS)
-        // Vision Pro 的默认窗口偏小：给一个侧栏 + 看板正好铺开的尺寸。
-        .defaultSize(width: 1280, height: 820)
-        #endif
     }
 }
 
@@ -42,7 +53,8 @@ struct RootView: View {
     @Environment(\.scenePhase) private var scenePhase
     // 验证通道：`-tab N` 直接落到某个 tab（生产路径上恒为 0）。
     // 宽窄两套布局共用这一个选中值：iPad 分屏宽窄来回切时停在同一页。
-    @State private var tab = UserDefaults.standard.integer(forKey: "tab")
+    @State private var tab = UserDefaults.standard.object(forKey: "tab") == nil
+        ? MobileProductLifecycle.startupTab : UserDefaults.standard.integer(forKey: "tab")
     #if os(visionOS)
     private let wide = true      // Vision Pro 的窗口一律按宽屏排
     #else
@@ -151,7 +163,7 @@ struct ConnectionView: View {
                     Text("验证成功后，访问密码只保存在系统钥匙串。")
                 }
                 Section("应用") {
-                    AppLifecycleMobileEntry()
+                    ProductSettingsEntry()
                 }
             }.navigationTitle("连接")
         }

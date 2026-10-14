@@ -53,10 +53,31 @@ sop:
   # 2026-09-30 核实：仓库无 ci_scripts/.github，ASC 的 Xcode Cloud 产品里没有本 bundle；推送不触发构建上传
   push_safe: true
   accept:
+    product_basics: ~/Dev/.venv/bin/python scripts/accept/product_basics.py
     functionality: bash scripts/accept/functionality.sh
     recovery: bash scripts/accept/recovery.sh
     privacy: bash scripts/accept/privacy.sh
     media_playback: builtin:media_playback
+  product_basics:
+    schema_version: 1
+    features:
+      settings:
+        entry: 连接 → 设置与更新 → 启动页面、配置导入导出
+        readback: ~/Dev/.venv/bin/python scripts/accept/product_basics.py --status --udid <模拟器UUID>
+      shortcuts:
+        not_applicable: iPhone、iPad、Vision 为触屏或空间客户端，标签页、搜索和按钮承载操作，没有全局键盘监听或呼出；Watch 为宿主摘要，系统编辑快捷键继续由系统处理。
+      icloud:
+        entry: 连接 → 设置与更新 → 使用 iCloud 记住配置（默认关闭，仅启动页面）
+        readback: ~/Dev/.venv/bin/python scripts/accept/product_basics.py --status --udid <模拟器UUID>（启用状态；隔离同步原件另报）
+      updates:
+        entry: 连接 → 设置与更新 → 检查 App Store 更新、TestFlight 内测入口
+        readback: ~/Dev/.venv/bin/python scripts/accept/product_basics.py --status --udid <模拟器UUID>（版本与商店渠道；实际检查见验收原件）
+    inputs:
+    - scripts/accept/product_basics.py
+    - Sources/ProductBasicsSelfTest.swift
+    - Sources/ProductSettings.swift
+    - Sources/MobileProductLifecycle.swift
+    - DayDeck.entitlements
   ui:
   - Sources/**
   - Shared/**

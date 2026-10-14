@@ -83,10 +83,12 @@ Sizes are read back for this exact distribution build. The physical device is no
 
 ## Configuration and app updates
 
-New builds include a “Configuration and Updates” button below the main interface. The installed version and build come from the app bundle.
+Connection → Settings and Updates shows the actual bundle version and build. Choose which of the four pages opens on the next launch.
 
-This app has no independent portable preference settings. Credentials, permissions, device identifiers and user content continue to use their existing entry points.
+Optional iCloud configuration sync is off by default and transfers only the startup-page preference through the system Apple account. Export, validated import, backups and recovery use the shared lifecycle implementation. Disabling sync preserves both copies. Credentials, drafts, caches, reminder-list identifiers and permissions are excluded; business content continues to use the private backend.
 
-“Check for updates in TestFlight” opens the system TestFlight app, which checks and installs internal releases. It does not claim an unverified latest build. App-version checking is separate from refreshing study materials or backend data.
+The update check queries Apple's record for this app. Missing store releases, network failures and invalid records show a retryable error rather than claiming the app is current. App Store and TestFlight acquisition actions are available; Apple handles installation. This app currently uses internal TestFlight distribution.
 
-A source version bump does not mean a new phone build has already been distributed; release and installation records identify the available build.
+This touch client uses tabs, search and buttons, with no global keyboard listener or launcher shortcut. Text fields retain system editing behavior.
+
+The fixed `scripts/accept/product_basics.py` entry validates a current-source SDK candidate inside a hidden simulator: detached native settings UI, fresh-process readback, isolated two-client configuration transfer and recovery. Isolated transfer does not prove Apple cross-device delivery. This task does not publish or install on a phone.
