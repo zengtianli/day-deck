@@ -62,10 +62,26 @@ if sys.argv[3] == '0':
         raise SystemExit('caller scratch toolchain binding changed')
 PY
   log="$(mktemp -t notihub-accept)"
-  if ! xcrun swift test --scratch-path "$scratch" -j 2 --filter "$filter" >"$log" 2>&1; then
+  local test_code=0
+  "$HOME/Dev/.venv/bin/python" - "$scratch" "$filter" >"$log" 2>&1 <<'PY' || test_code=$?
+import subprocess, sys
+from pathlib import Path
+sys.path.insert(0, str(Path.home()/'Dev/tools/dev/lib/tools/macapp/ios'))
+import sim_lane
+try:
+    # SwiftPM compiles native production files, so it shares the SDK build slots.
+    # It does not boot or sample: no simulator lock, CPU-idle gate or heavy_builds refusal.
+    with sim_lane.BuildSlot('day-deck-ios:accept:' + sys.argv[2], wait=0):
+        raise SystemExit(subprocess.run(['xcrun', 'swift', 'test', '--scratch-path', sys.argv[1],
+                                        '-j', '2', '--filter', sys.argv[2]]).returncode)
+except sim_lane.Busy as error:
+    print('推迟：' + str(error), file=sys.stderr)
+    raise SystemExit(75)
+PY
+  if [[ "$test_code" != 0 ]]; then
     cat "$log"
     rm -f "$log"
-    return 1
+    return "$test_code"
   fi
   cat "$log"
   # SwiftPM returns zero even when a renamed filter selects no tests.

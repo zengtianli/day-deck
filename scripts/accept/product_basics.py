@@ -59,9 +59,11 @@ def run(args):
     run_dir = out / ("product-basics-" + uuid.uuid4().hex)
     run_dir.mkdir(parents=True)
     dev = sim_lane.ensure_device("iphone", name="Notihub-product-basics-" + uuid.uuid4().hex[:10])
+    if not dev.get("created"):
+        raise ValueError("隔离基础验收拒绝使用既有模拟器，未安装或修改数据")
     records, checks = {}, {}
     try:
-        with sim_lane.Session("iphone", dev["udid"], label="day-deck-ios:product-basics", lock_wait=60, load_wait=60) as session:
+        with sim_lane.Session("iphone", dev["udid"], label="day-deck-ios:product-basics", lock_wait=0, load_wait=0) as session:
             session.install(app)
             bundle = built["bundle_id"]
             installed = Path(sim_lane.simctl("get_app_container", dev["udid"], bundle, "app").stdout.strip())

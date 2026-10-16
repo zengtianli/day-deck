@@ -111,7 +111,7 @@ sop:
     outputs: [perf/simulator.json, perf/lightweight.json, perf/platforms]
     in_use: true
   runtime_note: 四条移动平台线按用户接受的模拟器范围验收，Mac 由 notifhub-bar-mac 承担；模拟器数字不代表真机。
-  test: xcrun swift test -j 2
+  test: bash scripts/accept/core_tests.sh
   runtime:
     kind: ios
     readback: builtin:asc-device
