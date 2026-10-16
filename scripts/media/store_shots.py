@@ -121,7 +121,7 @@ def main(argv=None):
     parser.add_argument("--platform", required=True, choices=DEVICES)
     parser.add_argument("--out", type=Path)
     parser.add_argument("--reuse-build", type=Path, help="复用 sim_lane 的构建 JSON；源码副本必须逐文件匹配，iPad 可用 iPhone 包")
-    parser.add_argument("--in-use", action="store_true", help="本人明确授权使用中无界面截图；仅 iPhone/Vision/Watch 且须 --reuse-build，保留接电/低负载/无构建/非低电量门")
+    parser.add_argument("--in-use", action="store_true", help="本人明确授权使用中无界面截图；须 --reuse-build，iPad 另须 --single-session（竖屏、不旋转），保留接电/低负载/无构建/非低电量门")
     parser.add_argument("--single-session", action="store_true",
                         help="一个 Session 内连续截完各屏（iPad 也可用：竖屏、不旋转）。逐屏重新开机的路线在同一进程里"
                              "拿不回自己留着的模拟器锁，第二屏必然被推迟（2026-10-06）")
@@ -134,8 +134,8 @@ def main(argv=None):
                                  "low_power_mode_allowed": False, "sdk_build_allowed": not args.in_use},
                  "gate_observations": [],
                  "stabilization": {"wait_seconds_limit": SETTLE_SECONDS, "wait_seconds": 0}}
-    if args.in_use and (args.platform == "ipad" or args.reuse_build is None):
-        return deferred("使用中只接受无需旋转的 iPhone/Vision/Watch 和显式 --reuse-build；iPad 保留原闲置路线", execution)
+    if args.in_use and (args.reuse_build is None or (args.platform == "ipad" and not args.single_session)):
+        return deferred("使用中须显式 --reuse-build；iPad 另须 --single-session 竖屏无旋转路线", execution)
     gate = capture_gate(args.in_use, "initial")
     execution["gate_observations"].append(gate)
     if not gate["allowed"]:

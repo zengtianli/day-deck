@@ -1,0 +1,27 @@
+{
+  "ok": true,
+  "platform": "vision",
+  "configuration": "Release",
+  "scheme": "DayDeck",
+  "compilation_conditions": [
+    "DEBUG"
+  ],
+  "app_path": "/Users/tianli/Library/Caches/sim-lane/notihub-delivery-71120b88-20261016/vision-fixture/dd/Build/Products/Release-xrsimulator/DayDeck.app",
+  "bundle_id": "cyou.tianli.daydeck",
+  "version": "0.2.1",
+  "build": "6",
+  "executable_sha256": "6bd5ca11c15a60d5238a7cf72571197e3bb45a28b7a7c029e98e96b02f4f2702",
+  "sdk": "xrsimulator27.0",
+  "xcode": {
+    "name": "Xcode.app",
+    "version": "27.0",
+    "build": "27A266a",
+    "developer_dir": "/Applications/Xcode.app/Contents/Developer"
+  },
+  "destination": "generic/platform=visionOS Simulator",
+  "signing": "unsigned simulator build (CODE_SIGNING_ALLOWED=NO)",
+  "log": "/Users/tianli/Library/Caches/sim-lane/notihub-delivery-71120b88-20261016/vision-fixture/build-vision-Release.log",
+  "work_dir": "/Users/tianli/Library/Caches/sim-lane/notihub-delivery-71120b88-20261016/vision-fixture",
+  "seconds": 11.7,
+  "generated_info_plists": []
+}
