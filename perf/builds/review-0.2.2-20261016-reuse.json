@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "app_id": "day-deck-ios",
+  "platforms": {
+    "iphone": {
+      "size_receipt": "/Users/tianli/Library/Caches/sim-lane/notihub-review-0.2.2-logout-20261016/iphone-release.json",
+      "runtime_receipt": "/Users/tianli/Library/Caches/sim-lane/notihub-review-0.2.2-logout-20261016/iphone-fixture.json"
+    },
+    "ipad": {
+      "size_receipt": "/Users/tianli/Library/Caches/sim-lane/notihub-review-0.2.2-logout-20261016/iphone-release.json",
+      "runtime_receipt": "/Users/tianli/Library/Caches/sim-lane/notihub-review-0.2.2-logout-20261016/iphone-fixture.json"
+    },
+    "watch": {
+      "size_receipt": "/Users/tianli/Library/Caches/sim-lane/notihub-review-0.2.2-logout-20261016/watch-release.json",
+      "runtime_receipt": "/Users/tianli/Library/Caches/sim-lane/notihub-review-0.2.2-logout-20261016/watch-fixture.json"
+    },
+    "vision": {
+      "size_receipt": "/Users/tianli/Library/Caches/sim-lane/notihub-review-0.2.2-logout-20261016/vision-release.json",
+      "runtime_receipt": "/Users/tianli/Library/Caches/sim-lane/notihub-review-0.2.2-logout-20261016/vision-fixture.json"
+    }
+  }
+}
