@@ -12,7 +12,9 @@ import re
 from pathlib import Path
 import shutil
 import stat
+import subprocess
 import sys
+import tempfile
 import time
 import uuid
 from PIL import Image
@@ -35,6 +37,29 @@ class AcceptanceError(RuntimeError):
 
 def digest(path):
     return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def launch_review(udid, bundle):
+    # A spawned process can keep captured PIPEs open after simctl has exited.
+    # Wait for the launcher, not EOF from its descendants or the HTTPS self-test.
+    # App output is deliberately discarded; only result.json is public evidence.
+    env = dict(os.environ, DEVELOPER_DIR=sim_lane.developer_dir())
+    with tempfile.TemporaryFile(mode="w+", encoding="utf-8") as output:
+        try:
+            launched = subprocess.run(
+                ["xcrun", "simctl", "launch", "--stdout=/dev/null", "--stderr=/dev/null",
+                 udid, bundle, "--review-self-test"],
+                stdin=subprocess.DEVNULL, stdout=output, stderr=subprocess.DEVNULL,
+                timeout=60, env=env, check=False)
+        except subprocess.TimeoutExpired:
+            raise AcceptanceError("审核连接启动命令超过 60s，未确认实际启动进程") from None
+        if launched.returncode != 0:
+            raise AcceptanceError(f"审核连接启动命令失败（退出码 {launched.returncode}）")
+        output.seek(0)
+        pid = re.fullmatch(re.escape(bundle) + r":\s*([1-9]\d*)", output.read().strip())
+        if not pid:
+            raise AcceptanceError("审核连接启动没有实际进程 PID")
+        return int(pid[1])
 
 
 def main():
@@ -92,10 +117,7 @@ def main():
             sim_lane._wait_quiet(dev["udid"], time.time(), 0, session.max_load)
             # A fresh owned simulator has no existing product process to terminate.
             phase = "launch"
-            launched = sim_lane.simctl("launch", dev["udid"], bundle, "--review-self-test", timeout=60)
-            pid = re.search(r":\s*(\d+)\s*$", launched.stdout.strip())
-            if not pid:
-                raise AcceptanceError("审核连接启动没有实际进程 PID")
+            pid = launch_review(dev["udid"], bundle)
             deadline = time.monotonic() + 180
             phase = "result"
             while not (root / "result.json").is_file() and time.monotonic() < deadline:
@@ -104,7 +126,7 @@ def main():
                 raise AcceptanceError("真实 App 未生成审核连接原件")
             shutil.copyfile(root / "result.json", run / "raw.json")
             raw = json.loads((run / "raw.json").read_text())
-            if raw.get("process_id") != int(pid[1]):
+            if raw.get("process_id") != pid:
                 raise AcceptanceError("审核连接原件与实际启动进程不符")
             checks = raw.get("checks", {})
             phase = "checks"
