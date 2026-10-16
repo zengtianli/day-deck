@@ -65,17 +65,25 @@ enum FeedError: Error, Equatable {
 }
 
 final class API: @unchecked Sendable {
-    static let shared = API()
+    static let personal = API()
+    static let review = API(reviewMode: true)
+    static var shared: API { ReviewConnection.enabled ? review : personal }
 
     /// 数据源固定在 day 站。**不做可配置 base** —— 这个 app 只有这一个数据源，
     /// 留一个可配置项就多一处「配错了但看起来正常」的可能。
-    let base = "https://day.tianli.cyou"
+    let base: String
+    let reviewMode: Bool
     let session: URLSession
     let cache: Cache
 
-    init(session: URLSession? = nil, cacheDirectory: URL? = nil) {
-        cache = Cache(directory: cacheDirectory)
+    init(session: URLSession? = nil, cacheDirectory: URL? = nil, reviewMode: Bool = false) {
+        self.reviewMode = reviewMode
+        base = reviewMode ? ReviewConnection.base : "https://day.tianli.cyou"
+        let reviewCache = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask)[0]
+            .appendingPathComponent("feed-vps-review", isDirectory: true)
+        cache = Cache(directory: cacheDirectory ?? (reviewMode ? reviewCache : nil))
         if let session { self.session = session; return }
+        if reviewMode { self.session = ReviewConnection.session(); return }
         let c = URLSessionConfiguration.default
         c.httpCookieStorage = .shared          // 域 .tianli.cyou，跨启动保留，也跨子站共用
         c.httpShouldSetCookies = true
@@ -98,14 +106,21 @@ final class API: @unchecked Sendable {
         // Protect every caller, including Writer, before credentials or networking.
         guard !DemoData.enabled else { return .failure(.demo) }
         #endif
-        guard let url = request.url, url.scheme == "https", url.host == "day.tianli.cyou" else {
+        guard let url = request.url, ReviewConnection.allows(url, review: reviewMode) else {
             return .failure(.network(url: base, underlying: "请求域名无效"))
         }
         let shown = url.absoluteString
-        await Gate.seedFromLaunchArg(session: session)
+        if !reviewMode { await Gate.seedFromLaunchArg(session: session) }
         do {
             var (data, resp) = try await session.data(for: request)
-            if Gate.blocked(resp) {
+            if reviewMode, (resp as? HTTPURLResponse)?.statusCode == 401 {
+                guard let saved = ReviewConnection.credentials else {
+                    return .failure(.gate(url: shown, reason: "请在连接页使用专用审核账号登录。"))
+                }
+                try await ReviewConnection.login(username: saved.username, password: saved.password, session: session)
+                (data, resp) = try await session.data(for: request)
+            }
+            if !reviewMode, Gate.blocked(resp) {
                 guard let pw = Gate.password else {
                     return .failure(.gate(url: shown, reason: "这台设备还没有闸凭证（iOS 钥匙串里没有密码）"))
                 }

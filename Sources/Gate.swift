@@ -46,6 +46,10 @@ enum Gate {
     static var hasPassword: Bool { password != nil }
 
     static var password: String? {
+        credential(service: service, account: account)
+    }
+
+    static func credential(service: String, account: String) -> String? {
         var q: [String: Any] = [kSecClass as String: kSecClassGenericPassword,
                                 kSecAttrService as String: service,
                                 kSecAttrAccount as String: account]
@@ -59,6 +63,11 @@ enum Gate {
 
     @discardableResult
     static func savePassword(_ pw: String) -> Bool {
+        saveCredential(pw, service: service, account: account)
+    }
+
+    @discardableResult
+    static func saveCredential(_ pw: String, service: String, account: String) -> Bool {
         let q: [String: Any] = [kSecClass as String: kSecClassGenericPassword,
                                 kSecAttrService as String: service,
                                 kSecAttrAccount as String: account]

@@ -28,6 +28,20 @@ class CaptureDemoTests(unittest.TestCase):
         self.assertIn("iPhone", first)
         self.assertNotEqual(first, second)
 
+    def test_named_device_uses_the_name_keyword_not_a_fabricated_device_type(self):
+        lane = Mock()
+        lane.ensure_device.return_value = {"created": True, "udid": "owned"}
+        capture.recording_device(lane)
+        args, kwargs = lane.ensure_device.call_args
+        self.assertEqual(args, ("iphone",))
+        self.assertTrue(kwargs["name"].startswith("Notihub-public-iPhone-"))
+
+    def test_existing_device_is_refused_before_cleanup_can_own_it(self):
+        lane = Mock()
+        lane.ensure_device.return_value = {"created": False, "udid": "someone-elses-device"}
+        with self.assertRaisesRegex(RuntimeError, "existing simulator"):
+            capture.recording_device(lane)
+
     @patch.object(capture.subprocess, "run")
     def test_shutdown_timeout_still_deletes_only_owned_uuid(self, run):
         device = "8a5b8741-2afb-4dab-9d37-19932473ebfd"

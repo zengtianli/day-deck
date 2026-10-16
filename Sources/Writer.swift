@@ -56,7 +56,8 @@ enum Writer {
         var request = URLRequest(url: URL(string: api.base + path)!)
         request.httpMethod = method
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.setValue(api.base, forHTTPHeaderField: "Origin")
+        // Origin never contains the /review namespace path.
+        request.setValue("https://day.tianli.cyou", forHTTPHeaderField: "Origin")
         request.setValue("1", forHTTPHeaderField: "X-Notifhub-Request")
         do { request.httpBody = try JSONSerialization.data(withJSONObject: body) }
         catch { return .failure(.decoding(url: api.base + path, field: "request", detail: error.localizedDescription)) }

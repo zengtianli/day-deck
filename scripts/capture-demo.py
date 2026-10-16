@@ -40,6 +40,13 @@ def simulator_name():
     return "Notihub-public-iPhone-" + uuid.uuid4().hex[:12]
 
 
+def recording_device(lane):
+    device = lane.ensure_device("iphone", name=simulator_name())
+    if not device.get("created"):
+        raise RuntimeError("Recording refuses an existing simulator; no device changed")
+    return device
+
+
 def cleanup_device(device, shutdown=True):
     for operation in (("shutdown", "delete") if shutdown else ("delete",)):
         try:
@@ -93,8 +100,7 @@ def main(argv=None):
     try:
         staging = lane.make_temp("notihub-demo.")
         built = build_demo(lane, staging, args.reuse_build)
-        name = simulator_name()
-        dev = lane.ensure_device("iphone", name, None)
+        dev = recording_device(lane)
         device = str(uuid.UUID(dev["udid"]))
         session = native.enter_context(lane.Session("iphone", device, label="notihub-public-video",
                                                    keep_booted=False, lock_wait=0, load_wait=0))

@@ -6,6 +6,7 @@ import UIKit
 @main
 struct NotihubApp: App {
     @State private var store = Store()
+    @State private var reviewConnection = ReviewConnection.enabled
     // 系统提醒事项：只在内存里；启动时不请求授权，第一次点「加入」或「允许访问」才弹。
     @State private var reminders = RemindersModel(store: makeReminderStore())
 
@@ -19,7 +20,9 @@ struct NotihubApp: App {
     var body: some Scene {
         WindowGroup {
             #if DEBUG && os(iOS)
-            if ProductBasicsSelfTest.requested {
+            if ReviewConnectionSelfTest.requested {
+                ReviewConnectionTestView()
+            } else if ProductBasicsSelfTest.requested {
                 ProductBasicsTestView()
             } else {
                 productRoot
@@ -35,6 +38,13 @@ struct NotihubApp: App {
 
     private var productRoot: some View {
             RootView().environment(store).environment(reminders)
+                .id(reviewConnection)
+                .onReceive(NotificationCenter.default.publisher(for: ReviewConnection.changed)) { _ in
+                    // Recreate the entire view/store graph; in-flight requests retain their old API/cache.
+                    Remote.ui = nil
+                    store = Store(api: API.shared)
+                    reviewConnection = ReviewConnection.enabled
+                }
                 .appLifecycleMobile(productID: "day-deck", channel: MobileProductLifecycle.channel, configuration: MobileProductLifecycle.configuration, placement: .settings)
                 #if os(visionOS)
                 // Vision Pro 不固定亮色：窗口是系统玻璃，强行亮色会把正文画成玻璃上的深色字。
@@ -121,8 +131,8 @@ struct ConnectionView: View {
         NavigationStack {
             Form {
                 Section("云端") {
-                    Link("day.tianli.cyou", destination: URL(string: API.shared.base)!)
-                    Text("通知、总结、随手记和待办与 Notihub Mac 共用同一份云端记录。")
+                    Link(API.shared.reviewMode ? "审核演示 · /review/" : "day.tianli.cyou", destination: URL(string: API.shared.base)!)
+                    Text(API.shared.reviewMode ? "当前连接独立审核实例，仅包含合成记录；个人云端与草稿保持隔离。" : "通知、总结、随手记和待办与 Notihub Mac 共用同一份云端记录。")
                         .font(.callout).foregroundStyle(.secondary)
                     if let synced = store.lastSync {
                         LabeledContent("最近同步") { Text(synced, style: .relative) }
@@ -130,6 +140,7 @@ struct ConnectionView: View {
                     if let error = store.indexError { ErrorBlock(error: error, stale: store.indexAt) }
                 }
                 ReminderConnectionSection()
+                if !API.shared.reviewMode {
                 Section {
                     SecureField("访问密码", text: $password).disabled(busy)
                         .textContentType(.password)
@@ -162,10 +173,55 @@ struct ConnectionView: View {
                 } footer: {
                     Text("验证成功后，访问密码只保存在系统钥匙串。")
                 }
+                }
+                ReviewConnectionSection()
                 Section("应用") {
                     ProductSettingsEntry()
                 }
             }.navigationTitle("连接")
+        }
+    }
+}
+
+@MainActor
+final class ReviewConnectionModel: ObservableObject {
+    @Published var username = ""
+    @Published var password = ""
+    @Published var busy = false
+    @Published var error: String?
+    func connect() async {
+        guard !busy else { return }
+        busy = true; error = nil
+        defer { busy = false }
+        do {
+            try await ReviewConnection.login(username: username, password: password, session: API.review.session)
+            guard ReviewConnection.remember(username: username, password: password) else {
+                throw Gate.Failure(message: "审核登录成功，但系统钥匙串未能保存凭据。")
+            }
+            password = ""
+            ReviewConnection.activate(true)
+        } catch {
+            self.error = (error as? Gate.Failure)?.message ?? "审核服务暂时无法连接，请稍后重试。"
+        }
+    }
+    func returnToPersonal() { ReviewConnection.activate(false) }
+}
+
+struct ReviewConnectionSection: View {
+    @StateObject var model = ReviewConnectionModel()
+    var body: some View {
+        Section("审核演示 · 独立合成数据") {
+            if API.shared.reviewMode {
+                Text("已连接审核服务；不会读取个人云端缓存或向配对手表发送摘要。")
+                Button("返回个人云端", action: model.returnToPersonal)
+            } else {
+                TextField("专用审核账号", text: $model.username).textContentType(.username)
+                    .textInputAutocapitalization(.never).autocorrectionDisabled()
+                SecureField("专用审核密码", text: $model.password).textContentType(.password)
+                Button(model.busy ? "连接中…" : "连接审核服务") { Task { await model.connect() } }
+                    .disabled(model.busy || model.username.isEmpty || model.password.isEmpty)
+            }
+            if let error = model.error { Text(error).font(.callout).foregroundStyle(.orange) }
         }
     }
 }

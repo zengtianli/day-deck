@@ -4,6 +4,7 @@ import PackageDescription
 
 // Tests compile these exact production files; the app remains built by its Xcode project.
 let core = ["Sources/API.swift", "Sources/Models.swift", "Sources/Store.swift", "Sources/Gate.swift",
+            "Sources/ReviewConnection.swift",
             "Sources/Writer.swift", "Sources/DemoData.swift", "Sources/DemoFeed.swift", "Sources/Reminders.swift",
             "Sources/AgendaBuckets.swift", "Sources/WatchDigest.swift",
             // 总部共享文件的逐字节副本：模型（Lenient<FeedUI>）和出错建议（T）都用到它

@@ -24,6 +24,7 @@ final class WatchLink: NSObject {
     private var sentUnread: Int?
 
     func activate(store: Store) {
+        guard !ReviewConnection.enabled else { self.store = nil; return }
         self.store = store
         guard WCSession.isSupported() else { return }
         let session = WCSession.default
@@ -40,6 +41,7 @@ final class WatchLink: NSObject {
 
     /// 取（或复用 60 秒内的缓存）最近一天，算摘要，内容变了才发。
     func sync() async {
+        guard !ReviewConnection.enabled else { return }
         guard watchReady, let store else { return }
         #if DEBUG
         // 演示数据不往真手表上推。
@@ -47,6 +49,8 @@ final class WatchLink: NSObject {
         #endif
         let date = store.landingDate
         guard let day = await store.day(date) else { return }
+        // A connection switch can happen while the original cloud request is in flight.
+        guard !ReviewConnection.enabled else { return }
         // 后端改过的手表话术跟着摘要走；覆盖项变了摘要就不同，会重发
         publish(WatchDigest.make(day: day, open: store.open, timezone: store.cloudTimezone, lastSync: store.lastSync,
                                  ui: Remote.ui))

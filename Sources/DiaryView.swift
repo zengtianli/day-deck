@@ -3,13 +3,20 @@ import SwiftUI
 /// 草稿留在当前设备；提交成功后以云端随手记为准。
 struct DiaryView: View {
     @Environment(Store.self) private var store
-    @AppStorage("diary.cloudDraft.text") private var text = ""
-    @AppStorage("diary.cloudDraft.date") private var draftDate = ""
-    @AppStorage("diary.cloudDraft.key") private var draftKey = ""
+    @AppStorage private var text: String
+    @AppStorage private var draftDate: String
+    @AppStorage private var draftKey: String
     @State private var sending = false
     @State private var result: String?
     @State private var failed = false
     @FocusState private var focused: Bool
+
+    init() {
+        let review = API.shared.reviewMode
+        _text = AppStorage(wrappedValue: "", ReviewConnection.draftKey("text", review: review))
+        _draftDate = AppStorage(wrappedValue: "", ReviewConnection.draftKey("date", review: review))
+        _draftKey = AppStorage(wrappedValue: "", ReviewConnection.draftKey("key", review: review))
+    }
 
     private var date: String { draftDate.isEmpty ? store.displayToday : draftDate }
     private var day: FeedDay? { store.days[date] }
