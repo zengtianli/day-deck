@@ -214,8 +214,8 @@ sop:
     - name: 手表：主页上下翻页（未读 / 从哪来 / 要点）
       human: 只在窗口里有意义（翻页；三页内容 notihub cloud day 一次给全）
   product:
-    distribution: personal
+    distribution: public
     source_visibility: public
-    source_url: 'https://github.com/zengtianli/notihub'
+    source_url: 'https://github.com/zengtianli/notihub/tree/main/ios'
     source_of: notifhub-bar-mac
-    rationale: 移动客户端脱敏源码已进入公开快照；本轮未构建、送审或提供安装包，发行保持自用。
+    rationale: Notihub 公开产品的 iPhone、iPad、Vision 与 Watch 客户端，与主组件 notifhub-bar-mac 共用已公开的 MIT 脱敏源码快照；匿名可访问 ios 目录，仅含程序、图标和合成测试夹具，未发现真实业务数据、密钥或联系人信息；使用者需自建云服务与自己的账号，本次只对齐分类，不发布新代码、安装包或送审。
