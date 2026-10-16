@@ -6,16 +6,16 @@ installation, simulator creation or changes to existing footage. --check only
 checks prerequisites and the gate. Chapter writes playback evidence separately.
 """
 import argparse
+import contextlib
+import hashlib
 import importlib
 import json
-import os
 from pathlib import Path
 import plistlib
 import shutil
 import signal
 import subprocess
 import sys
-import tempfile
 import time
 import uuid
 
@@ -40,8 +40,8 @@ def simulator_name():
     return "Notihub-public-iPhone-" + uuid.uuid4().hex[:12]
 
 
-def cleanup_device(device):
-    for operation in ("shutdown", "delete"):
+def cleanup_device(device, shutdown=True):
+    for operation in (("shutdown", "delete") if shutdown else ("delete",)):
         try:
             result = subprocess.run(["xcrun", "simctl", operation, device], capture_output=True, timeout=30)
             if result.returncode:
@@ -51,36 +51,26 @@ def cleanup_device(device):
             print(f"Cleanup {operation} failed for owned simulator {device}: {error}", file=sys.stderr)
 
 
-def build_demo(environment, name, log):
-    process = subprocess.Popen(["bash", "sim-run.sh", "--no-shot", "--shutdown"], cwd=ROOT,
-                               env={**environment, "SIM_NAME": name, "SIM_LAUNCH_ARGS": "-demo 1 -tab 0"},
-                               stdout=log, stderr=subprocess.STDOUT, start_new_session=True)
-    try:
-        status = process.wait(timeout=600)
-        if status:
-            raise subprocess.CalledProcessError(status, process.args)
-    finally:
-        if process.poll() is None:
-            # Stop only this invocation's shell and build children on timeout/cancel.
-            os.killpg(process.pid, signal.SIGTERM)
-            try:
-                process.wait(timeout=10)
-            except subprocess.TimeoutExpired:
-                os.killpg(process.pid, signal.SIGKILL)
-                process.wait(timeout=10)
+def build_demo(lane, work, receipt=None):
+    if receipt is not None:
+        return lane.reuse_build(receipt, "day-deck-ios", ROOT, "iphone", "DayDeck")
+    # The shared builder stages outside the repository and owns parallel build admission.
+    return lane.build(ROOT, "DayDeck", "iphone", "Debug", work / "build")
 
 
 def interrupted(signum, frame):
     raise KeyboardInterrupt
 
 
-def main():
+def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--check", action="store_true", help="Check prerequisites and idle gate only")
-    args = parser.parse_args()
+    parser.add_argument("--reuse-build", type=Path, help="Strictly verify and reuse the original sim_lane build receipt")
+    parser.add_argument("--in-use", action="store_true", help="Headless recording while the owner is active; retain load and simulator locks")
+    args = parser.parse_args(argv)
     sys.path.insert(0, str(Path.home() / "Apps/chapter/engine"))
     sop = importlib.import_module("app_sop")
-    okay, reason = sop.steady()
+    okay, reason = sop.steady(user_away=not args.in_use, allow_owner_now=False)
     if not okay:
         print(f"BLOCKED: {reason}; no build, installation or recording performed", flush=True)
         return 75
@@ -90,30 +80,26 @@ def main():
     if args.check:
         print(f"READY: {reason}; no simulator started")
         return 0
+    sys.path.insert(0, str(Path.home() / "Dev/tools/dev/lib/tools/macapp/ios"))
+    lane = importlib.import_module("sim_lane")
+    product = sop.load_apps("day-deck-ios")[0]
+    source = sop.lane_inputs(product, "iphone")
 
-    # Sanitize build environment; never copy credentials into Xcode artifacts.
-    environment = {k: v for k, v in os.environ.items()
-                   if k in ("HOME", "PATH", "TMPDIR", "USER", "LOGNAME", "SHELL", "LANG", "DEVELOPER_DIR")}
+    # sim_lane owns the sanitized build environment and build-slot lifecycle.
     device = None
     recorder = None
     staging = None
-    (ROOT / "build").mkdir(exist_ok=True)
+    native = contextlib.ExitStack()
     try:
-        staging = Path(tempfile.mkdtemp(prefix="notihub-demo-", dir=ROOT / "build"))
+        staging = lane.make_temp("notihub-demo.")
+        built = build_demo(lane, staging, args.reuse_build)
         name = simulator_name()
-        created_device = run("xcrun", "simctl", "create", name,
-                             "com.apple.CoreSimulator.SimDeviceType.iPhone-17-Pro", env=environment).stdout.strip()
-        if not created_device:
-            raise RuntimeError("simctl did not return a device UUID")
-        # Reject aliases such as 'booted'; cleanup must always target our new UUID.
-        device = str(uuid.UUID(created_device))
-        print("Building and installing Debug demo in a new private simulator", flush=True)
-        with (staging / "build.log").open("w") as log:
-            build_demo(environment, name, log)
-        # Do not expose arbitrary build logs or copy the fresh simulator's data.
-        print("Dedicated simulator prepared", flush=True)
-        run("xcrun", "simctl", "boot", device)
-        run("xcrun", "simctl", "bootstatus", device, "-b", timeout=60)
+        dev = lane.ensure_device("iphone", name, None)
+        device = str(uuid.UUID(dev["udid"]))
+        session = native.enter_context(lane.Session("iphone", device, label="notihub-public-video",
+                                                   keep_booted=False, lock_wait=0, load_wait=0))
+        session.install(Path(built["app_path"]))
+        print("Dedicated simulator prepared under the original lane lock", flush=True)
         installed_app = Path(run("xcrun", "simctl", "get_app_container", device, BUNDLE, "app").stdout.strip())
         info = plistlib.loads((installed_app / "Info.plist").read_bytes())
         executable = installed_app / info["CFBundleExecutable"]
@@ -125,8 +111,14 @@ def main():
         clips = []
         for index, (title, tab, search) in enumerate(SECTIONS, 1):
             print(f"Recording {index}/4: {title}", flush=True)
-            run("xcrun", "simctl", "launch", "--terminate-running-process", device, BUNDLE,
-                "-demo", "1", "-tab", tab, "-search", search)
+            session.terminate(BUNDLE)
+            baseline, _ = session.baseline()
+            launched = session.launch(BUNDLE, ["-demo", "1", "-tab", tab, "-search", search],
+                                      "auto", 90, baseline, str(executable))
+            verdict = launched.get("verdict") or {}
+            if (launched.get("errors") or not launched.get("ready_signal")
+                    or not verdict.get("non_blank") or not verdict.get("changed_from_baseline")):
+                raise RuntimeError(f"Real App did not reach a rendered page: {launched.get('errors')}")
             time.sleep(2)  # Separate setup from the recorded, fully visible page.
             clip = staging / f"{index:02d}.mp4"
             with (staging / f"{index:02d}-capture.log").open("w") as log:
@@ -153,6 +145,8 @@ def main():
             run("ffmpeg", "-v", "error", "-i", str(clip), "-f", "null", "-", timeout=90)
             clips.append((clip, title, duration))
 
+        native.close()
+
         concat = staging / "concat.txt"
         concat.write_text("".join(f"file '{clip.name}'\n" for clip, _, _ in clips))
         result = staging / "public-demo.mp4"
@@ -165,11 +159,18 @@ def main():
             elapsed += duration
         (staging / "public-demo.vtt").write_text("".join(subtitles))
         manifest = {"version": info["CFBundleShortVersionString"], "build": info["CFBundleVersion"],
-                    "environment": "iOS Simulator", "configuration": "Debug", "synthetic_data": True,
+                    "environment": "iOS Simulator", "configuration": built["configuration"], "synthetic_data": True,
+                    "input_sha256": source["input_sha256"], "source_snapshot": source,
+                    "executable_sha256": hashlib.sha256(executable.read_bytes()).hexdigest(),
+                    "code_sha256": {path.name: hashlib.sha256(path.read_bytes()).hexdigest() for path in code},
+                    "reused_build": bool(args.reuse_build), "build_reuse": built.get("reuse"),
+                    "capture_method": "one original sim_lane.Session; no Simulator GUI or synthetic input",
                     "coverage": "Four real read-only views, separately launched; no save/login/gesture demonstration",
                     "clips": [{"file": c.name, "title": t, "duration": d} for c, t, d in clips],
                     "visual_review": "pending", "playback_acceptance": "Run Chapter media_playback separately"}
         (staging / "manifest.json").write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + "\n")
+        if sop.lane_inputs(product, "iphone")["input_sha256"] != source["input_sha256"]:
+            raise RuntimeError("Source changed during recording; existing footage preserved")
         target = ROOT / "shots"
         target.mkdir(exist_ok=True)
         # Publish files only after every clip and the final video decoded successfully.
@@ -180,6 +181,9 @@ def main():
         shutil.copy2(staging / "manifest.json", target / "public-demo-recording.json")
         print(f"Recorded {elapsed:.1f}s to shots/public-demo.mp4; review frames, then run Chapter playback acceptance")
         return 0
+    except lane.Busy as error:
+        print(f"BLOCKED: {error}; existing footage preserved", file=sys.stderr)
+        return 75
     finally:
         if recorder and recorder.poll() is None:
             recorder.send_signal(signal.SIGINT)
@@ -188,9 +192,12 @@ def main():
             except subprocess.TimeoutExpired:
                 recorder.kill()
                 recorder.wait()
-        if device:
-            # Only the fresh, UUID-scoped device created in this invocation is deleted.
-            cleanup_device(device)
+        try:
+            native.close()
+        finally:
+            if device:
+                # Session owns shutdown; delete only our uniquely named, fresh device.
+                cleanup_device(device, shutdown=False)
 
 
 if __name__ == "__main__":

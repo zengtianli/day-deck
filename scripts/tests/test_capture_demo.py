@@ -3,7 +3,7 @@ import importlib.util
 from pathlib import Path
 import subprocess
 import unittest
-from unittest.mock import patch
+from unittest.mock import Mock, patch
 
 SPEC = importlib.util.spec_from_file_location("capture_demo", Path(__file__).resolve().parents[2] / "scripts/capture-demo.py")
 capture = importlib.util.module_from_spec(SPEC)
@@ -11,6 +11,18 @@ SPEC.loader.exec_module(capture)
 
 
 class CaptureDemoTests(unittest.TestCase):
+    @patch.object(capture.importlib, "import_module")
+    def test_failed_admission_does_not_create_or_build_a_simulator(self, import_module):
+        sop = Mock()
+        sop.steady.return_value = (False, "load busy")
+        import_module.return_value = sop
+        with patch.object(capture, "build_demo") as build, patch.object(capture, "run") as run:
+            self.assertEqual(capture.main(["--in-use"]), 75)
+        sop.steady.assert_called_once_with(user_away=False, allow_owner_now=False)
+        import_module.assert_called_once_with("app_sop")
+        build.assert_not_called()
+        run.assert_not_called()
+
     def test_shared_picker_can_select_unique_iphone_name(self):
         first, second = capture.simulator_name(), capture.simulator_name()
         self.assertIn("iPhone", first)
@@ -24,26 +36,26 @@ class CaptureDemoTests(unittest.TestCase):
         self.assertEqual([call.args[0] for call in run.call_args_list], [
             ["xcrun", "simctl", "shutdown", device], ["xcrun", "simctl", "delete", device]])
 
-    @patch.object(capture.subprocess, "Popen")
-    def test_shared_build_stays_headless_and_disables_extra_screenshots(self, popen):
-        popen.return_value.wait.return_value = 0
-        popen.return_value.poll.return_value = 0
-        capture.build_demo({}, "Notihub-public-iPhone-test", None)
-        args, kwargs = popen.call_args
-        self.assertEqual(args[0], ["bash", "sim-run.sh", "--no-shot", "--shutdown"])
-        self.assertTrue(kwargs["start_new_session"])
-        self.assertEqual(kwargs["env"]["SIM_LAUNCH_ARGS"], "-demo 1 -tab 0")
+    def test_recording_uses_original_builder_instead_of_starting_an_unlocked_shell(self):
+        lane = Mock()
+        work = Path("/private/tmp/capture-test")
+        capture.build_demo(lane, work)
+        lane.build.assert_called_once_with(capture.ROOT, "DayDeck", "iphone", "Debug", work / "build")
+        lane.reuse_build.assert_not_called()
 
-    @patch.object(capture.os, "killpg")
-    @patch.object(capture.subprocess, "Popen")
-    def test_build_timeout_stops_only_its_process_group(self, popen, killpg):
-        process = popen.return_value
-        process.pid = 23456
-        process.poll.return_value = None
-        process.wait.side_effect = [subprocess.TimeoutExpired("build", 600), 0]
-        with self.assertRaises(subprocess.TimeoutExpired):
-            capture.build_demo({}, "Notihub-public-iPhone-test", None)
-        killpg.assert_called_once_with(23456, capture.signal.SIGTERM)
+    def test_invalid_reuse_cannot_fall_back_to_an_unrequested_build(self):
+        lane = Mock()
+        lane.reuse_build.side_effect = RuntimeError("source binding changed")
+        with self.assertRaisesRegex(RuntimeError, "source binding changed"):
+            capture.build_demo(lane, Path("/private/tmp/capture-test"), Path("receipt.json"))
+        lane.build.assert_not_called()
+
+    @patch.object(capture.subprocess, "run")
+    def test_session_cleanup_does_not_shutdown_another_device(self, run):
+        device = "8a5b8741-2afb-4dab-9d37-19932473ebfd"
+        run.return_value = subprocess.CompletedProcess([], 0)
+        capture.cleanup_device(device, shutdown=False)
+        run.assert_called_once_with(["xcrun", "simctl", "delete", device], capture_output=True, timeout=30)
 
 
 if __name__ == "__main__":
