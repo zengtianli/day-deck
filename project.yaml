@@ -17,7 +17,7 @@ sop:
       capture:
         command: ~/Dev/.venv/bin/python -B scripts/media/store_shots.py --platform iphone --reuse-build perf/builds/current-iphone-fixture.json --in-use
         in_use: true
-        inputs: [scripts/media/store_shots.py, perf/builds/current-iphone-fixture.json]
+        inputs: [scripts/media/store_shots.py, scripts/media/capture_admission.py, perf/builds/current-iphone-fixture.json]
         outputs: [shots/appstore/iphone]
       distribution: none
     ipad:
@@ -28,7 +28,7 @@ sop:
       capture:
         command: ~/Dev/.venv/bin/python -B scripts/media/store_shots.py --platform ipad --reuse-build perf/builds/current-iphone-fixture.json --single-session --in-use
         in_use: true
-        inputs: [scripts/media/store_shots.py, perf/builds/current-iphone-fixture.json]
+        inputs: [scripts/media/store_shots.py, scripts/media/capture_admission.py, perf/builds/current-iphone-fixture.json]
         outputs: [shots/appstore/ipad]
       distribution: none
     mac: {component: notifhub-bar-mac}
@@ -47,7 +47,7 @@ sop:
       capture:
         command: ~/Dev/.venv/bin/python -B scripts/media/store_shots.py --platform vision --reuse-build perf/builds/current-vision-fixture.json --in-use
         in_use: true
-        inputs: [scripts/media/store_shots.py, perf/builds/current-vision-fixture.json]
+        inputs: [scripts/media/store_shots.py, scripts/media/capture_admission.py, perf/builds/current-vision-fixture.json]
         outputs: [shots/appstore/vision]
       budget: {memory_mb: 60, cpu: 0.5}
       distribution: none

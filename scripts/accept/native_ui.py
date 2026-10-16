@@ -24,6 +24,7 @@ REQUIRED = {
     "cloud.summary_and_timeline", "cloud.note_receipt", "cloud.note_retry_receipt",
     "cloud.fresh_store_note_once", "cloud.agenda_done_receipt", "cloud.agenda_done_readback",
     "cloud.agenda_restored", "native.offscreen_form", "native.return_action",
+    "native.logout_action", "cloud.logout_revokes_old_session",
 }
 
 

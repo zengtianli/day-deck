@@ -204,7 +204,18 @@ final class ReviewConnectionModel: ObservableObject {
             self.error = (error as? Gate.Failure)?.message ?? "审核服务暂时无法连接，请稍后重试。"
         }
     }
-    func returnToPersonal() { ReviewConnection.activate(false) }
+    func returnToPersonal() async {
+        guard !busy else { return }
+        busy = true; error = nil
+        defer { busy = false; ReviewConnection.activate(false) }
+        // Background refresh must not automatically reauthenticate after the logout response.
+        ReviewConnection.forget()
+        do { try await ReviewConnection.logout(session: API.review.session) }
+        catch {
+            self.error = (error as? Gate.Failure)?.message ?? "本机已退出审核连接；网络中断，服务端会话撤销尚未确认。"
+        }
+        username = ""; password = ""
+    }
 }
 
 struct ReviewConnectionSection: View {
@@ -213,7 +224,8 @@ struct ReviewConnectionSection: View {
         Section("审核演示 · 独立合成数据") {
             if API.shared.reviewMode {
                 Text("已连接审核服务；不会读取个人云端缓存或向配对手表发送摘要。")
-                Button("返回个人云端", action: model.returnToPersonal)
+                Button(model.busy ? "退出中…" : "退出审核并返回个人云端") { Task { await model.returnToPersonal() } }
+                    .disabled(model.busy)
             } else {
                 TextField("专用审核账号", text: $model.username).textContentType(.username)
                     .textInputAutocapitalization(.never).autocorrectionDisabled()

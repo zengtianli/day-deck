@@ -12,6 +12,7 @@ import shutil
 import sys
 import tempfile
 import time
+import uuid
 from pathlib import Path
 
 REPO = Path(__file__).resolve().parents[2]
@@ -20,6 +21,7 @@ sys.path.insert(0, str(Path.home() / "Apps/chapter/engine"))
 import app_sop
 import sim_lane
 import store_shots as spec
+from capture_admission import check as recording_gate
 
 DEVICES = {"iphone": "iPhone-17-Pro-Max", "ipad": "iPad-Pro-13-inch-M5-12GB",
            "watch": "Apple-Watch-Series-12-46mm", "vision": "Apple-Vision-Pro-4K"}
@@ -34,7 +36,7 @@ def sha(path):
 
 
 def capture_gate(in_use, phase):
-    okay, reason = app_sop.steady(not in_use, allow_owner_now=False)
+    okay, reason = recording_gate(in_use)
     on_ac = "AC Power" in app_sop.sh(["pmset", "-g", "batt"]).stdout
     power = app_sop.sh(["pmset", "-g"]).stdout
     setting = re.search(r"^\s*lowpowermode\s+(\d+)\s*$", power, re.M)
@@ -57,31 +59,16 @@ def capture_budget(deadline, needed=0):
         raise sim_lane.Busy("同次截图 2400 秒预算不足，保留 180 秒原 Session 清理")
 
 
-# How long one capture waits for the load to settle after the simulator boots. It was 180 s; a Vision Pro
-# simulator keeps a 12-core Mac above the load line for longer than that, so every attempt gave up (2026-10-06).
-SETTLE_SECONDS = 900
+# Resource waits belong to Chapter's bounded original queue, outside the simulator lease.
+SETTLE_SECONDS = 0
 
 
 def wait_capture_gate(in_use, phase, execution, deadline):
-    budget = execution["stabilization"]
-    while True:
-        capture_budget(deadline)
-        if budget["wait_seconds"] >= SETTLE_SECONDS:
-            raise sim_lane.Busy(f"同次稳定等待已达 {SETTLE_SECONDS} 秒，候选截图未写回")
-        gate = capture_gate(in_use, phase)
-        execution["gate_observations"].append(gate)
-        if gate["allowed"]:
-            return
-        # Only post-boot load can settle here; owner activity, power and other builds still defer immediately.
-        if (not gate["ac_power"] or gate["low_power_mode"] == 1
-                or "构建" in gate["steady"]["reason"] or "用户" in gate["steady"]["reason"]):
-            raise sim_lane.Busy(gate["reason"])
-        delay = min(10, SETTLE_SECONDS - budget["wait_seconds"], deadline - 180 - time.monotonic())
-        if delay <= 0:
-            raise sim_lane.Busy(gate["reason"] + "；同次稳定等待预算用完")
-        started = time.monotonic()
-        time.sleep(delay)
-        budget["wait_seconds"] += time.monotonic() - started
+    capture_budget(deadline)
+    gate = capture_gate(in_use, phase)
+    execution["gate_observations"].append(gate)
+    if not gate["allowed"]:
+        raise sim_lane.Busy(gate["reason"] + "；返回75，由原队列有界接续")
 
 
 def session_result(session, info, dev, launch, png, install_seconds, deadline):
@@ -121,7 +108,7 @@ def main(argv=None):
     parser.add_argument("--platform", required=True, choices=DEVICES)
     parser.add_argument("--out", type=Path)
     parser.add_argument("--reuse-build", type=Path, help="复用 sim_lane 的构建 JSON；源码副本必须逐文件匹配，iPad 可用 iPhone 包")
-    parser.add_argument("--in-use", action="store_true", help="本人明确授权使用中无界面截图；须 --reuse-build，iPad 另须 --single-session（竖屏、不旋转），保留接电/低负载/无构建/非低电量门")
+    parser.add_argument("--in-use", action="store_true", help="使用中无界面截图；须 --reuse-build，iPad另须 --single-session；保留原sim_lane CPU/内存/构建安静门与电源保护")
     parser.add_argument("--single-session", action="store_true",
                         help="一个 Session 内连续截完各屏（iPad 也可用：竖屏、不旋转）。逐屏重新开机的路线在同一进程里"
                              "拿不回自己留着的模拟器锁，第二屏必然被推迟（2026-10-06）")
@@ -136,16 +123,13 @@ def main(argv=None):
                  "stabilization": {"wait_seconds_limit": SETTLE_SECONDS, "wait_seconds": 0}}
     if args.in_use and (args.reuse_build is None or (args.platform == "ipad" and not args.single_session)):
         return deferred("使用中须显式 --reuse-build；iPad 另须 --single-session 竖屏无旋转路线", execution)
-    gate = capture_gate(args.in_use, "initial")
-    execution["gate_observations"].append(gate)
-    if not gate["allowed"]:
-        return deferred(gate["reason"], execution)
     app = app_sop.load_apps("day-deck-ios")[0]
     inputs = app_sop.lane_inputs(app, args.platform)
     out = (args.out or REPO / "shots/appstore" / args.platform).resolve()
     work = Path(tempfile.mkdtemp(prefix="notihub-store-shots."))
     udid = None
-    single_session = args.platform == "iphone" or args.in_use or args.single_session
+    owned_device = None
+    single_session = True
     native = contextlib.ExitStack()
     try:
         scheme = "DayDeckWatch" if args.platform == "watch" else "DayDeck"
@@ -153,11 +137,19 @@ def main(argv=None):
             built = sim_lane.reuse_build(args.reuse_build, app["id"], REPO, args.platform, scheme)
         else:
             built = sim_lane.build(REPO, scheme, args.platform, "Debug", work / "build")
+        gate = capture_gate(args.in_use, "preboot")
+        execution["gate_observations"].append(gate)
+        if not gate["allowed"]:
+            return deferred(gate["reason"], execution)
         if single_session:
             app_path = Path(built["app_path"])
             info = sim_lane.bundle_info(app_path)
             sim_lane.mark_used(app_path)
-            dev = sim_lane.ensure_device(args.platform, DEVICES[args.platform], None)
+            dev = sim_lane.ensure_device(args.platform, DEVICES[args.platform],
+                                         name="Notihub-shots-" + args.platform + "-" + uuid.uuid4().hex[:12])
+            if not dev.get("created"):
+                raise sim_lane.LaneError("截图拒绝使用既有模拟器；未安装或修改数据")
+            owned_device = dev["udid"]
             capture_budget(deadline, 420)
             session = native.enter_context(sim_lane.Session(args.platform, dev["udid"], keep_booted=False,
                                                             lock_wait=0, load_wait=0))
@@ -233,6 +225,8 @@ def main(argv=None):
         native.close()
         if udid and not single_session:
             sim_lane.shutdown(udid)
+        if owned_device:
+            sim_lane.simctl("delete", owned_device, check=False)
         shutil.rmtree(work, ignore_errors=True)
 
 

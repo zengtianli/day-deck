@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """Record four real, read-only simulator clips; no desktop UI or synthetic input.
 
-Run with the shared Python environment. A failed idle gate exits 75 before build,
-installation, simulator creation or changes to existing footage. --check only
-checks prerequisites and the gate. Chapter writes playback evidence separately.
+SDK builds use the shared parallel slots before recording admission. A failed
+recording gate exits 75 without installation or replacing footage. --check never
+builds or boots a simulator. Chapter writes playback evidence separately.
 """
 import argparse
 import contextlib
@@ -20,6 +20,8 @@ import time
 import uuid
 
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / "scripts/media"))
+from capture_admission import check as recording_gate
 BUNDLE = "cyou.tianli.daydeck"
 SECTIONS = [("今天：四组待办", "0", ""), ("通知：摘要与时间线", "1", ""),
             ("搜索：当天房东通知", "1", "房东"), ("随手记：云端记录", "2", "")]
@@ -77,14 +79,14 @@ def main(argv=None):
     args = parser.parse_args(argv)
     sys.path.insert(0, str(Path.home() / "Apps/chapter/engine"))
     sop = importlib.import_module("app_sop")
-    okay, reason = sop.steady(user_away=not args.in_use, allow_owner_now=False)
-    if not okay:
-        print(f"BLOCKED: {reason}; no build, installation or recording performed", flush=True)
-        return 75
     for executable in ("xcrun", "ffmpeg", "ffprobe"):
         if not shutil.which(executable):
             raise RuntimeError(f"Missing prerequisite: {executable}")
     if args.check:
+        okay, reason = recording_gate(args.in_use)
+        if not okay:
+            print(f"BLOCKED: {reason}; no build, installation or recording performed", flush=True)
+            return 75
         print(f"READY: {reason}; no simulator started")
         return 0
     sys.path.insert(0, str(Path.home() / "Dev/tools/dev/lib/tools/macapp/ios"))
@@ -100,6 +102,9 @@ def main(argv=None):
     try:
         staging = lane.make_temp("notihub-demo.")
         built = build_demo(lane, staging, args.reuse_build)
+        okay, reason = recording_gate(args.in_use)
+        if not okay:
+            raise lane.Busy(reason)
         dev = recording_device(lane)
         device = str(uuid.UUID(dev["udid"]))
         session = native.enter_context(lane.Session("iphone", device, label="notihub-public-video",

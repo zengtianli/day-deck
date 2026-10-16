@@ -6,11 +6,11 @@
   "compilation_conditions": [
     "DEBUG"
   ],
-  "app_path": "/Users/tianli/Library/Caches/sim-lane/notihub-delivery-71120b88-20261016/iphone-fixture/dd/Build/Products/Release-iphonesimulator/DayDeck.app/Watch/DayDeckWatch.app",
+  "app_path": "/Users/tianli/Library/Caches/sim-lane/notihub-review-0.2.2-logout-20261016/iphone-fixture/dd/Build/Products/Release-iphonesimulator/DayDeck.app/Watch/DayDeckWatch.app",
   "bundle_id": "cyou.tianli.daydeck.watchkitapp",
-  "version": "0.2.1",
-  "build": "6",
-  "executable_sha256": "d19606daceb16697f80d8e71bdcb0a21d1c3eff5087abfa1001cb407113cc0f9",
+  "version": "0.2.2",
+  "build": "9",
+  "executable_sha256": "0b69c040d9c00e27f9b766b706c8bbbc151a836eb77f5b2820e7ea367770a36c",
   "sdk": "watchsimulator27.0",
   "xcode": {
     "name": "Xcode.app",
@@ -20,15 +20,15 @@
   },
   "destination": "generic/platform=iOS Simulator",
   "signing": "unsigned simulator build (CODE_SIGNING_ALLOWED=NO)",
-  "log": "/Users/tianli/Library/Caches/sim-lane/notihub-delivery-71120b88-20261016/iphone-fixture/build-iphone-Release.log",
-  "work_dir": "/Users/tianli/Library/Caches/sim-lane/notihub-delivery-71120b88-20261016/iphone-fixture",
-  "seconds": 19.3,
+  "log": "/Users/tianli/Library/Caches/sim-lane/notihub-review-0.2.2-logout-20261016/iphone-fixture/build-iphone-Release.log",
+  "work_dir": "/Users/tianli/Library/Caches/sim-lane/notihub-review-0.2.2-logout-20261016/iphone-fixture",
+  "seconds": 129.6,
   "generated_info_plists": [],
   "target_scheme": "DayDeckWatch",
   "embedded_watch_origin": {
-    "receipt": "/Users/tianli/Library/Caches/sim-lane/notihub-delivery-71120b88-20261016/iphone-fixture.json",
-    "receipt_sha256": "8d5a87579778a152792c12158e254f201ef00182c2d42cc2ec33770054e74867",
-    "iphone_app": "/Users/tianli/Library/Caches/sim-lane/notihub-delivery-71120b88-20261016/iphone-fixture/dd/Build/Products/Release-iphonesimulator/DayDeck.app",
-    "watch_app": "/Users/tianli/Library/Caches/sim-lane/notihub-delivery-71120b88-20261016/iphone-fixture/dd/Build/Products/Release-iphonesimulator/DayDeck.app/Watch/DayDeckWatch.app"
+    "receipt": "/Users/tianli/Library/Caches/sim-lane/notihub-review-0.2.2-logout-20261016/iphone-fixture.json",
+    "receipt_sha256": "885b459360f6463223a2c670b864b2f9ce77ed0533aab9bf5749c02d033a5876",
+    "iphone_app": "/Users/tianli/Library/Caches/sim-lane/notihub-review-0.2.2-logout-20261016/iphone-fixture/dd/Build/Products/Release-iphonesimulator/DayDeck.app",
+    "watch_app": "/Users/tianli/Library/Caches/sim-lane/notihub-review-0.2.2-logout-20261016/iphone-fixture/dd/Build/Products/Release-iphonesimulator/DayDeck.app/Watch/DayDeckWatch.app"
   }
 }

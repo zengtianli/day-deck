@@ -86,6 +86,10 @@ enum Gate {
     }
 
     static func forgetPassword() {
+        forgetCredential(service: service, account: account)
+    }
+
+    static func forgetCredential(service: String, account: String) {
         SecItemDelete([kSecClass as String: kSecClassGenericPassword,
                        kSecAttrService as String: service,
                        kSecAttrAccount as String: account] as CFDictionary)

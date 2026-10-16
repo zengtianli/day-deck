@@ -6,11 +6,11 @@
   "compilation_conditions": [
     "DEBUG"
   ],
-  "app_path": "/Users/tianli/Library/Caches/sim-lane/notihub-delivery-71120b88-20261016/iphone-fixture/dd/Build/Products/Release-iphonesimulator/DayDeck.app",
+  "app_path": "/Users/tianli/Library/Caches/sim-lane/notihub-review-0.2.2-logout-20261016/iphone-fixture/dd/Build/Products/Release-iphonesimulator/DayDeck.app",
   "bundle_id": "cyou.tianli.daydeck",
-  "version": "0.2.1",
-  "build": "6",
-  "executable_sha256": "75cbe9543ab5433c5910e5c4dae00ed907450268f1e9e9b3a78cd6f0845eb449",
+  "version": "0.2.2",
+  "build": "9",
+  "executable_sha256": "5beb8d849817b09e33c07281535cb74432724ffc324652c900157756c80939a9",
   "sdk": "iphonesimulator27.0",
   "xcode": {
     "name": "Xcode.app",
@@ -20,8 +20,8 @@
   },
   "destination": "generic/platform=iOS Simulator",
   "signing": "unsigned simulator build (CODE_SIGNING_ALLOWED=NO)",
-  "log": "/Users/tianli/Library/Caches/sim-lane/notihub-delivery-71120b88-20261016/iphone-fixture/build-iphone-Release.log",
-  "work_dir": "/Users/tianli/Library/Caches/sim-lane/notihub-delivery-71120b88-20261016/iphone-fixture",
-  "seconds": 19.3,
+  "log": "/Users/tianli/Library/Caches/sim-lane/notihub-review-0.2.2-logout-20261016/iphone-fixture/build-iphone-Release.log",
+  "work_dir": "/Users/tianli/Library/Caches/sim-lane/notihub-review-0.2.2-logout-20261016/iphone-fixture",
+  "seconds": 129.6,
   "generated_info_plists": []
 }

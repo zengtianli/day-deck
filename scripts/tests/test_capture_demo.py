@@ -16,9 +16,11 @@ class CaptureDemoTests(unittest.TestCase):
         sop = Mock()
         sop.steady.return_value = (False, "load busy")
         import_module.return_value = sop
-        with patch.object(capture, "build_demo") as build, patch.object(capture, "run") as run:
-            self.assertEqual(capture.main(["--in-use"]), 75)
-        sop.steady.assert_called_once_with(user_away=False, allow_owner_now=False)
+        with patch.object(capture, "build_demo") as build, patch.object(capture, "run") as run, \
+                patch.object(capture, "recording_gate", return_value=(False, "shared gate busy")) as gate:
+            self.assertEqual(capture.main(["--check", "--in-use"]), 75)
+        gate.assert_called_once_with(True)
+        sop.steady.assert_not_called()
         import_module.assert_called_once_with("app_sop")
         build.assert_not_called()
         run.assert_not_called()

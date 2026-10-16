@@ -76,12 +76,28 @@ struct ReviewConnectionTestView: View {
             window.isHidden = true
             try png?.write(to: root.appendingPathComponent("connected.png"))
             observations["rendered_width"] = 430; observations["rendered_height"] = 900
-            model.returnToPersonal()
+            let endpoint = URL(string: ReviewConnection.base + "/auth/session")!
+            let oldCookie = API.review.session.configuration.httpCookieStorage?.cookies(for: endpoint)?
+                .first(where: { $0.name == "notihub_review" })
+            await model.returnToPersonal()
             checks["native.return_action"] = API.shared === original && !ReviewConnection.enabled
+            checks["native.logout_action"] = model.error == nil && ReviewConnection.credentials == nil
+                && (API.review.session.configuration.httpCookieStorage?.cookies(for: endpoint)?.isEmpty ?? true)
+            // Replay the pre-logout cookie through a separate ephemeral session: a cleared local jar alone
+            // cannot prove that the real server revoked the old session.
+            let replay = ReviewConnection.session()
+            defer { replay.invalidateAndCancel() }
+            if let oldCookie {
+                replay.configuration.httpCookieStorage?.setCookie(oldCookie)
+                let (_, response) = try await replay.data(from: endpoint)
+                checks["cloud.logout_revokes_old_session"] = (response as? HTTPURLResponse)?.statusCode == 401
+            } else { checks["cloud.logout_revokes_old_session"] = false }
         } catch {
             checks["native.completed"] = false
             observations["error"] = "真实客户端审核连接自检未完成；不记录凭据或响应正文。"
-            model.returnToPersonal()
+            ReviewConnection.forget()
+            ReviewConnection.clearCookies(session: API.review.session)
+            ReviewConnection.activate(false)
         }
         let record: [String: Any] = ["checks": checks, "observations": observations,
                                     "environment": "dedicated iPhone simulator, real review HTTPS service",

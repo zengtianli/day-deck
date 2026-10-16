@@ -92,4 +92,20 @@ final class ReviewConnectionTests: XCTestCase {
         XCTAssertEqual(ReviewProtocol.requests.first?.url?.path, "/review/api/notes")
         XCTAssertEqual(ReviewProtocol.requests.first?.value(forHTTPHeaderField: "Origin"), "https://day.tianli.cyou")
     }
+
+    func testLogoutUsesTheAuthenticatedReviewEndpoint() async throws {
+        let config = URLSessionConfiguration.ephemeral
+        config.protocolClasses = [ReviewProtocol.self]
+        config.httpCookieStorage = nil
+        let session = URLSession(configuration: config)
+        defer { session.invalidateAndCancel() }
+        ReviewProtocol.requests = []
+        try await ReviewConnection.logout(session: session)
+        XCTAssertEqual(ReviewProtocol.requests.count, 1)
+        let request = try XCTUnwrap(ReviewProtocol.requests.first)
+        XCTAssertEqual(request.url?.path, "/review/auth/logout")
+        XCTAssertEqual(request.httpMethod, "POST")
+        XCTAssertEqual(request.value(forHTTPHeaderField: "Origin"), "https://day.tianli.cyou")
+        XCTAssertEqual(request.value(forHTTPHeaderField: "X-Notifhub-Request"), "1")
+    }
 }
