@@ -8,6 +8,7 @@ import argparse
 import hashlib
 import json
 import os
+import re
 from pathlib import Path
 import shutil
 import stat
@@ -66,8 +67,11 @@ def main():
     if not dev["created"]:
         raise AcceptanceError("原生审核验收拒绝使用既有模拟器，未安装或修改数据")
     input_path = None
+    root = None
+    phase = "boot"
     try:
         with sim_lane.Session("iphone", dev["udid"], label="day-deck-ios:review-native", lock_wait=0, load_wait=0) as session:
+            phase = "install"
             session.install(app)
             bundle = built["bundle_id"]
             installed = Path(sim_lane.simctl("get_app_container", dev["udid"], bundle, "app").stdout.strip())
@@ -82,18 +86,32 @@ def main():
             fd = os.open(input_path, os.O_WRONLY | os.O_CREAT | os.O_EXCL, 0o600)
             with os.fdopen(fd, "w") as stream:
                 json.dump(credential, stream)
-            sim_lane.simctl("launch", "--terminate-running-process", dev["udid"], bundle, "--review-self-test", timeout=60)
+            # Fresh OS boot/install can consume the CPU after Session's preboot check.
+            # Reuse its exact quiet gate once; contention returns 75 to the original queue.
+            phase = "postboot_admission"
+            sim_lane._wait_quiet(dev["udid"], time.time(), 0, session.max_load)
+            # A fresh owned simulator has no existing product process to terminate.
+            phase = "launch"
+            launched = sim_lane.simctl("launch", dev["udid"], bundle, "--review-self-test", timeout=60)
+            pid = re.search(r":\s*(\d+)\s*$", launched.stdout.strip())
+            if not pid:
+                raise AcceptanceError("审核连接启动没有实际进程 PID")
             deadline = time.monotonic() + 180
+            phase = "result"
             while not (root / "result.json").is_file() and time.monotonic() < deadline:
                 time.sleep(.25)
             if not (root / "result.json").is_file():
                 raise AcceptanceError("真实 App 未生成审核连接原件")
             shutil.copyfile(root / "result.json", run / "raw.json")
             raw = json.loads((run / "raw.json").read_text())
+            if raw.get("process_id") != int(pid[1]):
+                raise AcceptanceError("审核连接原件与实际启动进程不符")
             checks = raw.get("checks", {})
+            phase = "checks"
             if (not REQUIRED.issubset(checks) or any(type(v) is not bool or not v for v in checks.values())):
                 raise AcceptanceError("真实 App 审核连接或界面检查未通过；原件：" + str(run / "raw.json"))
             shutil.copyfile(root / "connected.png", run / "connected.png")
+            phase = "render"
             with Image.open(run / "connected.png") as frame:
                 colors = frame.convert("RGB").resize((215, 450)).getcolors(215 * 450) or []
                 if len(colors) <= 100 or max(n for n, _ in colors) / (215 * 450) >= .97:
@@ -109,6 +127,22 @@ def main():
             (out / "native_ui.detail.json").write_text(json.dumps(detail, ensure_ascii=False, indent=2) + "\n")
             print(detail["summary"])
             return 0
+    except sim_lane.Busy:
+        raise
+    except Exception as error:
+        # Preserve only synthetic result/screenshot files; never copy the protected input.
+        if root is not None:
+            for name in ("result.json", "connected.png"):
+                source = root / name
+                if source.is_file():
+                    shutil.copyfile(source, run / ("raw.json" if name == "result.json" else name))
+        (run / "failure.json").write_text(json.dumps({
+            "phase": phase, "error_type": type(error).__name__,
+            "error": str(error) if isinstance(error, (AcceptanceError, sim_lane.LaneError)) else "固定验收未完成",
+            "device_udid": dev["udid"], "candidate_receipt_sha256": digest(receipt),
+            "artifacts": {p.name: digest(p) for p in run.iterdir() if p.is_file()},
+        }, ensure_ascii=False, indent=2) + "\n")
+        raise
     finally:
         if input_path:
             input_path.unlink(missing_ok=True)

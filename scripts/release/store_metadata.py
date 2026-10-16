@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 """Apply/read back this product's editable store text using the original ASC API.
 
-Intentionally leaves URLs, age declarations, demo credentials, builds and submission
-untouched: the current policy/support pages have not been successfully published.
+URLs are opt-in after the policy/support publication; their literal ASC readback
+does not replace anonymous HTTPS validation. Age declarations, demo credentials,
+builds and submission remain untouched.
 """
 import argparse
 import hashlib
@@ -18,6 +19,7 @@ import asc_listing as listing
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--apply", action="store_true")
+    parser.add_argument("--urls", action="store_true", help="仅附加原登记的隐私/支持URL，不改变年龄声明或提交审核")
     args = parser.parse_args()
     ctx = listing.AppCtx(listing.load_product("day-deck-ios"))
     if ctx.app_id != "6807048407" or ctx.bundle != "cyou.tianli.daydeck":
@@ -33,6 +35,13 @@ def main():
          {"description": st["description"].strip(), "keywords": st["keywords"].strip()}),
         ("appStoreVersions", ctx.version, {"copyright": st["copyright"]}),
     )
+    if args.urls:
+        privacy, support = listing.store_urls(ctx.r)
+        if (privacy, support) != ("https://app-ios-day-deck.tianli.cyou/privacy.html",
+                                  "https://app-ios-day-deck.tianli.cyou/support.html"):
+            raise RuntimeError("政策页面目标与本产品原发布目标不符，未写入")
+        desired += (("appInfoLocalizations", info, {"privacyPolicyUrl": privacy}),
+                    ("appStoreVersionLocalizations", version, {"supportUrl": support}))
     if len(st["subtitle"]) > 30 or len(st["description"].strip()) > 4000 or len(st["keywords"].strip()) > 100:
         raise RuntimeError("商店文字超过 ASC 限制，未写入")
     changes, matches = [], {}
@@ -54,7 +63,8 @@ def main():
     record = {"app_id": ctx.app_id, "version_id": ctx.version_id,
               "applied": args.apply, "changed_fields": changes, "literal_matches": matches,
               "description_sha256": hashlib.sha256(st["description"].strip().encode()).hexdigest(),
-              "urls_untouched": True, "demo_fields_untouched": True,
+              "urls_untouched": not args.urls, "anonymous_https_verified_this_run": False,
+              "demo_fields_untouched": True,
               "build_untouched": True, "submitted": False}
     output = ROOT / "build/store-metadata-readback-20261016.json"
     output.parent.mkdir(exist_ok=True)

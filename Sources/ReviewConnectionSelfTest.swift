@@ -26,11 +26,16 @@ struct ReviewConnectionTestView: View {
             UserDefaults.standard.set("isolated-personal-draft-fixture", forKey: privateDraft)
             model.username = credential.username; model.password = credential.password
             await model.connect()
+            // connect() exposes only fixed client diagnostics, never server bodies or credentials.
+            // Keep the actual failing stage visible when the fixed acceptance runner cannot log in.
+            observations["stage"] = "login"
+            if let error = model.error { observations["login_error"] = error }
             checks["native.login_action"] = model.error == nil && !model.busy && model.password.isEmpty
             checks["native.active_review_api"] = API.shared === API.review && API.shared.reviewMode
             checks["native.keychain_roundtrip"] = ReviewConnection.credentials?.username == credential.username
                 && ReviewConnection.credentials?.password == credential.password
             guard checks.values.allSatisfy({ $0 }) else { throw Gate.Failure(message: "review login failed") }
+            observations["stage"] = "connected"
             checks["privacy.separate_cache"] = API.review.cache.dir != original.cache.dir
             checks["privacy.personal_cache_preserved"] = (try? Data(contentsOf: original.cache.dir.appendingPathComponent("_review-isolation-sentinel"))) == sentinel
             checks["privacy.personal_draft_preserved"] = UserDefaults.standard.string(forKey: privateDraft) == "isolated-personal-draft-fixture"
@@ -100,6 +105,7 @@ struct ReviewConnectionTestView: View {
             ReviewConnection.activate(false)
         }
         let record: [String: Any] = ["checks": checks, "observations": observations,
+                                    "process_id": ProcessInfo.processInfo.processIdentifier,
                                     "environment": "dedicated iPhone simulator, real review HTTPS service",
                                     "version": Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") ?? "",
                                     "build": Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") ?? ""]
