@@ -10,6 +10,7 @@ import json
 import os
 import plistlib
 from pathlib import Path
+import re
 import shutil
 import subprocess
 import sys
@@ -62,6 +63,8 @@ def run(args):
     if not dev.get("created"):
         raise ValueError("隔离基础验收拒绝使用既有模拟器，未安装或修改数据")
     records, checks = {}, {}
+    phase = "install"
+    data = None
     try:
         with sim_lane.Session("iphone", dev["udid"], label="day-deck-ios:product-basics", lock_wait=0, load_wait=0) as session:
             session.install(app)
@@ -79,10 +82,17 @@ def run(args):
             readback = json.loads(status.stdout)
             checks["settings.cli_status_readback"] = status.returncode == 0 and readback["bundle_id"] == bundle and str(readback["build"]) == str(built["build"])
             for phase in PHASES:
+                print(f"product_basics phase={phase}", flush=True)
                 result = data / "Documents/product-basics" / (phase + ".json")
-                proc = sim_lane.simctl("launch", "--terminate-running-process", dev["udid"], bundle,
+                # Every phase writes its atomic record and exits itself. Asking SpringBoard to
+                # terminate that already-exiting process races with the next launch. A fresh
+                # device and the PID/phase checks below still reject a reused running process.
+                proc = sim_lane.simctl("launch", dev["udid"], bundle,
                                       "--ui-self-test", phase, timeout=60)
                 (run_dir / (phase + ".launch.log")).write_text(proc.stdout + proc.stderr)
+                launched = re.search(r":\s*(\d+)\s*$", proc.stdout.strip())
+                if not launched:
+                    raise RuntimeError(f"{phase} 启动没有实际进程 PID")
                 deadline = time.monotonic() + 70
                 while not result.exists() and time.monotonic() < deadline:
                     time.sleep(.25)
@@ -90,6 +100,8 @@ def run(args):
                     raise RuntimeError(f"真实 App 未生成 {phase} 原件")
                 records[phase] = json.loads(result.read_text())
                 shutil.copyfile(result, run_dir / (phase + ".json"))
+                if records[phase].get("phase") != phase or records[phase].get("process_id") != int(launched[1]):
+                    raise RuntimeError(f"{phase} 原件与实际启动进程不符")
                 row = records[phase]["checks"]
                 if not row or any(type(v) is not bool for v in row.values()):
                     raise RuntimeError(f"{phase} checks 无效")
@@ -104,6 +116,25 @@ def run(args):
                     total = 215 * 550
                     checks["settings." + name.split(".")[0] + "_nonblank"] = len(colors) > 100 and max(n for n, _ in colors) / total < .97
             checks["settings.separate_processes"] = len({r["process_id"] for r in records.values()}) == len(PHASES)
+    except sim_lane.Busy:
+        raise
+    except Exception as exc:
+        # Preserve synthetic self-test output before deleting the owned device. A launch
+        # timeout must not discard a result produced by the App, or hide the failing phase.
+        if data is not None:
+            source = data / "Documents/product-basics"
+            for name in [p + ".json" for p in PHASES] + ["settings.png", "updates.png", "export.json", "store-fixture.json"]:
+                file = source / name
+                if file.is_file():
+                    shutil.copyfile(file, run_dir / name)
+        write(run_dir / "failure.json", {
+            "schema_version": 1, "environment": "simulator", "phase": phase,
+            "error": str(exc), "device": dev, "candidate_receipt_sha256": sha(receipt),
+            "completed_phases": list(records),
+            "artifacts": {p.name: sha(p) for p in run_dir.iterdir() if p.is_file()},
+        })
+        print(f"product_basics failure evidence: {run_dir / 'failure.json'}", file=sys.stderr)
+        raise
     finally:
         if dev["created"]:
             sim_lane.simctl("delete", dev["udid"], check=False)

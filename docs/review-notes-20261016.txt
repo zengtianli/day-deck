@@ -6,7 +6,12 @@ CORE FLOW
 
 “设置与更新” on Connection offers a persistent startup-page preference, configuration import/export/backup, optional iCloud configuration sync (off by default; startup page only), and Apple version lookup. Update installation is handled by App Store/TestFlight. Credentials, diary drafts, notification data and reminder permissions are excluded from configuration sync. Adding a system reminder is an explicit user action requesting EventKit access; reminders are not uploaded to our service. The app sends no notifications or badges.
 
+TESTING AND FEEDBACK
+Current production-core tests: 60 passed; product-script tests: 16 passed. Current fixed functionality, recovery, privacy and iPhone simulator launch passed. Native review-flow, settings, other affected platforms and current media/resource validation remain pending; this draft has not been submitted. Historical isolated configuration tests do not prove Apple cross-device iCloud transfer. No external beta participant count or feedback statistic is available; none is claimed.
+
 INDEPENDENT PURPOSE AND SHARED CODE
 Notihub is the mobile client of our notification review workspace: existing authorized service users can review tasks, dated summaries and timelines away from their Mac, and write brief notes. It belongs to the same product family as Notihub Mac, sharing our own brand/icon and cloud data rather than collecting another copy of notifications on the phone. One mobile project covers iPhone/iPad/Vision and a companion Watch summary. The Mac collector has different permissions/lifecycle and cannot serve as this touch/watch client.
 
 Mobile business models, agenda grouping, server receipts, recovery, reminder mapping and views are maintained in this product. Developer-shared configuration/lifecycle/update/diagnostic modules provide infrastructure only; they do not bundle another app's business data. The sanitized source is MIT-licensed at https://github.com/zengtianli/notihub/tree/main/ios. The client uses Apple frameworks without advertising or third-party analytics SDKs. Examples are synthetic; personal content is fetched at runtime and never included in the bundle. This is the developer's own product, not a client template submission.
+
+This project maintains the shared MarkdownView renderer also used by hydro-deck. Other developer apps serve different tasks and data/permission boundaries; combining them would not serve this review workflow. Tianli Zeng develops and submits this own product, rather than submitting a client's template on their behalf.
