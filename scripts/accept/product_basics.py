@@ -19,6 +19,8 @@ import uuid
 from PIL import Image
 
 ROOT = Path(__file__).resolve().parents[2]
+sys.path.insert(0, str(ROOT / "scripts"))
+from simulator_environment import defer_catalog_timeouts
 sys.path.insert(0, str(Path.home() / "Dev/tools/dev/lib/tools/macapp/ios"))
 import sim_lane
 
@@ -37,13 +39,22 @@ def write(path, body):
 
 def candidate(args):
     receipt = args.receipt or RECEIPT
+    built = None
     if receipt.exists() and not args.rebuild:
-        built = sim_lane.reuse_build(receipt, "day-deck-ios", ROOT, "iphone", "DayDeck", "Debug")
-    else:
+        try:
+            built = sim_lane.reuse_build(receipt, "day-deck-ios", ROOT, "iphone", "DayDeck", "Debug")
+        except sim_lane.LaneError as exc:
+            if args.app or args.receipt:
+                raise  # Explicit candidates fail closed; never silently replace them.
+            print(f"自动候选缓存不适用：{exc}；补当前源码构建", file=sys.stderr)
+    if built is None:
         if args.app or args.receipt:
             raise ValueError("指定候选必须提供存在的原始 build receipt")
         built = sim_lane.build(ROOT, "DayDeck", "iphone", "Debug")
         write(receipt, built)
+        # The new candidate must satisfy the same source/SDK/toolchain/binary
+        # checks before it can be installed or used by either native acceptor.
+        built = sim_lane.reuse_build(receipt, "day-deck-ios", ROOT, "iphone", "DayDeck", "Debug")
     app = Path(built["app_path"])
     if args.app and args.app.resolve() != app.resolve():
         raise ValueError("--app 与原始 receipt 的包路径不符")
@@ -208,7 +219,8 @@ def main():
                               "icloud_enabled": defaults.get("appLifecycle.configuration.enabled", False),
                               "update_store_id": "6807048407", "distribution": "TestFlight 内测；商店未发行时检查会报未找到"}, ensure_ascii=False))
             return 0
-        return run(args)
+        with defer_catalog_timeouts(sim_lane):
+            return run(args)
     except sim_lane.Busy as exc:
         print(f"等待原模拟器队列：{exc}", file=sys.stderr)
         return 75
