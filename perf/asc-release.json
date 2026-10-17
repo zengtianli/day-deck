@@ -1,14 +1,20 @@
 {
-  "version": "0.2.1",
-  "build": "8",
+  "version": "0.2.2",
+  "build": "9",
   "source_kind": "app_store_connect",
   "distribution": "TestFlight VALID（仅内测，未上架）",
-  "queried_at": "2026-10-06T11:30:43.670094+08:00",
+  "queried_at": "2026-10-17T21:30:08.917159+08:00",
   "app_id": "6807048407",
   "bundle_id": "cyou.tianli.daydeck",
-  "build_id": "aaafdb8e-c85c-4fdb-86aa-2d5599a6f4a3",
+  "build_id": "72f350f5-d7c4-4427-9283-34ac9054a0b0",
   "processing_state": "VALID",
   "device_install_verified": false,
-  "source_commit": "ad1f836",
-  "source_note": "Watch text follows the backend ui segment (carried with the digest from the phone)"
+  "source_commit": "ba105a6e5e5ff168d231c765e986a475f20d267f",
+  "source_note": "Existing committed-source archive and upload reused; 201 recorded source files match the Git commit; no working-tree changes included.",
+  "store_version_id": "9cef653d-f6ed-4163-b70e-ec08130c8599",
+  "store_version": "0.2.2",
+  "store_state": "PREPARE_FOR_SUBMISSION",
+  "associated_build": "9",
+  "testflight_internal_groups_verified": true,
+  "submitted_for_review": false
 }
