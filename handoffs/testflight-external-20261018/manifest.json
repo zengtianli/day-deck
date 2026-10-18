@@ -1,0 +1,13 @@
+{
+  "task_id": "755ffd6eb22d4f908508c471cff5f506",
+  "files": {
+    "asc_external.py": "3b1d7653e8050dfad3067efc81b77bcad7b226f56190d9caea428e335ac2acfe",
+    "final.json": "2a5341d9018b49ebb8bf97090eecee5421bdd521cbd24fd3296fe603f1dcbf2b",
+    "formal-after.json": "557bd8192b0994b01380c1841ea3e7e540c20d611587738256b02b3d7cc32126",
+    "formal-before.json": "557bd8192b0994b01380c1841ea3e7e540c20d611587738256b02b3d7cc32126",
+    "plan.json": "37b1c9fefead4d58ce7aed6e2247393be1f5d32eb16d42a2b97973134a33ff7a",
+    "receipts.json": "9e6eb54755b595e8a3625487e79e8776481503e2bda0659eb4e75e7fe295892b",
+    "verification.json": "7a6f384c7ed2d943389137b4dadb4b3bb0d419428dc7c89661aaf9ff8b6bcc41"
+  },
+  "handoff_sha256": "84cc37d8105cecc93436ce59374dc51ecb67db575b0e78765c50d77320e5af9d"
+}
